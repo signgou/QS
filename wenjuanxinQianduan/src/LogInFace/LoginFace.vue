@@ -1,6 +1,32 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
+import { Users } from '@/BasicDataStruct/users';
 
+// 创建用户示例列表
+
+ let exampleList: Users[] = [
+new Users('成龙', '28967'),
+  new Users('小玉', '7376')
+];
+
+
+// 创建响应式变量来绑定输入框的值
+let inputName = ref<string>('');
+let inputPassword = ref<string>('');
+
+// 登录函数
+function Loginin(intName: string, inPassword: string) {
+  // 检查用户名和密码是否匹配
+  const user = exampleList.find(user => user.userName === intName && user.passWord === inPassword);
+  
+  if (user) {
+    alert('登录成功');
+  } else {
+    alert('登录失败');
+  }
+}
 </script>
+
 
 
 <template>
@@ -12,20 +38,21 @@
     <div class="enter-box">
       <div class="input-group">
         <label for="input1">用户名:</label>
-        <input type="text" id="input1" />
+        <input type="text" id="input1" v-model="inputName" />
       </div>
       <div class="input-group">
         <label for="input2">密码:</label>
-        <input type="text" id="input2" />
+        <input type="password" id="input2" v-model="inputPassword" />
       </div>
     </div>
 
     <div class="button-box">
-      <button class="btn">登录</button>
-      <button class="btn">没有账户？现在注册！</button>
+      <button class="btn" @click="Loginin(inputName, inputPassword)">登录</button>
+      <button class="btn" @click="">没有账户？现在注册！</button>
     </div>
   </div>
 </template>
+
 
 
 <style lang='scss' scoped>

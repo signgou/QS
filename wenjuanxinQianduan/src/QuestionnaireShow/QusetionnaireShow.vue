@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 
+
 </script>
 
 
@@ -10,7 +11,15 @@
          <div class="head-box">
             <head>问卷名</head>
          </div>
-         <div class="trueShow-box"></div>
+         <div class="trueShow-box">
+          
+    
+         </div>
+
+
+          <div>
+    
+  </div>
 
       </div>
     </div>
@@ -79,18 +88,6 @@
     gap: 20px; /* 按钮之间的间距 */
   }
 
-  .down-btn {
-    padding: 10px 20px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    font-size: 1em;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .down-btn:hover {
-    background-color: #0056b3;
-  }
+  
 }
 </style>

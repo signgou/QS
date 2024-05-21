@@ -1,38 +1,34 @@
-import {OPtion,QuestionnaireAll,FillIn,MoreChoice,oneChoiceP} from"./QuestionType"
+import {QuestionnaireAll} from"./QuestionType"
 
-class Users
+export class Users
 {
-    UserName: string='';
-    passWord: string='';
-    Questionnaire?: QuestionnaireAll[];
+    userName: string = '';
+  passWord: string = '';
+  questionnaire: QuestionnaireAll[] = [];
 
-    constructor()
-    {
+  constructor(userName: string, passWord: string) {
+    this.userName = userName;
+    this.passWord = passWord;
+  }
 
-    }
+  setQuestionnaire(Naire: QuestionnaireAll[])
+  {
+      this.questionnaire=Naire;
+  }
 
-    addQuestionNaire():void
-    {
+  addQuestionnaire(questionnaire: QuestionnaireAll): void {
+    this.questionnaire.push(questionnaire);
+  }
 
-    }
+  removeQuestionnaire(index: number): void {
+    this.questionnaire.splice(index, 1);
+  }
 
-    removeQuestionNaire():void
-    {
+  returnUserName(): string {
+    return this.userName;
+  }
 
-    }
-
-    returnUserName():string
-    {
-        return this.UserName;
-    }
-
-    returnQuestionNaireAll():void
-    {
-
-    }
-
-    returnQuestionnaire():void
-    {
-        
-    }
+  returnQuestionnaireAll(): QuestionnaireAll[] {
+    return this.questionnaire;
+  }
 }

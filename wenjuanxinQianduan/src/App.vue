@@ -8,11 +8,12 @@ import QuCreateFace from './QuCreateFace/QuCreateFace.vue';
 import QuSendFace from './QuSendFace/QuSendFace.vue';
 import DataShow from './DataShowFace/DataShow.vue';
 import HelloWorld from './components/HelloWorld.vue'
+import QusetionnaireShow from './QuestionnaireShow/QusetionnaireShow.vue';
 </script>
 
 <template>
      
-<LoginFace/>
+  <QuCreateFace/>
 
      
 

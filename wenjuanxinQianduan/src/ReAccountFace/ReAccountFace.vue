@@ -1,6 +1,51 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
+import { Users } from '@/BasicDataStruct/users';
 
+// 创建响应式变量来绑定输入框的值
+let inputName = ref<string>('');
+let inputPassword = ref<string>('');
+let inputPasswordAgain = ref<string>('');
+
+// 创建用户示例列表
+let exampleList: Users[] = [
+  new Users('成龙', '28967'),
+  new Users('小玉', '7376')
+];
+
+// 注册函数
+function register() {
+  // 检查输入是否为空
+  if (!inputName.value.trim()) {
+    alert('用户名不能为空');
+    return;
+  }
+  if (!inputPassword.value.trim()) {
+    alert('密码不能为空');
+    return;
+  }
+  if (!inputPasswordAgain.value.trim()) {
+    alert('确认密码不能为空');
+    return;
+  }
+  
+  // 检查密码是否一致
+  if (inputPassword.value !== inputPasswordAgain.value) {
+    alert('两次输入的密码不同');
+  } else {
+    // 创建新用户并添加到用户列表中
+    const newUser = new Users(inputName.value, inputPassword.value);
+    exampleList.push(newUser);
+    // 弹出窗口显示新用户列表
+    alert(`注册成功！当前用户列表:\n${exampleList.map(user => `${user.userName}: ${user.passWord}`).join('\n')}`);
+    // 清空输入框
+    inputName.value = '';
+    inputPassword.value = '';
+    inputPasswordAgain.value = '';
+  }
+}
 </script>
+
 
 <template>
   <div class="loginBody-box">
@@ -11,24 +56,26 @@
     <div class="enter-box">
       <div class="input-group">
         <label for="register-username">用户名:</label>
-        <input type="text" id="register-username" />
+        <input type="text" id="register-username" v-model="inputName" />
       </div>
       <div class="input-group">
         <label for="register-password">密码:</label>
-        <input type="password" id="register-password" />
+        <input type="password" id="register-password" v-model="inputPassword" />
       </div>
       <div class="input-group">
         <label for="confirm-password">再次输入密码:</label>
-        <input type="password" id="confirm-password" />
+        <input type="password" id="confirm-password" v-model="inputPasswordAgain" />
       </div>
     </div>
 
     <div class="button-box">
-      <button class="btn">注册</button>
+      <button class="btn" @click="register">注册</button>
       <button class="btn">返回登录</button>
     </div>
   </div>
 </template>
+
+
 
 
 
@@ -42,9 +89,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: aliceblue;
-    background-size: cover; /* 使背景图片覆盖整个容器 */
-    background-position: center; /* 使背景图片居中 */
-    background-repeat: no-repeat; /* 防止背景图片重复 */
     border-radius: 15px;
     padding: 10px; /* 添加内边距 */
   }

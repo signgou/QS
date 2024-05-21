@@ -1,26 +1,41 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
+import { Users } from '@/BasicDataStruct/users';
+import { OPtion, oneChoiceP, MoreChoice, FillIn, QuestionnaireAll } from '@/BasicDataStruct/QuestionType';
+import OnechoiceQuestion from '@/router/QusetionAndNaire/OnechoiceQuestion.vue';
+import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue';
+import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
+
 
 </script>
 
 
 <template>
-<div class="Main-box">
+  <div class="Main-box">
     <div class="content-box">
       <div class="showBody-box">
-         <div class="trueShow-box"></div>
+        <div class="trueShow-box">
+        <FillinQuestion/>
+   
+
+        </div>
       </div>
+      
       <div class="side-box">
-        <button class="side-btn">添加问题</button>
-        <button class="side-btn">删除问题</button>
-        <button class="side-btn">修改问题</button>
+        <button class="side-btn" @click="">添加问题</button>
+        <button class="side-btn" @click="">删除问题</button>
+        <button class="side-btn" @click="">修改问题</button>
       </div>
     </div>
+    
     <div class="down-box">
-      <button class="down-btn">完成</button>
-      <button class="down-btn">分享</button>
+      <button class="down-btn" @click="">完成</button>
+      <button class="down-btn" @click="">分享</button>
     </div>
   </div>
 </template>
+
+
 <style lang='scss' scoped>
 .Main-box {
   height: 930px;
@@ -50,6 +65,23 @@
     height: 800px;
     width: 1200px;
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+.vertical-radio-group {
+  
+  flex-direction: column;
+}
+
+.button-group {
+  margin-top: 10px;
+  display: flex;
+}
+
+.add-option-btn,
+.remove-option-btn {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
     .trueShow-box
     {
          height: 800px;

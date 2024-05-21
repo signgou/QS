@@ -1,40 +1,31 @@
 import  { ref, shallowRef } from "vue";
-interface OP
-{
-    name: string;
-    isSelect: boolean;
-}
+
 
 export class OPtion
 {
-  name: string='';
-  isSelect: boolean=false;
+  value: string='';//选项序号-索引
+  label: string = '';//选项名字
 
-  constructor(name :string,isSelect :boolean)
+  constructor(value :string,name :string)
   {
-     this.name=name;
-     this.isSelect=isSelect;
+     this.value=value;
+     this.label=name;
 
   }
    
-  changeName(nameNew:string):void
+  changeLabel(nameNew:string):void
   {
-     this.name=nameNew;
-  }
-
-  changeChooseOrNot():void
-  {
-    this.isSelect=!this.isSelect;
+     this.label=nameNew;
   }
   
-  returnIsselect():boolean
+  returnValue():string
   {
-    return this.isSelect
+    return this.value
   }
 
-  returnName():string
+  returnlabel():string
   {
-    return this.name;
+    return this.label;
   }
 
 
@@ -43,22 +34,25 @@ export class OPtion
 export class oneChoiceP
 {
 tittle: string='';
-  Qusetion?:OPtion[];
-  whichBeChoose?:number;
+  question:OPtion[]=[];
+  whichBeChoose?:string='';
+  constructor(tittle:string,question: OPtion[])
+  {
+      this.tittle=tittle;
+      this.question=question;
+  }
   
   changeTittle(tittle :string):void
   {
     this.tittle=tittle;
   }
 
-  addOpyion():void{
-
-
+  addOption(option: OPtion): void {
+    this.question.push(option);
   }
 
-  subOption():void
-  {
-
+  removeOption(index: number): void {
+    this.question.splice(index, 1);
   }
 
   returnTittle():string
@@ -66,55 +60,61 @@ tittle: string='';
     return this.tittle;
   }
 
-  returnQuestion():void//未实现
+  returnQuestion():OPtion[]//未实现
   {
-
+    return this.question;
   }
-
+   setWhichBechoice(whi:string):void
+   {
+       this.whichBeChoose=whi;
+   }
 
 
 
 }
 
 
-export class MoreChoice
-{
-  tittle: string='';
-  Qusetion?:OPtion[];
-  whichBeChoose?:number[];
-  
-  changeTittle(tittle :string):void
-  {
-    this.tittle=tittle;
+export class MoreChoice {
+  tittle: string = '';
+  Question: OPtion[] = [];
+  whichBeChoose: string[] = [];  
+
+  constructor(tit: string, que: OPtion[]) {
+    this.tittle = tit;
+    this.Question = que;
   }
 
-  addOpyion():void{
-
-
+  changeTittle(tittle: string): void {
+    this.tittle = tittle;
   }
 
-  subOption():void
-  {
-
+  addOption(option: OPtion): void {
+    this.Question.push(option);
   }
 
-  returnTittle():string
-  {
+  removeOption(index: number): void {
+    this.Question.splice(index, 1);
+  }
+
+  returnTittle(): string {
     return this.tittle;
   }
 
-  returnQuestion():void//未实现
-  {
-
+  returnQuestion(): OPtion[] {
+    return this.Question;
   }
-
-
 }
+
 
 export class FillIn
 {
   Tittle: string='';
   Answer: string='';
+  constructor(tit:string,Ans:string)
+  {
+     this.Tittle=tit;
+     this.Answer=Ans;
+  }
 
   changeTittle(tittle :string):void
   {
@@ -126,40 +126,37 @@ export class FillIn
     this.Answer=answer;
   }
 
-  returnTittle():void
-  {
-
+  returnTittle():string
+  { 
+    return this.Tittle;
   }
 
-  returnAnswer():void
+  returnAnswer():string
   {
-
+     return this.Answer;
   }
 
 }
 
 export class QuestionnaireAll
 {
-   questionNaire?: (oneChoiceP|MoreChoice|FillIn)[];
+   questionNaire: (oneChoiceP|MoreChoice|FillIn)[]=[];
 
    construct()
    {
 
    };
 
-   addQusetion():void
-   {
+   addQuestion(question: oneChoiceP | MoreChoice | FillIn): void {
+    this.questionNaire.push(question);
+  }
 
-   }
+  removeQuestion(index: number): void {
+    this.questionNaire.splice(index, 1);
+  }
 
-   removeQuestion():void
-   {
-
-   }
-
-   getQuestions():void  //未实现
-   {
-
-   }
+  getQuestions(): (oneChoiceP | MoreChoice | FillIn)[] {
+    return this.questionNaire;
+  }
 
 }
