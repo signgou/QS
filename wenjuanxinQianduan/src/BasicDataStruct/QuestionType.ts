@@ -140,12 +140,23 @@ export class FillIn
 
 export class QuestionnaireAll
 {
-   questionNaire: (oneChoiceP|MoreChoice|FillIn)[]=[];
+   questionNaire: (oneChoiceP | MoreChoice | FillIn)[] = [];
+  Title: string = '';
 
-   construct()
+  constructor(title: string, que: (oneChoiceP | MoreChoice | FillIn)[]) {
+    this.Title = title;
+    this.questionNaire = que;
+  }
+
+   returnTittle():string
    {
+    return this.Title;
+   }
 
-   };
+   changeTittle(tit:string)
+   {
+     this.Title=tit;
+   }
 
    addQuestion(question: oneChoiceP | MoreChoice | FillIn): void {
     this.questionNaire.push(question);

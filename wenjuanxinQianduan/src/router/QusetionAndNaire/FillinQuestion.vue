@@ -1,45 +1,46 @@
-<script lang="ts" setup>
-import { ref } from 'vue';
-import { FillIn } from '@/BasicDataStruct/QuestionType';
-
-// 定义填空题实例
-const tiankongti = ref<FillIn>(
-  new FillIn('填空题', '')
-);
-
-// 修改标题函数
-const changeTitle = () => {
-  const newTitle = prompt('请输入新的填空题标题:');
-  if (newTitle) {
-    tiankongti.value.changeTittle(newTitle);
-  }
-};
-</script>
-
-
 <template>
   <div>
-    <!-- 显示填空题标题 -->
-    <h3>{{ tiankongti.returnTittle() }}</h3>
+    <h3>{{ question.Tittle }}</h3>
     <hr />
-
-    <!-- 填空框 -->
     <div class="my-2 flex items-start text-sm">
       <el-input
-        v-model="tiankongti.Answer"
+        v-model="question.Answer"
         style="width: 240px"
         placeholder="请填写答案"
+        @change="updateAnswer"
       />
     </div>
-
-    <!-- 修改标题按钮 -->
     <div class="button-group">
       <button class="change-title-btn" @click="changeTitle">修改标题</button>
     </div>
-
     <hr />
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { FillIn } from '@/BasicDataStruct/QuestionType';
+
+export default defineComponent({
+  props: {
+    question: {
+      type: FillIn,
+      required: true
+    }
+  },
+  methods: {
+    changeTitle() {
+      const newTitle = prompt('请输入新的填空题标题:');
+      if (newTitle) {
+        this.question.changeTittle(newTitle);
+      }
+    },
+    updateAnswer(newAnswer: string) {
+      this.question.changeAnswer(newAnswer);
+    }
+  }
+});
+</script>
 
 
 <style lang='scss' scoped>

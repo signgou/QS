@@ -1,41 +1,107 @@
-<script lang="ts" setup>
-import { ref } from 'vue';
-import { Users } from '@/BasicDataStruct/users';
-import { OPtion, oneChoiceP, MoreChoice, FillIn, QuestionnaireAll } from '@/BasicDataStruct/QuestionType';
-import OnechoiceQuestion from '@/router/QusetionAndNaire/OnechoiceQuestion.vue';
-import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue';
-import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
-
-
-</script>
-
-
 <template>
   <div class="Main-box">
     <div class="content-box">
       <div class="showBody-box">
         <div class="trueShow-box">
-        <FillinQuestion/>
-   
+          <component :is="componentType(question)" v-for="(question, index) in questionnaireEditor.questionNaire" :key="index" :question="question" @updateQuestion="handleUpdateQuestion" />
 
         </div>
       </div>
       
       <div class="side-box">
-        <button class="side-btn" @click="">添加问题</button>
-        <button class="side-btn" @click="">删除问题</button>
-        <button class="side-btn" @click="">修改问题</button>
+        <button class="side-btn" @click="addQuestion">添加问题</button>
+        <button class="side-btn" @click="removeQuestion">删除问题</button>
       </div>
     </div>
     
     <div class="down-box">
-      <button class="down-btn" @click="">完成</button>
-      <button class="down-btn" @click="">分享</button>
+      <button class="down-btn" @click="finish">完成</button>
+      <button class="down-btn" @click="share">分享</button>
     </div>
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import { QuestionnaireAll, oneChoiceP, MoreChoice, FillIn, OPtion } from '@/BasicDataStruct/QuestionType';
+import OnechoiceQuestion from '@/router/QusetionAndNaire/OnechoiceQuestion.vue';
+import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue';
+import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
 
+export default defineComponent({
+  components: {
+    OnechoiceQuestion,
+    MorechoiceQuestion,
+    FillinQuestion
+  },
+  setup() {
+    const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('wentiti', [
+      new oneChoiceP('Single Choice Question', [
+        new OPtion('1', 'Option 1'),
+        new OPtion('2', 'Option 2'),
+        new OPtion('3', 'Option 3')
+      ]),
+      new MoreChoice('Multiple Choice Question', [
+        new OPtion('1', 'Option A'),
+        new OPtion('2', 'Option B'),
+        new OPtion('3', 'Option C')
+      ]),
+      new FillIn('Fill in the blank question', ''),
+      new FillIn('Fill', ''),
+      new MoreChoice('Multiple ', [
+        new OPtion('1', 'Option A'),
+        new OPtion('2', 'Option B'),
+        new OPtion('3', 'Option C'),
+        new OPtion('4', 'Option C')
+      ]),
+    ]));
+
+    const componentType = (question: oneChoiceP | MoreChoice | FillIn) => {
+      if (question instanceof oneChoiceP) {
+        return 'OnechoiceQuestion';
+      } else if (question instanceof MoreChoice) {
+        return 'MorechoiceQuestion';
+      } else if (question instanceof FillIn) {
+        return 'FillinQuestion';
+      }
+      return '';
+    };
+
+    const handleUpdateQuestion = (updatedQuestion: oneChoiceP | MoreChoice | FillIn) => {
+      const index = questionnaireEditor.value.questionNaire.findIndex(q => q === updatedQuestion);
+      if (index !== -1) {
+        questionnaireEditor.value.questionNaire.splice(index, 1, updatedQuestion);
+      }
+    };
+
+    const addQuestion = () => {
+      // 添加问题逻辑
+    };
+
+    const removeQuestion = () => {
+      // 删除问题逻辑
+    };
+
+    const finish = () => {
+      // 完成逻辑
+    };
+
+    const share = () => {
+      // 分享逻辑
+    };
+
+    return {
+      questionnaireEditor,
+      componentType,
+      handleUpdateQuestion,
+      addQuestion,
+      removeQuestion,
+      finish,
+      share
+    };
+  }
+});
+</script>
 <style lang='scss' scoped>
 .Main-box {
   height: 930px;
