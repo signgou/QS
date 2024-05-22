@@ -1,12 +1,26 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { Users } from '@/BasicDataStruct/users';
+import { useRouter } from 'vue-router';
+import { apiGetUserInfo } from '@/apis/user';
+
+const router=useRouter()
+
+interface LoginMsg{
+  code: string, 
+  msg: string, 
+  data: {
+    _id: string, 
+    userName: string, 
+    passWord: string 
+  } 
+}
 
 // 创建用户示例列表
 
  let exampleList: Users[] = [
-new Users('成龙', '28967'),
-  new Users('小玉', '7376')
+new Users('成龙', '1'),
+  new Users('小玉', '2')
 ];
 
 
@@ -16,14 +30,27 @@ let inputPassword = ref<string>('');
 
 // 登录函数
 function Loginin(intName: string, inPassword: string) {
-  // 检查用户名和密码是否匹配
-  const user = exampleList.find(user => user.userName === intName && user.passWord === inPassword);
-  
-  if (user) {
-    alert('登录成功');
-  } else {
-    alert('登录失败');
-  }
+ 
+  //用户信息、后端
+	const param = {
+		userID: inputName.value,
+		userName: inputPassword.value,
+	}
+	apiGetUserInfo(param).then((res) => {
+		if(res.data.msg=='登录成功') {
+      alert('登录成功');
+      router.push('/user')
+    }
+    else{
+      alert('登录失败');
+    }
+	})
+
+}
+
+function Register()
+{
+  router.push('/register')
 }
 </script>
 
@@ -48,7 +75,7 @@ function Loginin(intName: string, inPassword: string) {
 
     <div class="button-box">
       <button class="btn" @click="Loginin(inputName, inputPassword)">登录</button>
-      <button class="btn" @click="">没有账户？现在注册！</button>
+      <button class="btn" @click="Register">没有账户？现在注册！</button>
     </div>
   </div>
 </template>

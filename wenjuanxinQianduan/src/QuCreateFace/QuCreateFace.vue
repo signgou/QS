@@ -24,11 +24,11 @@
   </div>
 
   <!-- 添加问题选择弹窗 -->
-  <el-dialog :visible.sync="dialogVisible" title="选择添加的问题类型">
-    <el-button @click="addSpecificQuestion('oneChoice')">单选题</el-button>
-    <el-button @click="addSpecificQuestion('moreChoice')">多选题</el-button>
-    <el-button @click="addSpecificQuestion('fillIn')">填空题</el-button>
-  </el-dialog>
+  <el-dialog title="选择添加的问题类型" :visible.sync='dialogVisible'>
+      <el-button @click="addSpecificQuestion('oneChoice')">单选题</el-button>
+      <el-button @click="addSpecificQuestion('moreChoice')">多选题</el-button>
+      <el-button @click="addSpecificQuestion('fillIn')">填空题</el-button>
+    </el-dialog>
 </template>
 
 <script lang="ts">
@@ -59,7 +59,7 @@ export default defineComponent({
       new FillIn('填空题', ''),
     ]));
 
-    const dialogVisible = ref(false);
+    let dialogVisible = ref(false);
 
     const componentType = (question: oneChoiceP | MoreChoice | FillIn) => {
       if (question instanceof oneChoiceP) {
@@ -79,7 +79,7 @@ export default defineComponent({
       }
     };
 
-    const openDialog = () => {
+    function openDialog(){
       dialogVisible.value = true;
     };
 

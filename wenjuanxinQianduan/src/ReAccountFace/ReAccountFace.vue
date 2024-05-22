@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { Users } from '@/BasicDataStruct/users';
+import { useRouter } from 'vue-router';
+
+const router=useRouter()
 
 // 创建响应式变量来绑定输入框的值
 let inputName = ref<string>('');
@@ -44,6 +47,11 @@ function register() {
     inputPasswordAgain.value = '';
   }
 }
+
+function ReturnLogin()
+  {
+    router.push({name:'Login'})
+  }
 </script>
 
 
@@ -70,7 +78,7 @@ function register() {
 
     <div class="button-box">
       <button class="btn" @click="register">注册</button>
-      <button class="btn">返回登录</button>
+      <button class="btn" @click="ReturnLogin">返回登录</button>
     </div>
   </div>
 </template>
