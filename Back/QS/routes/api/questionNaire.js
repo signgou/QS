@@ -153,86 +153,66 @@ router.delete('/questionNaires/:type/:qid', function(req, res, next) {
                 const deletedOneData = await oneQnModel.findByIdAndDelete(req.params.qid);
                 if(!deletedOneData){
                     res.json({
-                        code : '0013',
+                        code : '1011',
                         msg : '未找到要删除的单选问卷',
                         data : null
                     });
                     break;
                 }
                 res.json({
-                    code : '0014',
+                    code : '0013',
                     msg : '单选问卷删除成功',
-                    data : {
-                        qid : deletedOneData._id,
-                        title : deletedOneData.title,
-                        options : deletedOneData.options,
-                        selecteds : deletedOneData.selecteds,
-                        order : deletedOneData.order
-                    }
+                    data : null
                 });
                 break;
             case 'moreQns':
                 const deletedMoreData = await moreQnModel.findByIdAndDelete(req.params.qid);
                 if(!deletedMoreData){
                     res.json({
-                        code : '0015',
+                        code : '1012',
                         msg : '未找到要删除的多选问卷',
                         data : null
                     });
                     break;
                 }
                 res.json({
-                    code : '0016',
+                    code : '0014',
                     msg : '多选问卷删除成功',
-                    data : {
-                        qid : deletedMoreData._id,
-                        title : deletedMoreData.title,
-                        options : deletedMoreData.options,
-                        selecteds : deletedMoreData.selecteds,
-                        order : deletedMoreData.order
-                    }
+                    data : null
                 });
                 break;
             case 'fillQns':
                 const deletedFillData = await fillQnModel.findByIdAndDelete(req.params.qid);
                 if(!deletedFillData){
                     res.json({
-                        code : '0017',
+                        code : '1013',
                         msg : '未找到要删除的填空问卷',
                         data : null
                     });
                     break;
                 }
                 res.json({
-                    code : '0018',
+                    code : '0015',
                     msg : '填空问卷删除成功',
-                    data : {
-                        qid : deletedFillData._id,
-                        title : deletedFillData.title,
-                        answer: deletedFillData.answer,
-                        order : deletedFillData.order
-                    }
+                    data : null
                 });
                 break;
             default:
                 res.json({
-                    code : '1011',
+                    code : '1014',
                     msg : '没有相应问卷类型，删除失败',
                     data : null
                 });
         }
     }
-
     main().catch(err => {
         res.json({
-            code : '1012',
+            code : '1015',
             msg : '删除具体问卷信息失败，请稍后再试',
             data : null
         });
     });
 });
-
-module.exports = router;
 
 //获取某个问卷信息
 router.get('/questionNaires/:type/:qid', function(req, res, next) {  
