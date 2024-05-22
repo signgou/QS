@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const moreSchema = new mongoose.Schema({
-    user : {type: mongoose.Schema.Types.ObjectId},
+    user : {type: mongoose.Schema.Types.ObjectId },
     title :{ 
         type : String ,
         required : true
