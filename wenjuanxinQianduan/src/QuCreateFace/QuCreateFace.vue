@@ -3,22 +3,32 @@
     <div class="content-box">
       <div class="showBody-box">
         <div class="trueShow-box">
-          <component :is="componentType(question)" v-for="(question, index) in questionnaireEditor.questionNaire" :key="index" :question="question" @updateQuestion="handleUpdateQuestion" />
-
+          <component
+            :is="componentType(question)"
+            v-for="(question, index) in questionnaireEditor.questionNaire"
+            :key="index"
+            :question="question"
+            @updateQuestion="handleUpdateQuestion"
+          />
         </div>
       </div>
-      
       <div class="side-box">
-        <button class="side-btn" @click="addQuestion">添加问题</button>
+        <button class="side-btn" @click="openDialog">添加问题</button>
         <button class="side-btn" @click="removeQuestion">删除问题</button>
       </div>
     </div>
-    
     <div class="down-box">
       <button class="down-btn" @click="finish">完成</button>
       <button class="down-btn" @click="share">分享</button>
     </div>
   </div>
+
+  <!-- 添加问题选择弹窗 -->
+  <el-dialog :visible.sync="dialogVisible" title="选择添加的问题类型">
+    <el-button @click="addSpecificQuestion('oneChoice')">单选题</el-button>
+    <el-button @click="addSpecificQuestion('moreChoice')">多选题</el-button>
+    <el-button @click="addSpecificQuestion('fillIn')">填空题</el-button>
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -35,26 +45,21 @@ export default defineComponent({
     FillinQuestion
   },
   setup() {
-    const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('wentiti', [
-      new oneChoiceP('Single Choice Question', [
-        new OPtion('1', 'Option 1'),
-        new OPtion('2', 'Option 2'),
-        new OPtion('3', 'Option 3')
+    const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('问卷标题', [
+      new oneChoiceP('单选题', [
+        new OPtion('1', '选项 1'),
+        new OPtion('2', '选项 2'),
+        new OPtion('3', '选项 3')
       ]),
-      new MoreChoice('Multiple Choice Question', [
-        new OPtion('1', 'Option A'),
-        new OPtion('2', 'Option B'),
-        new OPtion('3', 'Option C')
+      new MoreChoice('多选题', [
+        new OPtion('1', '选项 A'),
+        new OPtion('2', '选项 B'),
+        new OPtion('3', '选项 C')
       ]),
-      new FillIn('Fill in the blank question', ''),
-      new FillIn('Fill', ''),
-      new MoreChoice('Multiple ', [
-        new OPtion('1', 'Option A'),
-        new OPtion('2', 'Option B'),
-        new OPtion('3', 'Option C'),
-        new OPtion('4', 'Option C')
-      ]),
+      new FillIn('填空题', ''),
     ]));
+
+    const dialogVisible = ref(false);
 
     const componentType = (question: oneChoiceP | MoreChoice | FillIn) => {
       if (question instanceof oneChoiceP) {
@@ -74,27 +79,50 @@ export default defineComponent({
       }
     };
 
-    const addQuestion = () => {
-      // 添加问题逻辑
+    const openDialog = () => {
+      dialogVisible.value = true;
+    };
+
+    const addSpecificQuestion = (type: string) => {
+      if (type === 'oneChoice') {
+        questionnaireEditor.value.questionNaire.push(new oneChoiceP('新的单选题', [
+          new OPtion('1', '选项 1'),
+          new OPtion('2', '选项 2'),
+          new OPtion('3', '选项 3')
+        ]));
+      } else if (type === 'moreChoice') {
+        questionnaireEditor.value.questionNaire.push(new MoreChoice('新的多选题', [
+          new OPtion('1', '选项 A'),
+          new OPtion('2', '选项 B'),
+          new OPtion('3', '选项 C')
+        ]));
+      } else if (type === 'fillIn') {
+        questionnaireEditor.value.questionNaire.push(new FillIn('新的填空题', ''));
+      }
+      dialogVisible.value = false;
     };
 
     const removeQuestion = () => {
-      // 删除问题逻辑
+      if (questionnaireEditor.value.questionNaire.length > 0) {
+        questionnaireEditor.value.questionNaire.pop();
+      }
     };
 
     const finish = () => {
-      // 完成逻辑
+      
     };
 
     const share = () => {
-      // 分享逻辑
+      
     };
 
     return {
       questionnaireEditor,
+      dialogVisible,
       componentType,
       handleUpdateQuestion,
-      addQuestion,
+      openDialog,
+      addSpecificQuestion,
       removeQuestion,
       finish,
       share
@@ -102,6 +130,9 @@ export default defineComponent({
   }
 });
 </script>
+
+
+
 <style lang='scss' scoped>
 .Main-box {
   height: 930px;
@@ -131,32 +162,27 @@ export default defineComponent({
     height: 800px;
     width: 1200px;
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
-.vertical-radio-group {
-  
-  flex-direction: column;
-}
-
-.button-group {
-  margin-top: 10px;
-  display: flex;
-}
-
-.add-option-btn,
-.remove-option-btn {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-    .trueShow-box
-    {
-         height: 800px;
-  width: 1200px;
-  border: 1px solid rgb(4, 2, 21); /* 添加边框 */
-  overflow-y: auto; /* 启用垂直滚动条 */
-  display: flex;
-  flex-direction: column; /* 使内部组件垂直排列 */
-  padding: 10px; /* 添加内边距 */
+    .vertical-radio-group {
+      flex-direction: column;
+    }
+    .button-group {
+      margin-top: 10px;
+      display: flex;
+    }
+    .add-option-btn,
+    .remove-option-btn {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+    .trueShow-box {
+      height: 800px;
+      width: 1200px;
+      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+      overflow-y: auto; /* 启用垂直滚动条 */
+      display: flex;
+      flex-direction: column; /* 使内部组件垂直排列 */
+      padding: 10px; /* 添加内边距 */
     }
   }
 
@@ -210,3 +236,4 @@ export default defineComponent({
   }
 }
 </style>
+
