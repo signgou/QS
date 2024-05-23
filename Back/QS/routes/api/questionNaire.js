@@ -54,18 +54,18 @@ router.get('/questionNaires/:qnid', function(req, res, next) {
         
         const {oneQns,moreQns,fillQns}= (await QnsModel.findById(req.params.qnid).populate('moreQns').populate('oneQns').populate('fillQns'));
         let one=oneQns.map(element => {
-            const {__v,user,...newObj} ={...element}._doc;
-            newObj.type="oneQns";
+            const {_id,__v,qns,...Obj} ={...element}._doc;  
+            let newObj = { ...{qid : _id , type : "oneQns"}, ...Obj };        
             return newObj;
         })
         let more=moreQns.map(element => {
-            const {__v,user,...newObj} ={...element}._doc;
-            newObj.type="moreQns";
+            const {_id,__v,qns,...Obj} ={...element}._doc;  
+            let newObj = { ...{qid : _id , type : "moreQns"}, ...Obj };        
             return newObj;
         })
         let fill=fillQns.map(element => {
-            const {__v,user,...newObj} ={...element}._doc;
-            newObj.type="fillQns";
+            const {_id,__v,qns,...Obj} ={...element}._doc;  
+            let newObj = { ...{qid : _id , type : "fillQns"}, ...Obj };        
             return newObj;
         })
         
@@ -74,14 +74,14 @@ router.get('/questionNaires/:qnid', function(req, res, next) {
             return a.order-b.order;
         })
         return res.json({
-            code : '0006',
+            code : '0018',
             msg : '获取问卷成功',
             data : qns
         })
     }
     main().catch(err => {
         res.json({
-            code : '1005',
+            code : '1018',
             msg : '获取失败,请稍后再试',
             data : null
         })
@@ -92,16 +92,20 @@ router.get('/questionNaires/:qnid', function(req, res, next) {
 //增加某个用户新的问卷//初步完成
 router.post('/users/:uid/questionNaires', function(req, res, next) {  
     async function main(){
-        const user = await userModel.findById(req.params.uid);
+        const user = await userModel.findByIdAndUpdate(req.params.uid,{$inc : {qnNum : 1}},{
+            new : true
+        });
         const qnData = (await QnsModel.create({
-            user : user._id
+            user : user._id,
+            qOrder : user.qnNum
         }))
         res.json({
             code : '0016',
             msg : '创建新问卷成功',
             data : {
                 qnid : qnData._id,
-                qNum : qnData.qNum
+                qNum : qnData.qNum,
+                qOrder : qnData.qOrder
             }
         })
     }
@@ -206,14 +210,13 @@ router.post('/questionNaires/:qnid/:type', function(req, res, next) {
         await qns.save();
     }
 
-    main()
-    // .catch(err => {
-    //     res.json({
-    //         code : '1004',
-    //         msg : '创建失败,请稍后再试',
-    //         data : null
-    //     })
-    // })
+    main() .catch(err => {
+        res.json({
+            code : '1004',
+            msg : '创建失败,请稍后再试',
+            data : null
+        })
+    })
 })
 
 //删除某个问卷的某个问题信息//!!需要修改的

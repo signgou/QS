@@ -9,7 +9,8 @@ const qnsSchema = new mongoose.Schema({
     qNum : {
       type : Number,
       default  : 0
-    }
+    },
+    qOrder : Number
 },
 {
     //为了json，console.log()显示出vitual属性
