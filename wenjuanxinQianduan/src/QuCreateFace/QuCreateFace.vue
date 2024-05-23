@@ -24,11 +24,15 @@
   </div>
 
   <!-- 添加问题选择弹窗 -->
-  <el-dialog title="选择添加的问题类型" :visible.sync='dialogVisible'>
-      <el-button @click="addSpecificQuestion('oneChoice')">单选题</el-button>
-      <el-button @click="addSpecificQuestion('moreChoice')">多选题</el-button>
-      <el-button @click="addSpecificQuestion('fillIn')">填空题</el-button>
-    </el-dialog>
+  <div v-if="dialogVisible" class="dialog-overlay">
+    <div class="dialog-box">
+      <h3>选择添加的问题类型</h3>
+      <button @click="addSpecificQuestion('oneChoice')">单选题</button>
+      <button @click="addSpecificQuestion('moreChoice')">多选题</button>
+      <button @click="addSpecificQuestion('fillIn')">填空题</button>
+      <button @click="closeDialog">取消</button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -38,8 +42,6 @@ import OnechoiceQuestion from '@/router/QusetionAndNaire/OnechoiceQuestion.vue';
 import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue';
 import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
 import { Users} from '@/BasicDataStruct/users';
-
-
 
 export default defineComponent({
   components: {
@@ -62,7 +64,7 @@ export default defineComponent({
       new FillIn('填空题', ''),
     ]));
 
-    let dialogVisible = ref(false);
+    const dialogVisible = ref(false);
 
     const componentType = (question: oneChoiceP | MoreChoice | FillIn) => {
       if (question instanceof oneChoiceP) {
@@ -84,6 +86,10 @@ export default defineComponent({
 
     function openDialog(){
       dialogVisible.value = true;
+    };
+
+    const closeDialog = () => {
+      dialogVisible.value = false;
     };
 
     const addSpecificQuestion = (type: string) => {
@@ -112,11 +118,11 @@ export default defineComponent({
     };
 
     const finish = () => {
-      
+      // 完成问卷编辑的逻辑
     };
 
     const share = () => {
-      
+      // 分享问卷的逻辑
     };
 
     return {
@@ -125,6 +131,7 @@ export default defineComponent({
       componentType,
       handleUpdateQuestion,
       openDialog,
+      closeDialog,
       addSpecificQuestion,
       removeQuestion,
       finish,
@@ -133,8 +140,6 @@ export default defineComponent({
   }
 });
 </script>
-
-
 
 <style lang='scss' scoped>
 .Main-box {
@@ -238,5 +243,42 @@ export default defineComponent({
     background-color: #0056b3;
   }
 }
-</style>
 
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog-box {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dialog-box h3 {
+  margin-top: 0;
+}
+
+.dialog-box button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dialog-box button:hover {
+  background-color: #0056b3;
+}
+</style>
