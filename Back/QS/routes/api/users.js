@@ -50,7 +50,7 @@ router.post('/users/login', function(req, res, next) {
         }
 
         let val = {
-            _id : data._id,
+            uid : data._id,
             userName : userName,
             passWord : passWord
         }
