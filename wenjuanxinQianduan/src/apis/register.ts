@@ -3,14 +3,14 @@ import httpRequest from '@/request/index'
 
 // 定义接口的传参
 interface UserInfoParam {
-	userID: string,
-	userName: string
+	userName: string,
+	passWord: string
 }
 
 // 获取用户信息
-export function apiGetUserInfo(param: UserInfoParam) {
+export function apiRegister(param: UserInfoParam) {
     return httpRequest({
-		url: 'http://127.0.0.1:3000/api/users/login',
+		url: 'http://192.168.99.254:3000/api/users/register',
 		method: 'post',
 		data: param,
 	})

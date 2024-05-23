@@ -2,7 +2,10 @@
 import { ref } from 'vue';
 import { Users } from '@/BasicDataStruct/users';
 import { useRouter } from 'vue-router';
+import { apiRegister } from '@/apis/register';
 import type { QuestionnaireAll } from '@/BasicDataStruct/QuestionType';
+import axios from 'axios'
+import { computed } from 'vue';
 
 const router=useRouter()
 
@@ -11,6 +14,18 @@ let inputName = ref<string>('');
 let inputPassword = ref<string>('');
 let inputPasswordAgain = ref<string>('');
 
+interface UserInfoParam {
+	userName: string,
+	passWord: string
+}
+
+let param:UserInfoParam={
+  userName:inputName.value,
+  passWord:inputPassword.value
+}
+
+  console.log(param)
+  
 let aa:QuestionnaireAll[]=[]
 let bb:QuestionnaireAll[]=[]
 // 创建用户示例列表
@@ -40,11 +55,27 @@ function register() {
     alert('两次输入的密码不同');
   } else {
     // 创建新用户并添加到用户列表中
-    const newUser = new Users(inputName.value, inputPassword.value,aa);
-    exampleList.push(newUser);
-    // 弹出窗口显示新用户列表
-    alert(`注册成功！当前用户列表:\n${exampleList.map(user => `${user.userName}: ${user.passWord}`).join('\n')}`);
-    // 清空输入框
+    // const newUser = new Users(inputName.value, inputPassword.value,aa);
+    // exampleList.push(newUser);
+    // // 弹出窗口显示新用户列表
+    // alert(`注册成功！当前用户列表:\n${exampleList.map(user => `${user.userName}: ${user.passWord}`).join('\n')}`);
+    // // 清空输入框
+
+  //   axios.post('http://192.168.99.254:3000/api/users/register',param).then((res)=>{
+  //   console.log(res)
+  // })//delete
+
+    apiRegister(param).then((res)=>{
+      
+      if(res.msg=="注册成功")
+      {
+        alert('注册成功')
+      }
+      else{
+        console.log(res)
+      }
+    })
+
     inputName.value = '';
     inputPassword.value = '';
     inputPasswordAgain.value = '';
