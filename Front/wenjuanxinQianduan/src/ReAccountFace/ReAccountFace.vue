@@ -14,46 +14,20 @@ let inputName = ref<string>('');
 let inputPassword = ref<string>('');
 let inputPasswordAgain = ref<string>('');
 
-interface UserInfoParam {
-	userName: string,
-	passWord: string
-}
-
-let param:UserInfoParam={
-  userName:inputName.value,
-  passWord:inputPassword.value
-}
-
-  console.log(param)
+console.log(inputName.value)
   
-let aa:QuestionnaireAll[]=[]
-let bb:QuestionnaireAll[]=[]
-// 创建用户示例列表
-let exampleList: Users[] = [
-  new Users('成龙', '28967',aa),
-  new Users('小玉', '7376',bb)
-];
+// let aa:QuestionnaireAll[]=[]
+// let bb:QuestionnaireAll[]=[]
+// // 创建用户示例列表
+// let exampleList: Users[] = [
+//   new Users('成龙', '28967',aa),
+//   new Users('小玉', '7376',bb)
+// ];
 
 // 注册函数
 function register() {
   // 检查输入是否为空
-  if (!inputName.value.trim()) {
-    alert('用户名不能为空');
-    return;
-  }
-  if (!inputPassword.value.trim()) {
-    alert('密码不能为空');
-    return;
-  }
-  if (!inputPasswordAgain.value.trim()) {
-    alert('确认密码不能为空');
-    return;
-  }
   
-  // 检查密码是否一致
-  if (inputPassword.value !== inputPasswordAgain.value) {
-    alert('两次输入的密码不同');
-  } else {
     // 创建新用户并添加到用户列表中
     // const newUser = new Users(inputName.value, inputPassword.value,aa);
     // exampleList.push(newUser);
@@ -64,21 +38,29 @@ function register() {
   //   axios.post('http://192.168.99.254:3000/api/users/register',param).then((res)=>{
   //   console.log(res)
   // })//delete
+    let param =({
+      userName: inputName.value,
+      passWord: inputPassword.value,
+    })
 
     apiRegister(param).then((res)=>{
-      
+      console.log(param)
       if(res.msg=="注册成功")
       {
         alert('注册成功')
       }
       else{
-        console.log(res)
+        alert('注册失败')
       }
     })
+<<<<<<< HEAD
   }
     inputName.value = '';
     inputPassword.value = '';
     inputPasswordAgain.value = '';
+=======
+  
+>>>>>>> c8b46734817acc89c96e62ebd2c4c050fff717dc
 }
 
 function ReturnLogin()
@@ -110,7 +92,7 @@ function ReturnLogin()
     </div>
 
     <div class="button-box">
-      <button class="btn" @click="register">注册</button>
+      <button class="btn" @click="register()">注册</button>
       <button class="btn" @click="ReturnLogin">返回登录</button>
     </div>
   </div>
