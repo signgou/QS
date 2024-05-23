@@ -5,6 +5,8 @@ const userModel = require('../../model/userModel');
 //注册
 router.post('/users/register', function(req, res, next) {
     async function main(){
+        console.log(req.body);
+        
         const data = await userModel.create(req.body);
         const {_id,userName,passWord} = data;
         let val = {
