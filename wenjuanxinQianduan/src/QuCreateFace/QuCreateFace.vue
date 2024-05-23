@@ -37,6 +37,9 @@ import { QuestionnaireAll, oneChoiceP, MoreChoice, FillIn, OPtion } from '@/Basi
 import OnechoiceQuestion from '@/router/QusetionAndNaire/OnechoiceQuestion.vue';
 import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue';
 import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
+import { Users} from '@/BasicDataStruct/users';
+
+
 
 export default defineComponent({
   components: {
@@ -59,7 +62,7 @@ export default defineComponent({
       new FillIn('填空题', ''),
     ]));
 
-    const dialogVisible = ref(false);
+    let dialogVisible = ref(false);
 
     const componentType = (question: oneChoiceP | MoreChoice | FillIn) => {
       if (question instanceof oneChoiceP) {
