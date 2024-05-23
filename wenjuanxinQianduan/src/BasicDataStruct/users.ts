@@ -6,9 +6,10 @@ export class Users
   passWord: string = '';
   questionnaire: QuestionnaireAll[] = [];
 
-  constructor(userName: string, passWord: string) {
+  constructor(userName: string, passWord: string,que:QuestionnaireAll[]) {
     this.userName = userName;
     this.passWord = passWord;
+    this.questionnaire=que;
   }
 
   setQuestionnaire(Naire: QuestionnaireAll[])

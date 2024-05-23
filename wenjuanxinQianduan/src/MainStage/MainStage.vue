@@ -17,7 +17,7 @@ import UserCenter from '@/UserCenter/UserCenter.vue';
   <div class="Main-box">
 
   
-<QuCreateFace/>
+<UserCenter/>
 
   </div>
 

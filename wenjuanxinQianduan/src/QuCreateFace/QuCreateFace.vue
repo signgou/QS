@@ -37,6 +37,9 @@ import { QuestionnaireAll, oneChoiceP, MoreChoice, FillIn, OPtion } from '@/Basi
 import OnechoiceQuestion from '@/router/QusetionAndNaire/OnechoiceQuestion.vue';
 import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue';
 import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
+import { Users} from '@/BasicDataStruct/users';
+
+
 
 export default defineComponent({
   components: {
