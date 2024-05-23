@@ -33,8 +33,6 @@ let exampleList: Users[] = [
 let inputName = ref<string>('');
 let inputPassword = ref<string>('');
 
-console.
-
 // 登录函数
 function Loginin(intName: string, inPassword: string) {
  

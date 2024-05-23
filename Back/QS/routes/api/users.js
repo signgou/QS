@@ -5,8 +5,13 @@ const userModel = require('../../model/userModel');
 //注册
 router.post('/users/register', function(req, res, next) {
     async function main(){
-        console.log(req.body);
-        
+        if(await userModel.findOne({userName : req.body.userName})){
+            return res.json({
+                code : '1016',
+                msg : '注册失败,用户名已经被注册',
+                data : null
+            })
+        }
         const data = await userModel.create(req.body);
         const {_id,userName,passWord} = data;
         let val = {

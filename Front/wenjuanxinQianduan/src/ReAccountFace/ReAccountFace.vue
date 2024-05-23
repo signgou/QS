@@ -75,11 +75,10 @@ function register() {
         console.log(res)
       }
     })
-
+  }
     inputName.value = '';
     inputPassword.value = '';
     inputPasswordAgain.value = '';
-  }
 }
 
 function ReturnLogin()

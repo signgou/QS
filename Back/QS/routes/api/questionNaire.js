@@ -46,7 +46,7 @@ router.get('/users/:id/questionNaires', function(req, res, next) {
     })
 });
 
-//增加某种问卷信息
+//增加某种问题信息
 router.post('/users/:id/questionNaires/:type', function(req, res, next) {  
     async function main(){
         const user = await userModel.findById(req.params.id);
@@ -67,7 +67,7 @@ router.post('/users/:id/questionNaires/:type', function(req, res, next) {
 
             res.json({
                 code : '0003',
-                msg : '单选问卷创建成功',
+                msg : '单选问题创建成功',
                 data : {
                     qid : oneData._id,
                     title : oneData.title,
@@ -90,7 +90,7 @@ router.post('/users/:id/questionNaires/:type', function(req, res, next) {
                 })
                 res.json({
                     code : '0004',
-                    msg : '多选问卷创建成功',
+                    msg : '多选问题创建成功',
                     data : {
                         qid : moreData._id,
                         title : moreData.title,
@@ -113,7 +113,7 @@ router.post('/users/:id/questionNaires/:type', function(req, res, next) {
 
                 res.json({
                     code : '0005',
-                    msg : '填空问卷创建成功',
+                    msg : '填空问题创建成功',
                     data : {
                         qid : fillData._id,
                         title : fillData.title,
@@ -128,7 +128,7 @@ router.post('/users/:id/questionNaires/:type', function(req, res, next) {
 
                 res.json({
                     code : '1003',
-                    msg : '没有相应问卷类型，创建失败',
+                    msg : '没有相应问题类型，创建失败',
                     data : null
                 })
         }
@@ -145,7 +145,7 @@ router.post('/users/:id/questionNaires/:type', function(req, res, next) {
     })
 })
 
-//删除某个问卷信息
+//删除某个问题信息
 router.delete('/questionNaires/:type/:qid', function(req, res, next) {  
     async function main(){
         switch(req.params.type){
@@ -154,14 +154,14 @@ router.delete('/questionNaires/:type/:qid', function(req, res, next) {
                 if(!deletedOneData){
                     res.json({
                         code : '1011',
-                        msg : '未找到要删除的单选问卷',
+                        msg : '未找到要删除的单选问题',
                         data : null
                     });
                     break;
                 }
                 res.json({
                     code : '0013',
-                    msg : '单选问卷删除成功',
+                    msg : '单选问题删除成功',
                     data : null
                 });
                 break;
@@ -170,14 +170,14 @@ router.delete('/questionNaires/:type/:qid', function(req, res, next) {
                 if(!deletedMoreData){
                     res.json({
                         code : '1012',
-                        msg : '未找到要删除的多选问卷',
+                        msg : '未找到要删除的多选问题',
                         data : null
                     });
                     break;
                 }
                 res.json({
                     code : '0014',
-                    msg : '多选问卷删除成功',
+                    msg : '多选问题删除成功',
                     data : null
                 });
                 break;
@@ -186,21 +186,21 @@ router.delete('/questionNaires/:type/:qid', function(req, res, next) {
                 if(!deletedFillData){
                     res.json({
                         code : '1013',
-                        msg : '未找到要删除的填空问卷',
+                        msg : '未找到要删除的填空问题',
                         data : null
                     });
                     break;
                 }
                 res.json({
                     code : '0015',
-                    msg : '填空问卷删除成功',
+                    msg : '填空问题删除成功',
                     data : null
                 });
                 break;
             default:
                 res.json({
                     code : '1014',
-                    msg : '没有相应问卷类型，删除失败',
+                    msg : '没有相应问题类型，删除失败',
                     data : null
                 });
         }
@@ -208,13 +208,13 @@ router.delete('/questionNaires/:type/:qid', function(req, res, next) {
     main().catch(err => {
         res.json({
             code : '1015',
-            msg : '删除具体问卷信息失败，请稍后再试',
+            msg : '删除具体问题信息失败，请稍后再试',
             data : null
         });
     });
 });
 
-//获取某个问卷信息
+//获取某个问题信息
 router.get('/questionNaires/:type/:qid', function(req, res, next) {  
     async function main(){
         let notFind=false;
@@ -227,7 +227,7 @@ router.get('/questionNaires/:type/:qid', function(req, res, next) {
                 }
                 res.json({
                     code : '0007',
-                    msg : '单选问卷获取成功',
+                    msg : '单选问题获取成功',
                     data : {
                         qid :oneData._id,
                         title : oneData.title,
@@ -245,7 +245,7 @@ router.get('/questionNaires/:type/:qid', function(req, res, next) {
                 }
                 res.json({
                     code : '0008',
-                    msg : '多选问卷获取成功',
+                    msg : '多选问题获取成功',
                     data : {
                         qid :moreData._id,
                         title : moreData.title,
@@ -263,7 +263,7 @@ router.get('/questionNaires/:type/:qid', function(req, res, next) {
                 }
                 res.json({
                     code : '0009',
-                    msg : '填空问卷获取成功',
+                    msg : '填空问题获取成功',
                     data : {
                         qid : fillData._id,
                         title : fillData.title,
@@ -275,14 +275,14 @@ router.get('/questionNaires/:type/:qid', function(req, res, next) {
             default:
                 res.json({
                     code : '1007',
-                    msg : '没有相应问卷类型，获取失败',
+                    msg : '没有相应问题类型，获取失败',
                     data : null
                 })
         }
         if(notFind){
             res.json({
                 code : '1010',
-                msg :'未找到问卷',
+                msg :'未找到问题',
                 data : null
             })
         }
@@ -291,7 +291,7 @@ router.get('/questionNaires/:type/:qid', function(req, res, next) {
     main().catch(err => {
         res.json({
             code : '1006',
-            msg : '获取具体问卷信息失败,请稍后再试',
+            msg : '获取具体问题信息失败,请稍后再试',
             data : null
         })
     })
@@ -307,7 +307,7 @@ router.patch('/questionNaires/:type/:qid', function(req, res, next) {
                 });
                 res.json({
                     code : '0010',
-                    msg : '单选问卷修改成功',
+                    msg : '单选问题修改成功',
                     data : {
                         qid :oneData._id,
                         title : oneData.title,
@@ -323,7 +323,7 @@ router.patch('/questionNaires/:type/:qid', function(req, res, next) {
                 });
                 res.json({
                     code : '0011',
-                    msg : '多选问卷修改成功',
+                    msg : '多选问题修改成功',
                     data : {
                         qid :moreData._id,
                         title : moreData.title,
@@ -339,7 +339,7 @@ router.patch('/questionNaires/:type/:qid', function(req, res, next) {
                 });
                 res.json({
                     code : '0012',
-                    msg : '填空问卷修改成功',
+                    msg : '填空问题修改成功',
                     data : {
                         qid : fillData._id,
                         title : fillData.title,
@@ -351,7 +351,7 @@ router.patch('/questionNaires/:type/:qid', function(req, res, next) {
             default:
                 res.json({
                     code : '1009',
-                    msg : '没有相应问卷类型，修改失败',
+                    msg : '没有相应问题类型，修改失败',
                     data : null
                 })
         }
@@ -360,7 +360,7 @@ router.patch('/questionNaires/:type/:qid', function(req, res, next) {
     main().catch(err => {
         res.json({
             code : '1008',
-            msg : '修改具体问卷信息失败,请稍后再试',
+            msg : '修改具体问题信息失败,请稍后再试',
             data : null
         })
     })
