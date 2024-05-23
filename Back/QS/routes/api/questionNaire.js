@@ -5,47 +5,35 @@ const moreQnModel =require('../../model/moreQnModel');
 const fillQnModel = require('../../model/fillQnModel');
 const QnsModel = require('../../model/QnsModel');
 const userModel = require('../../model/userModel');
+const e = require('express');
 
 
-//获取某个用户的所有问卷//!!需要修改的
-// router.get('/users/:uid/questionNaires', function(req, res, next) {  
-//     async function main(){
-
-//         const {oneQns,moreQns,fillQns}= (await QnsModel.findById(req.params.id).populate('moreQns').populate('oneQns').populate('fillQns'));
-//         let one=oneQns.map(element => {
-//             const {__v,qns,...newObj} ={...element}._doc;
-//             newObj.type="oneQns";
-//             return newObj;
-//         })
-//         let more=moreQns.map(element => {
-//             const {__v,qns,...newObj} ={...element}._doc;
-//             newObj.type="moreQns";
-//             return newObj;
-//         })
-//         let fill=fillQns.map(element => {
-//             const {__v,user,...newObj} ={...element}._doc;
-//             newObj.type="fillQns";
-//             return newObj;
-//         })
-        
-//         let qns = one.concat(more,fill);
-//         qns.sort((a,b) => {
-//             return a.order-b.order;
-//         })
-//         return res.json({
-//             code : '0006',
-//             msg : '获取问卷成功',
-//             data : qns
-//         })
-//     }
-//     main().catch(err => {
-//         res.json({
-//             code : '1005',
-//             msg : '获取失败,请稍后再试',
-//             data : null
-//         })
-//     })
-// });
+//获取某个用户的所有问卷(不包含具体信息)//!!需要修改的
+router.get('/users/:uid/questionNaires', function(req, res, next) {  
+    async function main(){
+        const {Qns} = await userModel.findById(req.params.uid).populate('Qns');
+        let qn  = Qns.map(element => {
+            const { _id,__v, user ,...obj} = {...element}._doc;
+            let newObj = {...{qnid : _id},...obj};
+            return newObj;
+        } )
+        qn.sort( (a,b) => {
+            return a.qOrder - b.qOrder; 
+        } )
+        return res.json({
+            code : '0019',
+            msg : '获取问卷成功',
+            data : qn
+        })
+    }
+    main().catch(err => {
+        res.json({
+            code : '1019', 
+            msg : '获取失败,请稍后再试',
+            data : null
+        })
+    })
+});
 
 
 //获取的某一问卷所有信息//初步完成

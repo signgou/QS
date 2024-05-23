@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const QnsModel =require('./oneQnModel');
+const QnsModel =require('./QnsModel');
 
 const userSchema = new mongoose.Schema({
     userName : {

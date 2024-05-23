@@ -15,7 +15,7 @@ router.post('/users/register', function(req, res, next) {
         const data = await userModel.create(req.body);
         const {_id,userName,passWord} = data;
         let val = {
-            _id : _id,
+            uid : _id,
             userName : userName,
             passWord : passWord,
         }
