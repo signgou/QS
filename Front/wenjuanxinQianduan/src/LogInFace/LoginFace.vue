@@ -2,8 +2,10 @@
 import { ref } from 'vue';
 import { Users } from '@/BasicDataStruct/users';
 import { useRouter } from 'vue-router';
-import { apiGetUserInfo } from '@/apis/user';
+import { apiGetUserInfo } from '@/apis/login';
 import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
+import type { QuestionnaireAll } from '@/BasicDataStruct/QuestionType';
+import axios from 'axios'
 
 const router=useRouter()
 
@@ -18,33 +20,46 @@ interface LoginMsg{
 }
 
 // 创建用户示例列表
-
+let aa:QuestionnaireAll[]=[]
+let bb:QuestionnaireAll[]=[]
+// 创建用户示例列表
+let exampleList: Users[] = [
+  new Users('成龙', '28967',aa),
+  new Users('小玉', '7376',bb)
+];
 
 
 // 创建响应式变量来绑定输入框的值
 let inputName = ref<string>('');
 let inputPassword = ref<string>('');
 
+console.
+
 // 登录函数
 function Loginin(intName: string, inPassword: string) {
  
   //用户信息、后端
-	const param = {
-		userID: inputName.value,
-		userName: inputPassword.value,
-	}
+  
+	let param =({
+		userName: inputName.value,
+		passWord: inputPassword.value,
+	})
+  
+  // axios.post('http://192.168.99.254:3000/api/users/login',param).then((res)=>{
+  //   console.log(res)
+  // })
+  // router.push('/user')//need to delete
 
-  router.push('/user')//need to delete
-
-	// apiGetUserInfo(param).then((res) => {
-	// 	if(res.data.msg=='登录成功') {
-  //     alert('登录成功');
-  //     router.push('/user')
-  //   }
-  //   else{
-  //     alert('登录失败');
-  //   }
-	// })
+	apiGetUserInfo(param).then((res) => {
+		if(res.msg=='登录成功') {
+      alert('登录成功');
+      router.push('/user')
+    }
+    else{
+      alert('登录失败');
+    }
+    // console.log(res)
+	})
 
 }
 

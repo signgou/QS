@@ -2,17 +2,38 @@
 <script lang="ts" setup>
 import { FillIn, MoreChoice, OPtion, QuestionnaireAll, oneChoiceP } from '@/BasicDataStruct/QuestionType';
 import { Users } from '@/BasicDataStruct/users';
+import QusetionnaireShow from '@/QuestionnaireShow/QusetionnaireShow.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
 
 function Create(){
-  router.push('/user/create')
+  router.push('/create')
 }
 
 function ReturnLogin(){
   router.push('/')
+}
+
+function QusetShow()
+{
+  router.push('/QuestShow')
+}
+
+function DataShow()
+{
+  router.push('/Data')
+}
+
+function Edit()
+{
+  router.push('/create')
+}
+
+function Send()
+{
+  router.push('/QuestShare')
 }
 
 const exampleQuestionnaires = [
@@ -73,11 +94,11 @@ const user = ref<Users>(
         </div>
       </div>
       <div class="side-box">
-        <button class="side-btn">数据展示</button>
-        <button class="side-btn">进入编辑</button>
-        <button class="side-btn">发布问卷</button>
+        <button class="side-btn" @click="DataShow">数据展示</button>
+        <button class="side-btn" @click="Edit">进入编辑</button>
+        <button class="side-btn" @click="Send">发布问卷</button>
         <button class="side-btn">删除问卷</button>
-        <button class="side-btn">问卷预览</button>
+        <button class="side-btn" @click="QusetShow">问卷预览</button>
       </div>
     </div>
     <div class="down-box">

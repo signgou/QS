@@ -8,9 +8,9 @@ interface UserInfoParam {
 }
 
 // 获取用户信息
-export function apiGetUserInfo(param: UserInfoParam) {
+export function apiRegister(param: UserInfoParam) {
     return httpRequest({
-		url: 'http://192.168.99.254:3000/api/users/login',
+		url: 'http://192.168.99.254:3000/api/users/register',
 		method: 'post',
 		data: param,
 	})

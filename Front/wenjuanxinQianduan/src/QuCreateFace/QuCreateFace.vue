@@ -42,6 +42,9 @@ import OnechoiceQuestion from '@/router/QusetionAndNaire/OnechoiceQuestion.vue';
 import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue';
 import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
 import { Users} from '@/BasicDataStruct/users';
+import { useRouter } from 'vue-router';
+
+
 
 export default defineComponent({
   components: {
@@ -50,6 +53,7 @@ export default defineComponent({
     FillinQuestion
   },
   setup() {
+    const router = useRouter()
     const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('问卷标题', [
       new oneChoiceP('单选题', [
         new OPtion('1', '选项 1'),
@@ -117,12 +121,14 @@ export default defineComponent({
       }
     };
 
-    const finish = () => {
+    function finish(){
       // 完成问卷编辑的逻辑
+      router.push('/user')
     };
 
-    const share = () => {
+    function share(){
       // 分享问卷的逻辑
+      router.push('/QuestShare')
     };
 
     return {
