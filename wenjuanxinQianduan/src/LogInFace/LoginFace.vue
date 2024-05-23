@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Users } from '@/BasicDataStruct/users';
 import { useRouter } from 'vue-router';
 import { apiGetUserInfo } from '@/apis/user';
+import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
 
 const router=useRouter()
 
@@ -18,10 +19,6 @@ interface LoginMsg{
 
 // 创建用户示例列表
 
- let exampleList: Users[] = [
-new Users('成龙', '1'),
-  new Users('小玉', '2')
-];
 
 
 // 创建响应式变量来绑定输入框的值
@@ -36,15 +33,18 @@ function Loginin(intName: string, inPassword: string) {
 		userID: inputName.value,
 		userName: inputPassword.value,
 	}
-	apiGetUserInfo(param).then((res) => {
-		if(res.data.msg=='登录成功') {
-      alert('登录成功');
-      router.push('/user')
-    }
-    else{
-      alert('登录失败');
-    }
-	})
+
+  router.push('/user')//need to delete
+
+	// apiGetUserInfo(param).then((res) => {
+	// 	if(res.data.msg=='登录成功') {
+  //     alert('登录成功');
+  //     router.push('/user')
+  //   }
+  //   else{
+  //     alert('登录失败');
+  //   }
+	// })
 
 }
 

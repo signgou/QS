@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Users } from '@/BasicDataStruct/users';
 import { useRouter } from 'vue-router';
+import type { QuestionnaireAll } from '@/BasicDataStruct/QuestionType';
 
 const router=useRouter()
 
@@ -10,10 +11,12 @@ let inputName = ref<string>('');
 let inputPassword = ref<string>('');
 let inputPasswordAgain = ref<string>('');
 
+let aa:QuestionnaireAll[]=[]
+let bb:QuestionnaireAll[]=[]
 // 创建用户示例列表
 let exampleList: Users[] = [
-  new Users('成龙', '28967'),
-  new Users('小玉', '7376')
+  new Users('成龙', '28967',aa),
+  new Users('小玉', '7376',bb)
 ];
 
 // 注册函数
@@ -37,7 +40,7 @@ function register() {
     alert('两次输入的密码不同');
   } else {
     // 创建新用户并添加到用户列表中
-    const newUser = new Users(inputName.value, inputPassword.value);
+    const newUser = new Users(inputName.value, inputPassword.value,aa);
     exampleList.push(newUser);
     // 弹出窗口显示新用户列表
     alert(`注册成功！当前用户列表:\n${exampleList.map(user => `${user.userName}: ${user.passWord}`).join('\n')}`);
