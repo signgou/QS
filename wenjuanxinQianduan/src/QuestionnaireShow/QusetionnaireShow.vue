@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { QuestionnaireAll, oneChoiceP, MoreChoice, FillIn, OPtion } from '@/BasicDataStruct/QuestionType';
-
+import { useRouter } from 'vue-router';
+const router = useRouter()
 // 创建问卷对象
 const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('wentiti', []));
 
@@ -28,6 +29,10 @@ questionnaireEditor.value.questionNaire.push(
   ]),
 );
 
+function BackUser()
+{
+  router.push('/user')
+}
 </script>
 
 
@@ -84,7 +89,7 @@ questionnaireEditor.value.questionNaire.push(
       </div>
     </div>
     <div class="down-box">
-      <button class="down-btn">返回</button>
+      <button class="down-btn" @click="BackUser">返回</button>
     </div>
   </div>
 

@@ -1,5 +1,14 @@
 <script lang="ts" setup>
-
+import { useRouter } from 'vue-router';
+const router=useRouter()
+function Quit()
+{
+  router.push('/')
+}
+function Back()
+{
+  router.go(-1)
+}
 </script>
 
 
@@ -14,8 +23,8 @@
       </div>
     </div>
     <div class="down-box">
-      <button class="down-btn">退出</button>
-      <button class="down-btn">返回</button>
+      <button class="down-btn" @click="Quit">退出</button>
+      <button class="down-btn" @click="Back">返回</button>
     </div>
   </div>
 </template>

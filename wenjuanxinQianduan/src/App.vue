@@ -5,6 +5,7 @@ import QuCreateFace from './QuCreateFace/QuCreateFace.vue';
 </script>
 
 <template>
+  <!-- <QuCreateFace/> -->
   <RouterView></RouterView>
 </template>
 

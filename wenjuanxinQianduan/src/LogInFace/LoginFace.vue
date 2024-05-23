@@ -4,6 +4,7 @@ import { Users } from '@/BasicDataStruct/users';
 import { useRouter } from 'vue-router';
 import { apiGetUserInfo } from '@/apis/user';
 import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
+import type { QuestionnaireAll } from '@/BasicDataStruct/QuestionType';
 
 const router=useRouter()
 
@@ -18,7 +19,13 @@ interface LoginMsg{
 }
 
 // 创建用户示例列表
-
+let aa:QuestionnaireAll[]=[]
+let bb:QuestionnaireAll[]=[]
+// 创建用户示例列表
+let exampleList: Users[] = [
+  new Users('成龙', '28967',aa),
+  new Users('小玉', '7376',bb)
+];
 
 
 // 创建响应式变量来绑定输入框的值
