@@ -6,6 +6,10 @@ const fillQnModel =require('./fillQnModel');
 
 const qnsSchema = new mongoose.Schema({
     user : {type: mongoose.Schema.Types.ObjectId },
+    qnName:{
+      type : String,
+      required : true
+    },
     qNum : {
       type : Number,
       default  : 0

@@ -40,7 +40,7 @@ router.get('/users/:uid/questionNaires', function(req, res, next) {
 router.get('/questionNaires/:qnid', function(req, res, next) {  
     async function main(){
         
-        const {oneQns,moreQns,fillQns}= (await QnsModel.findById(req.params.qnid).populate('moreQns').populate('oneQns').populate('fillQns'));
+        const {qnName,oneQns,moreQns,fillQns}= (await QnsModel.findById(req.params.qnid).populate('moreQns').populate('oneQns').populate('fillQns'));
         let one=oneQns.map(element => {
             const {_id,__v,qns,...Obj} ={...element}._doc;  
             let newObj = { ...{qid : _id , type : "oneQns"}, ...Obj };        
@@ -64,6 +64,7 @@ router.get('/questionNaires/:qnid', function(req, res, next) {
         return res.json({
             code : '0018',
             msg : '获取问卷成功',
+            qnName : qnName,
             data : qns
         })
     }
@@ -85,6 +86,7 @@ router.post('/users/:uid/questionNaires', function(req, res, next) {
         });
         const qnData = (await QnsModel.create({
             user : user._id,
+            qnName :  req.body.qnName,
             qOrder : user.qnNum
         }))
         res.json({
@@ -92,6 +94,7 @@ router.post('/users/:uid/questionNaires', function(req, res, next) {
             msg : '创建新问卷成功',
             data : {
                 qnid : qnData._id,
+                qnName: qnData.qnName,
                 qNum : qnData.qNum,
                 qOrder : qnData.qOrder
             }
@@ -208,7 +211,7 @@ router.post('/questionNaires/:qnid/:type', function(req, res, next) {
 })
 
 //删除某个问卷的某个问题信息//!!需要修改的
-// router.delete('/questionNaires/:qnid/:type/:qid', function(req, res, next) {  
+// router.delete('/questionNaires/:type/:qid', function(req, res, next) {  
 //     async function main(){
 //         switch(req.params.type){
 //             case 'oneQns':
@@ -277,7 +280,7 @@ router.post('/questionNaires/:qnid/:type', function(req, res, next) {
 // });
 
 //获取某个问卷的某个问题信息!!需要修改的
-// router.get('/questionNaires/:qnid/:type/:qid', function(req, res, next) {  
+// router.get('/questionNaires/:type/:qid', function(req, res, next) {  
 //     async function main(){
 //         let notFind=false;
 //         switch(req.params.type){
@@ -360,7 +363,7 @@ router.post('/questionNaires/:qnid/:type', function(req, res, next) {
 // });
 
 //修改某个问卷的某个问题信息!!需要修改的
-// router.patch('/questionNaires/:qnid/:type/:qid', function(req, res, next) {  
+// router.patch('/questionNaires/:type/:qid', function(req, res, next) {  
 //     async function main(){
 //         switch(req.params.type){
 //             case 'oneQns':
