@@ -12,8 +12,11 @@ const router = createRouter({
       path: '/user',
       name: 'user',
       component: () => import('../UserCenter/UserCenter.vue'),
-      children:[
+      children:[{
         path:'create',
+        name:'create',
+        component: () => import('../QuCreateFace/QuCreateFace.vue')
+      }
       ]
     },
     {

@@ -3,12 +3,17 @@
 import { FillIn, MoreChoice, OPtion, QuestionnaireAll, oneChoiceP } from '@/BasicDataStruct/QuestionType';
 import { Users } from '@/BasicDataStruct/users';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 
+function Create(){
+  router.push('/user/create')
+}
 
-
-
-
+function ReturnLogin(){
+  router.push('/')
+}
 
 const exampleQuestionnaires = [
   new QuestionnaireAll('问卷一', [
@@ -76,8 +81,8 @@ const user = ref<Users>(
       </div>
     </div>
     <div class="down-box">
-      <button class="down-btn">退出</button>
-      <button class="down-btn">添加新问卷</button>
+      <button class="down-btn" @click="ReturnLogin">退出</button>
+      <button class="down-btn" @click="Create">添加新问卷</button>
     </div>
   </div>
 </template>
