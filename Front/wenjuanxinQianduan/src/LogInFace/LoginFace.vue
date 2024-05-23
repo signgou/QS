@@ -11,20 +11,9 @@ import {useUerInfoStore} from '@/store/userInfo'
 const router=useRouter()
 const userInfoStore=useUerInfoStore()
 
-// 创建用户示例列表
-let aa:QuestionnaireAll[]=[]
-let bb:QuestionnaireAll[]=[]
-// 创建用户示例列表
-let exampleList: Users[] = [
-  new Users('成龙', '28967',aa),
-  new Users('小玉', '7376',bb)
-];
-
-
 // 创建响应式变量来绑定输入框的值
 let inputName = ref<string>('');
 let inputPassword = ref<string>('');
-
 
 // 登录函数
 function Loginin(intName: string, inPassword: string) {

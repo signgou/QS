@@ -9,10 +9,11 @@ const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('wentiti'
 
 // 填充问卷数据
 questionnaireEditor.value.questionNaire.push(
-  new oneChoiceP('Single Choice Question', [
-    new OPtion('1', 'Option 1'),
-    new OPtion('2', 'Option 2'),
-    new OPtion('3', 'Option 3')
+  new oneChoiceP('你喜欢玩什么游戏', [
+    new OPtion('1', '炉石传说-标准模式'),
+    new OPtion('1', '炉石传说-狂野模式'),
+    new OPtion('2', '炉石传说-竞技场'),
+    new OPtion('3', '炉石传说-酒馆战棋')
   ]),
   new MoreChoice('Multiple Choice Question', [
     new OPtion('1', 'Option A'),

@@ -7,11 +7,27 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUerInfoStore } from '@/store/userInfo';
 const userInfoStore=useUerInfoStore()
+import { apiQnCreate } from '@/apis/qnCreate';
 
 const router = useRouter()
 
 function Create(){
-  router.push('/create')
+  let param={
+    uid:userInfoStore.id
+  }
+  apiQnCreate(param).then((res) => {
+		if(res.code=='0016') {
+      alert('创建成功');
+      //补充保存问卷id。。。
+      userInfoStore.qn.push(res.data.qnid)
+      router.push('/create')
+    }
+    else{
+      alert('登录失败');
+    }
+    // console.log(res)
+	})
+  
 }
 
 function ReturnLogin(){
@@ -79,6 +95,11 @@ const user = ref<Users>(
   new Users('示例用户', 'password123', exampleQuestionnaires)
 );
 
+function ChooseAndShow()
+{
+  router.push('/QuestShow')
+}
+
 </script>
 
 <!--有待完善，只有基本框架-->
@@ -92,7 +113,7 @@ const user = ref<Users>(
         </div>
         <div class="trueShow-box">
           <div v-for="(questionnaire, index) in user.returnQuestionnaireAll()" :key="index">
-            <button class="questionnaire-btn">{{ questionnaire.returnTittle() }}</button>
+            <button class="questionnaire-btn" @click="ChooseAndShow">{{ questionnaire.returnTittle() }}</button>
           </div>
         </div>
       </div>

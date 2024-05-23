@@ -43,7 +43,9 @@ import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue
 import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
 import { Users} from '@/BasicDataStruct/users';
 import { useRouter } from 'vue-router';
-
+import { useUerInfoStore } from '@/store/userInfo';
+const userInfoStore=useUerInfoStore()
+import { apiQnCreate } from '@/apis/qnCreate';
 
 
 export default defineComponent({
