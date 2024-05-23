@@ -6,8 +6,10 @@ import { apiGetUserInfo } from '@/apis/login';
 import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
 import type { QuestionnaireAll } from '@/BasicDataStruct/QuestionType';
 import axios from 'axios'
+import {useUerInfoStore} from '@/store/userInfo'
 
 const router=useRouter()
+const userInfoStore=useUerInfoStore()
 
 // 创建用户示例列表
 let aa:QuestionnaireAll[]=[]
@@ -34,15 +36,14 @@ function Loginin(intName: string, inPassword: string) {
 		passWord: inputPassword.value,
 	})
 
-  
-  // axios.post('http://192.168.99.254:3000/api/users/login',param).then((res)=>{
-  //   console.log(res)
-  // })
+
   // router.push('/user')//need to delete
+  // userInfoStore.id=inputName.value
 
 	apiGetUserInfo(param).then((res) => {
 		if(res.msg=='登录成功') {
       alert('登录成功');
+      userInfoStore.id=res.data._id
       router.push('/user')
     }
     else{

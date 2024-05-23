@@ -14,30 +14,8 @@ let inputName = ref<string>('');
 let inputPassword = ref<string>('');
 let inputPasswordAgain = ref<string>('');
 
-console.log(inputName.value)
-  
-// let aa:QuestionnaireAll[]=[]
-// let bb:QuestionnaireAll[]=[]
-// // 创建用户示例列表
-// let exampleList: Users[] = [
-//   new Users('成龙', '28967',aa),
-//   new Users('小玉', '7376',bb)
-// ];
 
-// 注册函数
 function register() {
-  // 检查输入是否为空
-  
-    // 创建新用户并添加到用户列表中
-    // const newUser = new Users(inputName.value, inputPassword.value,aa);
-    // exampleList.push(newUser);
-    // // 弹出窗口显示新用户列表
-    // alert(`注册成功！当前用户列表:\n${exampleList.map(user => `${user.userName}: ${user.passWord}`).join('\n')}`);
-    // // 清空输入框
-
-  //   axios.post('http://192.168.99.254:3000/api/users/register',param).then((res)=>{
-  //   console.log(res)
-  // })//delete
     let param =({
       userName: inputName.value,
       passWord: inputPassword.value,
@@ -45,15 +23,17 @@ function register() {
 
     apiRegister(param).then((res)=>{
       console.log(param)
-      if(res.msg=="注册成功")
+      if(res.code=="0001")
       {
         alert('注册成功')
+      }
+      else if(res.code=="1016"){
+        alert('用户名已存在，注册失败')
       }
       else{
         alert('注册失败')
       }
-    })
-  
+    })  
 }
 
 function ReturnLogin()

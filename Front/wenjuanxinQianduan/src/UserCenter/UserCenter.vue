@@ -5,6 +5,8 @@ import { Users } from '@/BasicDataStruct/users';
 import QusetionnaireShow from '@/QuestionnaireShow/QusetionnaireShow.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUerInfoStore } from '@/store/userInfo';
+const userInfoStore=useUerInfoStore()
 
 const router = useRouter()
 
@@ -76,6 +78,7 @@ const exampleQuestionnaires = [
 const user = ref<Users>(
   new Users('示例用户', 'password123', exampleQuestionnaires)
 );
+
 </script>
 
 <!--有待完善，只有基本框架-->
