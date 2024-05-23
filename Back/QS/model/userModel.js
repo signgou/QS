@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const oneQnModel =require('./oneQnModel');
-const moreQnModel =require('./moreQnModel');
-const fillQnModel =require('./fillQnModel');
+const QnsModel =require('./oneQnModel');
 
 const userSchema = new mongoose.Schema({
     userName : {
@@ -27,20 +25,10 @@ const userSchema = new mongoose.Schema({
 );
 
 //virtual
-userSchema.virtual('oneQns',{
-    ref : oneQnModel,
+userSchema.virtual('Qns',{
+    ref : QnsModel,
     localField : '_id',
     foreignField: 'user'
-})
-userSchema.virtual('moreQns',{
-  ref : moreQnModel,
-  localField : '_id',
-  foreignField: 'user'
-})
-userSchema.virtual('fillQns',{
-  ref : fillQnModel,
-  localField : '_id',
-  foreignField: 'user'
 })
 
 const userModel = mongoose.model('user',userSchema);

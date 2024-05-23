@@ -2,15 +2,16 @@ var express = require('express');
 var router = express.Router();
 const oneQnModel =require('../../model/oneQnModel');
 const moreQnModel =require('../../model/moreQnModel');
-const fillQnModel =require('../../model/fillQnModel');
+const fillQnModel = require('../../model/fillQnModel');
+const QnsModel = require('../../model/QnsModel');
 const userModel = require('../../model/userModel');
 
 
-//获取所有问卷(某个用户的)
-router.get('/users/:id/questionNaires', function(req, res, next) {  
+//获取某个用户的所有问卷//!!需要修改的
+router.get('/users/:uid/questionNaires', function(req, res, next) {  
     async function main(){
 
-        const {oneQns,moreQns,fillQns}= (await userModel.findById(req.params.id).populate('moreQns').populate('oneQns').populate('fillQns'));
+        const {oneQns,moreQns,fillQns}= (await QnsModel.findById(req.params.id).populate('moreQns').populate('oneQns').populate('fillQns'));
         let one=oneQns.map(element => {
             const {__v,user,...newObj} ={...element}._doc;
             newObj.type="oneQns";
@@ -46,8 +47,48 @@ router.get('/users/:id/questionNaires', function(req, res, next) {
     })
 });
 
-//增加某种问题信息
-router.post('/users/:id/questionNaires/:type', function(req, res, next) {  
+//获取的某一问卷所有信息//!!需要修改的
+router.get('/questionNaires/:qnid', function(req, res, next) {  
+    async function main(){
+
+        const {oneQns,moreQns,fillQns}= (await QnsModel.findById(req.params.id).populate('moreQns').populate('oneQns').populate('fillQns'));
+        let one=oneQns.map(element => {
+            const {__v,user,...newObj} ={...element}._doc;
+            newObj.type="oneQns";
+            return newObj;
+        })
+        let more=moreQns.map(element => {
+            const {__v,user,...newObj} ={...element}._doc;
+            newObj.type="moreQns";
+            return newObj;
+        })
+        let fill=fillQns.map(element => {
+            const {__v,user,...newObj} ={...element}._doc;
+            newObj.type="fillQns";
+            return newObj;
+        })
+        
+        let qns = one.concat(more,fill);
+        qns.sort((a,b) => {
+            return a.order-b.order;
+        })
+        return res.json({
+            code : '0006',
+            msg : '获取问卷成功',
+            data : qns
+        })
+    }
+    main().catch(err => {
+        res.json({
+            code : '1005',
+            msg : '获取失败,请稍后再试',
+            data : null
+        })
+    })
+});
+
+//增加某个问卷的某种问题信息//!!需要修改的
+router.post('/questionNaires/:qnid/:type', function(req, res, next) {  
     async function main(){
         const user = await userModel.findById(req.params.id);
         user.qnNum += 1; 
@@ -145,8 +186,8 @@ router.post('/users/:id/questionNaires/:type', function(req, res, next) {
     })
 })
 
-//删除某个问题信息
-router.delete('/questionNaires/:type/:qid', function(req, res, next) {  
+//删除某个问卷的某种问题信息//!!需要修改的
+router.delete('/questionNaires/:qnid/:type/:qid', function(req, res, next) {  
     async function main(){
         switch(req.params.type){
             case 'oneQns':
@@ -214,8 +255,8 @@ router.delete('/questionNaires/:type/:qid', function(req, res, next) {
     });
 });
 
-//获取某个问题信息
-router.get('/questionNaires/:type/:qid', function(req, res, next) {  
+//获取某个问卷的某个问题信息!!需要修改的
+router.get('/questionNaires/:qnid/:type/:qid', function(req, res, next) {  
     async function main(){
         let notFind=false;
         switch(req.params.type){
@@ -297,8 +338,8 @@ router.get('/questionNaires/:type/:qid', function(req, res, next) {
     })
 });
 
-//修改某个问卷信息
-router.patch('/questionNaires/:type/:qid', function(req, res, next) {  
+//修改某个问卷的某个问题信息!!需要修改的
+router.patch('/questionNaires/:qnid/:type/:qid', function(req, res, next) {  
     async function main(){
         switch(req.params.type){
             case 'oneQns':

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const oneQnSchema = new mongoose.Schema({
-    user : {type: mongoose.Schema.Types.ObjectId },
+    qns : {type: mongoose.Schema.Types.ObjectId },
     title : {
         type :String,
         required : true
