@@ -11,7 +11,10 @@ const router = createRouter({
     {
       path: '/user',
       name: 'user',
-      component: () => import('../MainStage/MainStage.vue')
+      component: () => import('../UserCenter/UserCenter.vue'),
+      children:[
+        path:'create',
+      ]
     },
     {
       path: '/register',
