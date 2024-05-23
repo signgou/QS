@@ -9,16 +9,6 @@ import axios from 'axios'
 
 const router=useRouter()
 
-interface LoginMsg{
-  code: string, 
-  msg: string, 
-  data: {
-    _id: string, 
-    userName: string, 
-    passWord: string 
-  } 
-}
-
 // 创建用户示例列表
 let aa:QuestionnaireAll[]=[]
 let bb:QuestionnaireAll[]=[]
@@ -33,7 +23,6 @@ let exampleList: Users[] = [
 let inputName = ref<string>('');
 let inputPassword = ref<string>('');
 
-console.
 
 // 登录函数
 function Loginin(intName: string, inPassword: string) {
@@ -44,6 +33,7 @@ function Loginin(intName: string, inPassword: string) {
 		userName: inputName.value,
 		passWord: inputPassword.value,
 	})
+
   
   // axios.post('http://192.168.99.254:3000/api/users/login',param).then((res)=>{
   //   console.log(res)
