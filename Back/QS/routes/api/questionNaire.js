@@ -108,7 +108,7 @@ router.post('/users/:uid/questionNaires', function(req, res, next) {
 })
 
 
-//增加已有问卷的某个问题信息//初步完成
+// //增加已有问卷的某个问题信息//初步完成
 router.post('/questionNaires/:qnid/:type', function(req, res, next) {  
     async function main(){
         const qns = await QnsModel.findById(req.params.qnid);
@@ -207,225 +207,232 @@ router.post('/questionNaires/:qnid/:type', function(req, res, next) {
     })
 })
 
-//删除某个问卷的某个问题信息//!!需要修改的
-// router.delete('/questionNaires/:qnid/:type/:qid', function(req, res, next) {  
-//     async function main(){
-//         switch(req.params.type){
-//             case 'oneQns':
-//                 const deletedOneData = await oneQnModel.findByIdAndDelete(req.params.qid);
-//                 if(!deletedOneData){
-//                     res.json({
-//                         code : '1011',
-//                         msg : '未找到要删除的单选问题',
-//                         data : null
-//                     });
-//                     break;
-//                 }
-//                 res.json({
-//                     code : '0013',
-//                     msg : '单选问题删除成功',
-//                     data : null
-//                 });
-//                 break;
-//             case 'moreQns':
-//                 const deletedMoreData = await moreQnModel.findByIdAndDelete(req.params.qid);
-//                 if(!deletedMoreData){
-//                     res.json({
-//                         code : '1012',
-//                         msg : '未找到要删除的多选问题',
-//                         data : null
-//                     });
-//                     break;
-//                 }
-//                 res.json({
-//                     code : '0014',
-//                     msg : '多选问题删除成功',
-//                     data : null
-//                 });
-//                 break;
-//             case 'fillQns':
-//                 const deletedFillData = await fillQnModel.findByIdAndDelete(req.params.qid);
-//                 if(!deletedFillData){
-//                     res.json({
-//                         code : '1013',
-//                         msg : '未找到要删除的填空问题',
-//                         data : null
-//                     });
-//                     break;
-//                 }
-//                 res.json({
-//                     code : '0015',
-//                     msg : '填空问题删除成功',
-//                     data : null
-//                 });
-//                 break;
-//             default:
-//                 res.json({
-//                     code : '1014',
-//                     msg : '没有相应问题类型，删除失败',
-//                     data : null
-//                 });
-//         }
-//     }
-//     main().catch(err => {
-//         res.json({
-//             code : '1015',
-//             msg : '删除具体问题信息失败，请稍后再试',
-//             data : null
-//         });
-//     });
-// });
+//删除某个问题信息//初步完成
+router.delete('/questionNaires/:type/:qid', async function(req, res, next) {  
+    async function main(){
+        const qid = req.params.qid;
 
-//获取某个问卷的某个问题信息!!需要修改的
-// router.get('/questionNaires/:qnid/:type/:qid', function(req, res, next) {  
-//     async function main(){
-//         let notFind=false;
-//         switch(req.params.type){
-//             case 'oneQns':
-//                 const oneData =await oneQnModel.findById(req.params.qid);
-//                 if(!oneData){
-//                     notFind=true;
-//                     break;
-//                 }
-//                 res.json({
-//                     code : '0007',
-//                     msg : '单选问题获取成功',
-//                     data : {
-//                         qid :oneData._id,
-//                         title : oneData.title,
-//                         options : oneData.options,
-//                         selecteds : oneData.selecteds,
-//                         order : oneData.order
-//                     }
-//                 })
-//                 break;
-//             case 'moreQns':
-//                 const moreData =await moreQnModel.findById(req.params.qid);
-//                 if(!moreData){
-//                     notFind=true;
-//                     break;
-//                 }
-//                 res.json({
-//                     code : '0008',
-//                     msg : '多选问题获取成功',
-//                     data : {
-//                         qid :moreData._id,
-//                         title : moreData.title,
-//                         options : moreData.options,
-//                         selecteds : moreData.selecteds,
-//                         order : moreData.order
-//                     }
-//                 })
-//                 break;
-//             case 'fillQns':
-//                 const  fillData =await fillQnModel.findById(req.params.qid);
-//                 if(!fillData){
-//                     notFind=true;
-//                     break;
-//                 }
-//                 res.json({
-//                     code : '0009',
-//                     msg : '填空问题获取成功',
-//                     data : {
-//                         qid : fillData._id,
-//                         title : fillData.title,
-//                         answer: fillData.answer,
-//                         order : fillData.order
-//                     }
-//                 })
-//                 break;
-//             default:
-//                 res.json({
-//                     code : '1007',
-//                     msg : '没有相应问题类型，获取失败',
-//                     data : null
-//                 })
-//         }
-//         if(notFind){
-//             res.json({
-//                 code : '1010',
-//                 msg :'未找到问题',
-//                 data : null
-//             })
-//         }
-//     }
+        switch(req.params.type){
+            //删除单选问题
+            case "oneQns":
+                const deletedOneData = await oneQnModel.findByIdAndDelete(qid);
+                if(!deletedOneData){
+                    res.json({
+                    code : '1006',
+                    msg : '未找到要删除的单选问题',
+                    data : null
+                    });
+                    break;
+                }
+                res.json({
+                    code : '0006',
+                    msg : '单选问题删除成功',
+                    data : null
+                })
+                break;
 
-//     main().catch(err => {
-//         res.json({
-//             code : '1006',
-//             msg : '获取具体问题信息失败,请稍后再试',
-//             data : null
-//         })
-//     })
-// });
+            //删除多选问题
+            case "moreQns":
+                const deletedMoreData = await moreQnModel.findByIdAndDelete(qid);
+                if(!deletedMoreData){
+                    res.json({
+                        code : '1007',
+                        msg : '未找到要删除的多选问题',
+                        data : null
+                    });
+                    break;
+                }
+                res.json({
+                    code : '0007',
+                    msg : '多选问题删除成功',
+                    data : null
+                })
+                break;
 
-//修改某个问卷的某个问题信息!!需要修改的
-// router.patch('/questionNaires/:qnid/:type/:qid', function(req, res, next) {  
-//     async function main(){
-//         switch(req.params.type){
-//             case 'oneQns':
-//                 const oneData =await oneQnModel.findByIdAndUpdate(req.params.qid,req.body,{
-//                     new : true
-//                 });
-//                 res.json({
-//                     code : '0010',
-//                     msg : '单选问题修改成功',
-//                     data : {
-//                         qid :oneData._id,
-//                         title : oneData.title,
-//                         options : oneData.options,
-//                         selecteds : oneData.selecteds,
-//                         order : oneData.order
-//                     }
-//                 })
-//                 break;
-//             case 'moreQns':
-//                 const moreData =await moreQnModel.findByIdAndUpdate(req.params.qid,req.body,{
-//                     new : true
-//                 });
-//                 res.json({
-//                     code : '0011',
-//                     msg : '多选问题修改成功',
-//                     data : {
-//                         qid :moreData._id,
-//                         title : moreData.title,
-//                         options : moreData.options,
-//                         selecteds : moreData.selecteds,
-//                         order : moreData.order
-//                     }
-//                 })
-//                 break;
-//             case 'fillQns':
-//                 const fillData =await fillQnModel.findByIdAndUpdate(req.params.qid,req.body,{
-//                     new : true
-//                 });
-//                 res.json({
-//                     code : '0012',
-//                     msg : '填空问题修改成功',
-//                     data : {
-//                         qid : fillData._id,
-//                         title : fillData.title,
-//                         answer: fillData.answer,
-//                         order : fillData.order
-//                     }
-//                 })
-//                 break;
-//             default:
-//                 res.json({
-//                     code : '1009',
-//                     msg : '没有相应问题类型，修改失败',
-//                     data : null
-//                 })
-//         }
-//     }
+            //删除填空问题
+            case "fillQns":
+                const deletedFillData = await fillQnModel.findByIdAndDelete(qid);
+                if(!deletedFillData){
+                    res.json({
+                        code : '1008',
+                        msg : '未找到要删除的填空问题',
+                        data : null
+                    });
+                    break;
+                }
+                res.json({
+                    code : '0008',
+                    msg : '填空问题删除成功',
+                    data : null
+                })
+                break;
 
-//     main().catch(err => {
-//         res.json({
-//             code : '1008',
-//             msg : '修改具体问题信息失败,请稍后再试',
-//             data : null
-//         })
-//     })
-// });
+            default:
+                res.json({
+                    code : '1005',
+                    msg : '没有相应问题类型，删除失败',
+                    data : null
+                })
+        }
+    }
+
+    main() .catch(err => {
+        res.json({
+            code : '1009',
+            msg : '删除失败,请稍后再试',
+            data : null
+        })
+    })
+})
+//获取某个问卷的某个问题信息//初步完成
+router.get('/questionNaires/:type/:qid', function(req, res, next) {  
+    async function main(){
+        var notFind=false;
+        switch(req.params.type){
+            case 'oneQns':
+                const oneData =await oneQnModel.findById(req.params.qid);
+                if(!oneData){
+                    notFind=true;
+                    break;
+                }
+                res.json({
+                    code : '0009',
+                    msg : '单选问题获取成功',
+                    data : {
+                        qid :oneData._id,
+                        title : oneData.title,
+                        options : oneData.options,
+                        selecteds : oneData.selecteds,
+                        order : oneData.order
+                    }
+                })
+                break;
+            case 'moreQns':
+                const moreData =await moreQnModel.findById(req.params.qid);
+                if(!moreData){
+                    notFind=true;
+                    break;
+                }
+                res.json({
+                    code : '00010',
+                    msg : '多选问题获取成功',
+                    data : {
+                        qid :moreData._id,
+                        title : moreData.title,
+                        options : moreData.options,
+                        selecteds : moreData.selecteds,
+                        order : moreData.order
+                    }
+                })
+                break;
+            case 'fillQns':
+                const  fillData =await fillQnModel.findById(req.params.qid);
+                if(!fillData){
+                    notFind=true;
+                    break;
+                }
+                res.json({
+                    code : '0011',
+                    msg : '填空问题获取成功',
+                    data : {
+                        qid : fillData._id,
+                        title : fillData.title,
+                        answer: fillData.answer,
+                        order : fillData.order
+                    }
+                })
+                break;
+            default:
+                res.json({
+                    code : '1010',
+                    msg : '没有相应问题类型，获取失败',
+                    data : null
+                })
+        }
+        if(notFind){
+            res.json({
+                code : '1011',
+                msg :'未找到问题',
+                data : null
+            })
+        }
+    }
+    main().catch(err => {
+        res.json({
+            code : '1012',
+            msg : '获取具体问题信息失败,请稍后再试',
+            data : null
+        });
+    })
+});
+
+//修改某个问卷的某个问题信息//初步完成
+router.patch('/questionNaires/:type/:qid', function(req, res, next) {  
+    async function main(){
+        switch(req.params.type){
+            case 'oneQns':
+                const oneData =await oneQnModel.findByIdAndUpdate(req.params.qid,req.body,{
+                    new : true
+                });
+                res.json({
+                    code : '0012',
+                    msg : '单选问题修改成功',
+                    data : {
+                        qid :oneData._id,
+                        title : oneData.title,
+                        options : oneData.options,
+                        selecteds : oneData.selecteds,
+                        order : oneData.order
+                    }
+                })
+                break;
+            case 'moreQns':
+                const moreData =await moreQnModel.findByIdAndUpdate(req.params.qid,req.body,{
+                    new : true
+                });
+                res.json({
+                    code : '0013',
+                    msg : '多选问题修改成功',
+                    data : {
+                        qid :moreData._id,
+                        title : moreData.title,
+                        options : moreData.options,
+                        selecteds : moreData.selecteds,
+                        order : moreData.order
+                    }
+                })
+                break;
+            case 'fillQns':
+                const fillData =await fillQnModel.findByIdAndUpdate(req.params.qid,req.body,{
+                    new : true
+                });
+                res.json({
+                    code : '0014',
+                    msg : '填空问题修改成功',
+                    data : {
+                        qid : fillData._id,
+                        title : fillData.title,
+                        answer: fillData.answer,
+                        order : fillData.order
+                    }
+                })
+                break;
+            default:
+                res.json({
+                    code : '1013',
+                    msg : '没有相应问题类型，修改失败',
+                    data : null
+                })
+        }
+    }
+
+    main().catch(err => {
+        res.json({
+            code : '1014',
+            msg : '修改具体问题信息失败,请稍后再试',
+            data : null
+        })
+    })
+});
 
 module.exports = router;
