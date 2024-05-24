@@ -217,18 +217,6 @@ function Quit()
         cursor: pointer;
       }
 
-      .dialog-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
       .questionnaire-btn:hover {
         background-color: #0056b3;
       }
@@ -284,4 +272,16 @@ function Quit()
     background-color: #0056b3;
   }
 }
+
+.dialog-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 </style>
