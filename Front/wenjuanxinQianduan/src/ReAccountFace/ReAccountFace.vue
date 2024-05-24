@@ -23,7 +23,7 @@ function register() {
 
     apiRegister(param).then((res)=>{
       console.log(param)
-      if(res.code=="0001")
+      if(res.code=="0000")
       {
         alert('注册成功')
       }

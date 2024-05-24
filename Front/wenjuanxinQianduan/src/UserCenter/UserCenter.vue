@@ -10,24 +10,11 @@ const userInfoStore=useUerInfoStore()
 import { apiQnCreate } from '@/apis/qnCreate';
 
 const router = useRouter()
+let QnName=ref('')
+let dialogVisible=ref(false)
 
 function Create(){
-  let param={
-    uid:userInfoStore.id
-  }
-  apiQnCreate(param).then((res) => {
-		if(res.code=='0016') {
-      alert('创建成功');
-      //补充保存问卷id。。。
-      userInfoStore.qn.push(res.data.qnid)
-      router.push('/create')
-    }
-    else{
-      alert('登录失败');
-    }
-    // console.log(res)
-	})
-  
+  dialogVisible.value=true  
 }
 
 function ReturnLogin(){
@@ -100,6 +87,27 @@ function ChooseAndShow()
   router.push('/QuestShow')
 }
 
+function Quit()
+{
+  dialogVisible.value=false
+  let param={
+    qnName:QnName.value
+  }
+  console.log(userInfoStore.id)
+  apiQnCreate(param,userInfoStore.id).then((res) => {
+		if(res.code=='0016') {
+      alert('创建成功');
+      //补充保存问卷id。。。
+      userInfoStore.qn.push(res.data.qnid)
+      router.push('/create')
+    }
+    else{
+      alert('创建失败');
+    }
+    // console.log(res)
+	})
+}
+
 </script>
 
 <!--有待完善，只有基本框架-->
@@ -117,6 +125,7 @@ function ChooseAndShow()
           </div>
         </div>
       </div>
+
       <div class="side-box">
         <button class="side-btn" @click="DataShow">数据展示</button>
         <button class="side-btn" @click="Edit">进入编辑</button>
@@ -124,12 +133,27 @@ function ChooseAndShow()
         <button class="side-btn">删除问卷</button>
         <button class="side-btn" @click="QusetShow">问卷预览</button>
       </div>
+
     </div>
     <div class="down-box">
       <button class="down-btn" @click="ReturnLogin">退出</button>
       <button class="down-btn" @click="Create">添加新问卷</button>
-    </div>
+    </div> 
+    
+    <div v-if="dialogVisible" class="dialog-overlay">
+      <div class="dialog-box">
+        <h3>输入添加的问卷的主题</h3>
+        <div class="input-group">
+          <label for="input1">问卷名</label>
+          <input type="text" id="input1" v-model="QnName" />
+          <button @click="Quit">确认</button>
+        </div>
+      </div>
   </div>
+
+  </div>
+
+  
 </template>
 
 <style lang="scss" scoped>
@@ -191,6 +215,18 @@ function ChooseAndShow()
         font-size: 1em;
         border-radius: 5px;
         cursor: pointer;
+      }
+
+      .dialog-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       .questionnaire-btn:hover {

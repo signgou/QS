@@ -10,6 +10,7 @@ import QuestionnaireShowtool from './router/QusetionAndNaire/QuestionnaireShowto
   <!-- <UserCenter/> -->
   <!-- <QuestionnaireShowtool/> -->
   <RouterView></RouterView>
+  <!-- <QuCreateFace/> -->
 </template>
 
 <style scoped>
