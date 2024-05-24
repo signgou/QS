@@ -20,8 +20,8 @@ questionnaireEditor.value.questionNaire.push(
     new OPtion('2', 'Option B'),
     new OPtion('3', 'Option C')
   ]),
-  new FillIn('Fill in the blank question', ''),
-  new FillIn('Fill', ''),
+  new FillIn('Fill in the blank question', ['']),
+  new FillIn('Fill', ['']),
    new MoreChoice('Multiple ', [
     new OPtion('1', 'Option A'),
     new OPtion('2', 'Option B'),

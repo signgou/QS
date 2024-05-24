@@ -3,12 +3,14 @@
 import { FillIn, MoreChoice, OPtion, QuestionnaireAll, oneChoiceP } from '@/BasicDataStruct/QuestionType';
 import { Users } from '@/BasicDataStruct/users';
 import QusetionnaireShow from '@/QuestionnaireShow/QusetionnaireShow.vue';
-import { ref } from 'vue';
+import { VueElement, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUerInfoStore } from '@/store/userInfo';
 const userInfoStore=useUerInfoStore()
 import { apiQnCreate } from '@/apis/qnCreate';
 import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
+import { onMounted } from "vue";
+import { diffieHellman } from 'crypto';
 
 const router = useRouter()
 let QnName=ref('')
@@ -43,48 +45,20 @@ function Send()
 }
 
 
-const exampleQuestionnaires:QuestionnaireAll[] = [
-  new QuestionnaireAll('问卷一', [
-    new oneChoiceP('单选题1', [
-      new OPtion('1', '选项1'),
-      new OPtion('2', '选项2'),
-    ]),
-    new MoreChoice('多选题1', [
-      new OPtion('1', '选项A'),
-      new OPtion('2', '选项B'),
-    ]),
-    new FillIn('填空题1', '答案')
-  ]),
+const exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
 
-  new QuestionnaireAll('问卷二', [
-    new oneChoiceP('单选题2', [
-      new OPtion('1', '选项1'),
-      new OPtion('2', '选项2'),
-    ]),
-    new MoreChoice('多选题2', [
-      new OPtion('1', '选项A'),
-      new OPtion('2', '选项B'),
-    ]),
-    new FillIn('填空题2', '答案')
-  ]),
-  
-  new QuestionnaireAll('问卷三', [
-    new oneChoiceP('单选题3', [
-      new OPtion('1', '选项1'),
-      new OPtion('2', '选项2'),
-    ]),
-    new MoreChoice('多选题3', [
-      new OPtion('1', '选项A'),
-      new OPtion('2', '选项B'),
-    ]),
-    new FillIn('填空题3', '答案')
-  ])
-];
+onMounted(()=>{
+  // let uid = userInfoStore.uid
+  userInfoStore.qn.forEach((it:string)=>{
+    exampleQuestionnaires.value.push(new QuestionnaireAll(userInfoStore.getSingleTitle(it),userInfoStore.getAllProblem(it)))
+  })
+})
 
 // 创建示例用户对象
 const user = ref<Users>(
-  new Users(userInfoStore.uid, userInfoStore.uid, exampleQuestionnaires)
+  new Users(userInfoStore.uid, userInfoStore.id, exampleQuestionnaires.value)
 );
+
 
 function ChooseAndShow()
 {
@@ -103,11 +77,9 @@ function Quit()
       alert('创建成功');
       //补充保存问卷id。。。
       userInfoStore.qn.push(res.data.qnid)
-      exampleQuestionnaires.push({
-        questionNaire:,
-        Title:QnName.value
-      })
-      router.push('/create')
+      exampleQuestionnaires.value.push(new QuestionnaireAll(QnName.value,userInfoStore.getAllProblem(res.data.qnid)))
+        
+      // router.push('/create')
     }
     else{
       alert('创建失败');

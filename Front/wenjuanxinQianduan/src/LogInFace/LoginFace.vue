@@ -34,6 +34,7 @@ function Loginin(intName: string, inPassword: string) {
       alert('登录成功');
       userInfoStore.uid=res.data.uid
       userInfoStore.id=inputName.value
+      userInfoStore.getAllQn(res.data.uid)
       router.push('/user')
     }
     else{

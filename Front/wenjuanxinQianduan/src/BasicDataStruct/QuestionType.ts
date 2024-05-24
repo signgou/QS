@@ -107,8 +107,8 @@ export class MoreChoice {
 export class FillIn
 {
   Tittle: string='';
-  Answer: string='';
-  constructor(tit:string,Ans:string)
+  Answer: string[]=[];
+  constructor(tit:string,Ans:string[])
   {
      this.Tittle=tit;
      this.Answer=Ans;
@@ -119,7 +119,7 @@ export class FillIn
     this.Tittle=tittle;
   }
 
-  changeAnswer(answer: string):void
+  changeAnswer(answer: string[]):void
   {
     this.Answer=answer;
   }
@@ -129,7 +129,7 @@ export class FillIn
     return this.Tittle;
   }
 
-  returnAnswer():string
+  returnAnswer():string[]
   {
      return this.Answer;
   }
