@@ -13,7 +13,8 @@ export const useUerInfoStore=defineStore('UserInfo',()=>{
         apiGetOneQn(qnid).then((res)=>{
             if(res.code=='0018')
                 {
-                    return res.title
+                    
+                    return res.qnName
                 }
         })
     }
@@ -21,7 +22,7 @@ export const useUerInfoStore=defineStore('UserInfo',()=>{
     function getAllProblem(qnid:string):(oneChoiceP | MoreChoice | FillIn)[]{
         apiGetOneQn(qnid).then((res)=>{
             if(res.code=='0018'){
-                // alert('获取问题信息成功！')
+                
                 let que: (oneChoiceP | MoreChoice | FillIn)[]=[]
                 res.data.forEach((it:any) => {
                     switch(it.type){
@@ -67,7 +68,7 @@ export const useUerInfoStore=defineStore('UserInfo',()=>{
         apiUserAll(uid).then((res)=>{
             if(res.code=='0019'){
                 for(var it of res.data)
-                qn.value.push(it.qnid)
+                    qn.value.push(it.qnid)
             }
             else{
                 alert('获取用户问卷信息失败！')

@@ -3,14 +3,13 @@
 import { FillIn, MoreChoice, OPtion, QuestionnaireAll, oneChoiceP } from '@/BasicDataStruct/QuestionType';
 import { Users } from '@/BasicDataStruct/users';
 import QusetionnaireShow from '@/QuestionnaireShow/QusetionnaireShow.vue';
-import { VueElement, ref } from 'vue';
+import { VueElement, ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUerInfoStore } from '@/store/userInfo';
 const userInfoStore=useUerInfoStore()
 import { apiQnCreate } from '@/apis/qnCreate';
 import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
-import { onMounted } from "vue";
-import { diffieHellman } from 'crypto';
+import { onMounted,onBeforeMount} from "vue";
 
 const router = useRouter()
 let QnName=ref('')
@@ -45,13 +44,22 @@ function Send()
 }
 
 
-const exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
+let exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
 
-onMounted(()=>{
+onBeforeMount(()=>{
   // let uid = userInfoStore.uid
-  userInfoStore.qn.forEach((it:string)=>{
-    exampleQuestionnaires.value.push(new QuestionnaireAll(userInfoStore.getSingleTitle(it),userInfoStore.getAllProblem(it)))
-  })
+  // userInfoStore.qn.forEach((it:string)=>{
+  //   exampleQuestionnaires.value.push(new QuestionnaireAll(userInfoStore.getSingleTitle(it),userInfoStore.getAllProblem(it)))
+  // })
+  exampleQuestionnaires.value=[]
+  let inde:string[]=userInfoStore.qn
+  let{getSingleTitle,getAllProblem}=userInfoStore
+  inde.forEach(qnid => {
+    exampleQuestionnaires.value.push(new QuestionnaireAll(getSingleTitle(qnid),getAllProblem(qnid)))
+
+    //test
+    
+  });
 })
 
 // 创建示例用户对象
@@ -77,7 +85,7 @@ function Quit()
       alert('创建成功');
       //补充保存问卷id。。。
       userInfoStore.qn.push(res.data.qnid)
-      exampleQuestionnaires.value.push(new QuestionnaireAll(QnName.value,userInfoStore.getAllProblem(res.data.qnid)))
+      exampleQuestionnaires.value.push(new QuestionnaireAll(QnName.value,[]))
         
       // router.push('/create')
     }
