@@ -5,10 +5,10 @@ const moreQnModel =require('../../model/moreQnModel');
 const fillQnModel = require('../../model/fillQnModel');
 const QnsModel = require('../../model/QnsModel');
 const userModel = require('../../model/userModel');
-const e = require('express');
 
 
-//获取某个用户的所有问卷(不包含具体信息)//!!需要修改的
+
+//获取某个用户的所有问卷(不包含具体信息)//初步完成
 router.get('/users/:uid/questionNaires', function(req, res, next) {  
     async function main(){
         const {Qns} = await userModel.findById(req.params.uid).populate('Qns');
@@ -81,14 +81,14 @@ router.get('/questionNaires/:qnid', function(req, res, next) {
 //增加某个用户新的问卷//初步完成
 router.post('/users/:uid/questionNaires', function(req, res, next) {  
     async function main(){
-        const user = await userModel.findByIdAndUpdate(req.params.uid,{$inc : {qnNum : 1}},{
-            new : true
-        });
+        const user = await userModel.findById(req.params.uid);
+        user.qnNum ++;
         const qnData = (await QnsModel.create({
             user : user._id,
             qnName :  req.body.qnName,
             qOrder : user.qnNum
         }))
+        await user.save();
         res.json({
             code : '0016',
             msg : '创建新问卷成功',
@@ -102,6 +102,7 @@ router.post('/users/:uid/questionNaires', function(req, res, next) {
     }
 
     main().catch(err => {
+
         res.json({
             code : '1016',
             msg : '创建新问卷失败,请稍后再试',
