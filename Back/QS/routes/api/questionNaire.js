@@ -280,87 +280,89 @@ router.post('/questionNaires/:qnid/:type', function(req, res, next) {
 // });
 
 //获取某个问卷的某个问题信息!!需要修改的
-// router.get('/questionNaires/:type/:qid', function(req, res, next) {  
-//     async function main(){
-//         let notFind=false;
-//         switch(req.params.type){
-//             case 'oneQns':
-//                 const oneData =await oneQnModel.findById(req.params.qid);
-//                 if(!oneData){
-//                     notFind=true;
-//                     break;
-//                 }
-//                 res.json({
-//                     code : '0007',
-//                     msg : '单选问题获取成功',
-//                     data : {
-//                         qid :oneData._id,
-//                         title : oneData.title,
-//                         options : oneData.options,
-//                         selecteds : oneData.selecteds,
-//                         order : oneData.order
-//                     }
-//                 })
-//                 break;
-//             case 'moreQns':
-//                 const moreData =await moreQnModel.findById(req.params.qid);
-//                 if(!moreData){
-//                     notFind=true;
-//                     break;
-//                 }
-//                 res.json({
-//                     code : '0008',
-//                     msg : '多选问题获取成功',
-//                     data : {
-//                         qid :moreData._id,
-//                         title : moreData.title,
-//                         options : moreData.options,
-//                         selecteds : moreData.selecteds,
-//                         order : moreData.order
-//                     }
-//                 })
-//                 break;
-//             case 'fillQns':
-//                 const  fillData =await fillQnModel.findById(req.params.qid);
-//                 if(!fillData){
-//                     notFind=true;
-//                     break;
-//                 }
-//                 res.json({
-//                     code : '0009',
-//                     msg : '填空问题获取成功',
-//                     data : {
-//                         qid : fillData._id,
-//                         title : fillData.title,
-//                         answer: fillData.answer,
-//                         order : fillData.order
-//                     }
-//                 })
-//                 break;
-//             default:
-//                 res.json({
-//                     code : '1007',
-//                     msg : '没有相应问题类型，获取失败',
-//                     data : null
-//                 })
-//         }
-//         if(notFind){
-//             res.json({
-//                 code : '1010',
-//                 msg :'未找到问题',
-//                 data : null
-//             })
-//         }
-//     }
+router.get('/questionNaires/:type/:qid', function(req, res, next) {  
+    async function main(){
+        let notFind=false;
+        switch(req.params.type){
+            case 'oneQns':
+                const oneData =await oneQnModel.findById(req.params.qid);
+                console.log(oneData);
+                if(!oneData){
+                    notFind=true;
+                    break;
+                }
 
-//     main().catch(err => {
-//         res.json({
-//             code : '1006',
-//             msg : '获取具体问题信息失败,请稍后再试',
-//             data : null
-//         })
-//     })
-// });
+                res.json({
+                    code : '0007',
+                    msg : '单选问题获取成功',
+                    data : {
+                        qid :oneData._id,
+                        title : oneData.title,
+                        options : oneData.options,
+                        selecteds : oneData.selecteds,
+                        order : oneData.order
+                    }
+                })
+                break;
+            case 'moreQns':
+                const moreData =await moreQnModel.findById(req.params.qid);
+                if(!moreData){
+                    notFind=true;
+                    break;
+                }
+                res.json({
+                    code : '0008',
+                    msg : '多选问题获取成功',
+                    data : {
+                        qid :moreData._id,
+                        title : moreData.title,
+                        options : moreData.options,
+                        selecteds : moreData.selecteds,
+                        order : moreData.order
+                    }
+                })
+                break;
+            case 'fillQns':
+                const  fillData =await fillQnModel.findById(req.params.qid);
+                if(!fillData){
+                    notFind=true;
+                    break;
+                }
+                res.json({
+                    code : '0009',
+                    msg : '填空问题获取成功',
+                    data : {
+                        qid : fillData._id,
+                        title : fillData.title,
+                        answer: fillData.answer,
+                        order : fillData.order
+                    }
+                })
+                break;
+            default:
+                res.json({
+                    code : '1007',
+                    msg : '没有相应问题类型，获取失败',
+                    data : null
+                })
+        }
+        if(notFind){
+            res.json({
+                code : '1010',
+                msg :'未找到问题',
+                data : null
+            })
+        }
+    }
+
+    main().catch(err => {
+        res.json({
+            code : '1006',
+            msg : '获取具体问题信息失败,请稍后再试',
+            data : null
+        })
+    })
+});
 
 //修改某个问卷的某个问题信息!!需要修改的
 // router.patch('/questionNaires/:type/:qid', function(req, res, next) {  
