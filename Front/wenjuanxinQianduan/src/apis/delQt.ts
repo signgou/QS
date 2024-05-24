@@ -1,4 +1,4 @@
-// 导入axios实例
+// 删除某个问题
 import httpRequest from '@/request/index'
 
 // 定义接口的传参

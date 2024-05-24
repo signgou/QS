@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router';
 import { useUerInfoStore } from '@/store/userInfo';
 const userInfoStore=useUerInfoStore()
 import { apiQnCreate } from '@/apis/qnCreate';
+import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
 
 const router = useRouter()
 let QnName=ref('')
@@ -41,7 +42,8 @@ function Send()
   router.push('/QuestShare')
 }
 
-const exampleQuestionnaires = [
+
+const exampleQuestionnaires:QuestionnaireAll[] = [
   new QuestionnaireAll('问卷一', [
     new oneChoiceP('单选题1', [
       new OPtion('1', '选项1'),
@@ -53,6 +55,7 @@ const exampleQuestionnaires = [
     ]),
     new FillIn('填空题1', '答案')
   ]),
+
   new QuestionnaireAll('问卷二', [
     new oneChoiceP('单选题2', [
       new OPtion('1', '选项1'),
@@ -64,6 +67,7 @@ const exampleQuestionnaires = [
     ]),
     new FillIn('填空题2', '答案')
   ]),
+  
   new QuestionnaireAll('问卷三', [
     new oneChoiceP('单选题3', [
       new OPtion('1', '选项1'),
@@ -79,7 +83,7 @@ const exampleQuestionnaires = [
 
 // 创建示例用户对象
 const user = ref<Users>(
-  new Users('示例用户', 'password123', exampleQuestionnaires)
+  new Users(userInfoStore.uid, userInfoStore.uid, exampleQuestionnaires)
 );
 
 function ChooseAndShow()
@@ -93,12 +97,16 @@ function Quit()
   let param={
     qnName:QnName.value
   }
-  console.log(userInfoStore.id)
-  apiQnCreate(param,userInfoStore.id).then((res) => {
+  
+  apiQnCreate(param,userInfoStore.uid).then((res) => {
 		if(res.code=='0016') {
       alert('创建成功');
       //补充保存问卷id。。。
       userInfoStore.qn.push(res.data.qnid)
+      exampleQuestionnaires.push({
+        questionNaire:,
+        Title:QnName.value
+      })
       router.push('/create')
     }
     else{

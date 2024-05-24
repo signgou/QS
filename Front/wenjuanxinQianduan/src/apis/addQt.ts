@@ -1,4 +1,4 @@
-// 导入axios实例
+// 增加单选、多选、填空题
 import httpRequest from '@/request/index'
 
 // 定义接口的传参

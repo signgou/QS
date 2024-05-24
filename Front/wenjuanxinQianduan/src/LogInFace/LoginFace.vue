@@ -32,7 +32,8 @@ function Loginin(intName: string, inPassword: string) {
 	apiGetUserInfo(param).then((res) => {
 		if(res.msg=='登录成功') {
       alert('登录成功');
-      userInfoStore.id=res.data.uid
+      userInfoStore.uid=res.data.uid
+      userInfoStore.id=inputName.value
       router.push('/user')
     }
     else{

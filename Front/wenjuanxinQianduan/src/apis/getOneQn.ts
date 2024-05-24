@@ -1,4 +1,4 @@
-// 导入axios实例
+// 获取的某一问卷所有信息
 import httpRequest from '@/request/index'
 
 // 定义接口的传参

@@ -3,12 +3,12 @@ import {QuestionnaireAll} from"./QuestionType"
 export class Users
 {
     userName: string = '';
-  passWord: string = '';
+  uid: string = '';
   questionnaire: QuestionnaireAll[] = [];
 
-  constructor(userName: string, passWord: string,que:QuestionnaireAll[]) {
+  constructor(uid: string, userName: string,que:QuestionnaireAll[]) {
     this.userName = userName;
-    this.passWord = passWord;
+    this.uid = uid;
     this.questionnaire=que;
   }
 
