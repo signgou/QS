@@ -140,7 +140,8 @@ function Quit()
       <button class="down-btn" @click="Create">添加新问卷</button>
     </div> 
     
-    <div v-if="dialogVisible" class="dialog-overlay">
+  </div>
+  <div v-if="dialogVisible" class="dialog-overlay">
       <div class="dialog-box">
         <h3>输入添加的问卷的主题</h3>
         <div class="input-group">
@@ -151,9 +152,6 @@ function Quit()
       </div>
   </div>
 
-  </div>
-
-  
 </template>
 
 <style lang="scss" scoped>
@@ -217,18 +215,6 @@ function Quit()
         cursor: pointer;
       }
 
-      .dialog-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
       .questionnaire-btn:hover {
         background-color: #0056b3;
       }
@@ -283,5 +269,22 @@ function Quit()
   .down-btn:hover {
     background-color: #0056b3;
   }
+}
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dialog-box {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 </style>
