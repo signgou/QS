@@ -113,7 +113,7 @@ router.post('/users/:uid/questionNaires', function(req, res, next) {
 
 
 // //增加已有问卷的某个问题信息//初步完成
-router.post('/questionNaires/:qnid/:type', function(req, res, next) {  
+router.post('/questionNaires/:type/:qnid', function(req, res, next) {  
     async function main(){
         const qns = await QnsModel.findById(req.params.qnid);
         qns.qNum += 1; 
