@@ -2,15 +2,14 @@
 <script lang="ts" setup>
 import { FillIn, MoreChoice, OPtion, QuestionnaireAll, oneChoiceP } from '@/BasicDataStruct/QuestionType';
 import { Users } from '@/BasicDataStruct/users';
-import QusetionnaireShow from '@/QuestionnaireShow/QusetionnaireShow.vue';
-import { VueElement, ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
-import { useUerInfoStore } from '@/store/userInfo';
-const userInfoStore=useUerInfoStore()
+import {  ref, onBeforeMount} from 'vue';
+import { useRouter,useRoute } from 'vue-router';
 import { apiQnCreate } from '@/apis/qnCreate';
-import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
-import { onMounted,onBeforeMount} from "vue";
+import {useUidGetQn} from '@/hook/useUidGetQn'
+import { useQnidDelQn } from '@/hook/useQnidDelQn';
 
+
+const route = useRoute();
 const router = useRouter()
 let QnName=ref('')
 let dialogVisible=ref(false)
@@ -25,17 +24,20 @@ function ReturnLogin(){
 
 function QusetShow()
 {
-  router.push('/QuestShow')
+  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
+  router.push(`/QuestShow/${qnid}`)
 }
 
 function DataShow()
 {
-  router.push('/Data')
+  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
+  router.push(`/Data/${qnid}`)
 }
 
 function Edit()
 {
-  router.push('/create')
+  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
+  router.push(`/create/${qnid}`)
 }
 
 function Send()
@@ -43,35 +45,35 @@ function Send()
   router.push('/QuestShare')
 }
 
-
+async function Delete(){
+  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
+   await useQnidDelQn(qnid);
+   exampleQuestionnaires.value.splice(selctedQn.value,1);
+}
+//被选择问卷的qnid
+const selctedQn=ref(0);
 let exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
 
 onBeforeMount(()=>{
-  // let uid = userInfoStore.uid
-  // userInfoStore.qn.forEach((it:string)=>{
-  //   exampleQuestionnaires.value.push(new QuestionnaireAll(userInfoStore.getSingleTitle(it),userInfoStore.getAllProblem(it)))
-  // })
-  exampleQuestionnaires.value=[]
-  let inde:string[]=userInfoStore.qn
-  let{getSingleTitle,getAllProblem}=userInfoStore
-  inde.forEach(qnid => {
-    exampleQuestionnaires.value.push(new QuestionnaireAll(getSingleTitle(qnid),getAllProblem(qnid)))
 
-    //test
-    
-  });
+  async function main() {
+    const {userName,qnids,qnNames}= await useUidGetQn(route.params.uid as string);
+    user.value.userName=userName.value;
+    qnids.value.forEach((qnid,index)=>{
+      exampleQuestionnaires.value.push(new QuestionnaireAll(qnid,qnNames.value[index],[]));
+    })
+  }
+  main().catch(err => {
+    console.log(err);
+  })
 })
 
 // 创建示例用户对象
 const user = ref<Users>(
-  new Users(userInfoStore.uid, userInfoStore.id, exampleQuestionnaires.value)
+  new Users(route.params.uid as string, "", exampleQuestionnaires.value)
 );
 
 
-function ChooseAndShow()
-{
-  router.push('/QuestShow')
-}
 
 function Quit()
 {
@@ -80,13 +82,10 @@ function Quit()
     qnName:QnName.value
   }
   
-  apiQnCreate(param,userInfoStore.uid).then((res) => {
+  apiQnCreate(param,route.params.uid as string).then((res) => {
 		if(res.code=='0016') {
       alert('创建成功');
-      //补充保存问卷id。。。
-      userInfoStore.qn.push(res.data.qnid)
-      exampleQuestionnaires.value.push(new QuestionnaireAll(QnName.value,[]))
-        
+      exampleQuestionnaires.value.push(new QuestionnaireAll(res.data.qnid,res.data.qnName,[]))
       // router.push('/create')
     }
     else{
@@ -96,6 +95,8 @@ function Quit()
 	})
 }
 
+
+
 </script>
 
 <!--有待完善，只有基本框架-->
@@ -104,13 +105,20 @@ function Quit()
     <div class="content-box">
       <div class="showBody-box">
         <div class="head-box">
-          <head>用户中心</head>
+          <div class="head">用户中心</div>
           <div>{{ user.userName }}</div> <!-- 显示用户名 -->
         </div>
         <div class="trueShow-box">
-          <div v-for="(questionnaire, index) in user.returnQuestionnaireAll()" :key="index">
-            <button class="questionnaire-btn" @click="ChooseAndShow">{{ questionnaire.returnTittle() }}</button>
-          </div>
+            <!-- <button class="questionnaire-btn" @click="ChooseAndShow"></button> -->
+            <el-radio-group v-model="selctedQn" style="display: flex;flex-flow: column nowrap; align-items:center;" >
+            <div v-for="(questionnaire, index) in user.returnQuestionnaireAll()" :key="index" >
+                <el-radio-button style="
+                            margin: 10px 0;
+                            width: auto;" 
+                class="questionnaire-btn"  :label= '"问卷 ："+" "+questionnaire.returnTittle()'  :value='index' />
+            </div>
+            </el-radio-group>
+        
         </div>
       </div>
 
@@ -118,7 +126,7 @@ function Quit()
         <button class="side-btn" @click="DataShow">数据展示</button>
         <button class="side-btn" @click="Edit">进入编辑</button>
         <button class="side-btn" @click="Send">发布问卷</button>
-        <button class="side-btn">删除问卷</button>
+        <button class="side-btn" @click="Delete">删除问卷</button>
         <button class="side-btn" @click="QusetShow">问卷预览</button>
       </div>
 
@@ -182,7 +190,7 @@ function Quit()
       margin-bottom: 20px;
 
       head {
-        font-size: 2em;
+        font-size: 5em;
         font-weight: bold;
         margin-bottom: 10px;
       }
@@ -194,20 +202,6 @@ function Quit()
       align-items: center;
       gap: 10px;
 
-      .questionnaire-btn {
-        width: 200px;
-        padding: 10px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        font-size: 1em;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .questionnaire-btn:hover {
-        background-color: #0056b3;
-      }
     }
   }
 
@@ -281,3 +275,4 @@ function Quit()
 }
 
 </style>
+

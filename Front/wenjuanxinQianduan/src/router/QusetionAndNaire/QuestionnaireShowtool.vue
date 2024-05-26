@@ -5,7 +5,7 @@ import { ref } from 'vue';
 import { QuestionnaireAll, oneChoiceP, MoreChoice, FillIn, OPtion } from '@/BasicDataStruct/QuestionType';
 
 // 创建问卷对象
-const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('www',[]));
+const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('  ','www',[]));
 
 // 填充问卷数据
 questionnaireEditor.value.questionNaire.push(
@@ -37,7 +37,7 @@ questionnaireEditor.value.questionNaire.push(
     
     <div v-for="(question, index) in questionnaireEditor.questionNaire" :key="index">
       <h3>{{ question instanceof oneChoiceP ? question.tittle : '' }}</h3>
-      <el-radio-group v-model="question.whichBeChoose" class="ml-4 vertical-radio-group" v-if="question instanceof oneChoiceP">
+      <el-radio-group v-model="question.whichBeChoose" style="align-items: flex-start;" class="ml-4 vertical-radio-group" v-if="question instanceof oneChoiceP">
         <el-radio v-for="(option, i) in question.returnQuestion()" :key="i" :label="option.value">
           {{ option.label }}
         </el-radio>
@@ -48,7 +48,7 @@ questionnaireEditor.value.questionNaire.push(
 
       <!-- 展示多选题 -->
       <h3>{{ question instanceof MoreChoice ? question.tittle : '' }}</h3>
-      <el-checkbox-group v-model="question.whichBeChoose" class="ml-4 vertical-checkbox-group" v-if="question instanceof MoreChoice">
+      <el-checkbox-group v-model="question.whichBeChoose" style="align-items: flex-start;" class="ml-4 vertical-checkbox-group" v-if="question instanceof MoreChoice">
         <el-checkbox v-for="(option, i) in question.returnQuestion()" :key="i" :label="option.value">
           {{ option.label }}
         </el-checkbox>

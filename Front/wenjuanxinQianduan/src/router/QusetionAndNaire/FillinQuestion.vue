@@ -20,7 +20,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { FillIn } from '@/BasicDataStruct/QuestionType';
-
+import { useQidModQt } from '@/hook/useQidModQt';
 export default defineComponent({
   props: {
     question: {
@@ -29,9 +29,12 @@ export default defineComponent({
     }
   },
   methods: {
-    changeTitle() {
+    async changeTitle() {
       const newTitle = prompt('请输入新的填空题标题:');
       if (newTitle) {
+        await useQidModQt(this.question.qid,'fillQns',{
+           title : newTitle
+        })
         this.question.changeTittle(newTitle);
       }
     },

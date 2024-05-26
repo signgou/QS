@@ -36,16 +36,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref ,onBeforeMount } from 'vue';
 import { QuestionnaireAll, oneChoiceP, MoreChoice, FillIn, OPtion } from '@/BasicDataStruct/QuestionType';
 import OnechoiceQuestion from '@/router/QusetionAndNaire/OnechoiceQuestion.vue';
 import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue';
 import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
-import { Users} from '@/BasicDataStruct/users';
-import { useRouter } from 'vue-router';
-// import { useUerInfoStore } from '@/store/userInfo';
-// const userInfoStore=useUerInfoStore()
-import { apiQnCreate } from '@/apis/qnCreate';
+import { useRouter,useRoute } from 'vue-router';
+import { useQnidGetAllProblem } from '@/hook/useQnidGetProblem';
+import { useQnidCreateQt } from '@/hook/useQnidCreatQt';
+import { useQidDelQt } from '@/hook/useQiddelQt';
+import { useQnidDelQn } from '@/hook/useQnidDelQn';
+
+
 
 
 export default defineComponent({
@@ -55,20 +57,20 @@ export default defineComponent({
     FillinQuestion
   },
   setup() {
-    const router = useRouter()
-    const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('问卷标题', [
-      new oneChoiceP('单选题', [
-        new OPtion('1', '选项 1'),
-        new OPtion('2', '选项 2'),
-        new OPtion('3', '选项 3')
-      ]),
-      new MoreChoice('多选题', [
-        new OPtion('1', '选项 A'),
-        new OPtion('2', '选项 B'),
-        new OPtion('3', '选项 C')
-      ]),
-      new FillIn('填空题', ''),
-    ]));
+    const router = useRouter();
+    const route = useRoute();
+    
+    onBeforeMount(() => {
+    async function main() {
+      const qnid = route.params.qnid as string;
+      const {qts,qnName}  =await useQnidGetAllProblem(qnid);
+      questionnaireEditor.value=new QuestionnaireAll(qnid,qnName.value,qts.value);
+    }
+    main( ).catch(err => {
+      alert(err);
+    })
+  })
+    const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('0','出错问卷',[]));
 
     const dialogVisible = ref(false);
 
@@ -98,34 +100,38 @@ export default defineComponent({
       dialogVisible.value = false;
     };
 
-    const addSpecificQuestion = (type: string) => {
+    const addSpecificQuestion = async(type: string)=> {
+      let qnid = route.params.qnid as string;
       if (type === 'oneChoice') {
-        questionnaireEditor.value.questionNaire.push(new oneChoiceP('新的单选题', [
-          new OPtion('1', '选项 1'),
-          new OPtion('2', '选项 2'),
-          new OPtion('3', '选项 3')
-        ]));
+        let one=new oneChoiceP('新的单选题', [
+        ])
+        one.qid= (await useQnidCreateQt(qnid,'oneQns',one.tittle)).value;
+        questionnaireEditor.value.questionNaire.push(one);
       } else if (type === 'moreChoice') {
-        questionnaireEditor.value.questionNaire.push(new MoreChoice('新的多选题', [
-          new OPtion('1', '选项 A'),
-          new OPtion('2', '选项 B'),
-          new OPtion('3', '选项 C')
-        ]));
+        let more=new MoreChoice('新的多选题', [
+        ])
+        more.qid= (await useQnidCreateQt(qnid,'moreQns',more.tittle)).value;
+        questionnaireEditor.value.questionNaire.push(more);
+        
       } else if (type === 'fillIn') {
-        questionnaireEditor.value.questionNaire.push(new FillIn('新的填空题', ''));
+        let fill=new FillIn('新的填空题', '');
+        fill.qid = (await useQnidCreateQt(qnid,'fillQns',fill.Tittle)).value
+        questionnaireEditor.value.questionNaire.push(fill);
       }
       dialogVisible.value = false;
     };
 
-    const removeQuestion = () => {
+    const removeQuestion = async() => {
       if (questionnaireEditor.value.questionNaire.length > 0) {
+        await useQnidDelQn(questionnaireEditor.value.qnid);
         questionnaireEditor.value.questionNaire.pop();
       }
+
     };
 
     function finish(){
       // 完成问卷编辑的逻辑
-      router.push('/user')
+      router.back();
     };
 
     function share(){

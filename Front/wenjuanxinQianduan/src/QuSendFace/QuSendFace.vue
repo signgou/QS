@@ -17,7 +17,7 @@ function Back()
     <div class="content-box">
       <div class="showBody-box">
          <div class="head-box">
-            <head>问卷分享</head>
+            <div class="head">问卷分享</div>
          </div>
          <div class="trueShow-box"></div>
       </div>

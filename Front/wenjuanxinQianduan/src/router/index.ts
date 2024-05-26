@@ -4,7 +4,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/QuestShow',
+      path: '/QuestShow/:qnid',
       name: 'QuestShow',
       component: () => import('../QuestionnaireShow/QusetionnaireShow.vue')//这里写具体哪个组件
     },
@@ -14,7 +14,7 @@ const router = createRouter({
       component: () => import('../LogInFace/LoginFace.vue')//这里写具体哪个组件
     },
     {
-      path: '/user',
+      path: '/user/:uid',
       name: 'user',
       component: () => import('../UserCenter/UserCenter.vue'),
       children:[
@@ -26,7 +26,7 @@ const router = createRouter({
       component: () => import('../ReAccountFace/ReAccountFace.vue')
     },
     {
-      path:'/create',
+      path:'/create/:qnid',
       name:'create',
       component: () => import('../QuCreateFace/QuCreateFace.vue')
     },
@@ -36,7 +36,7 @@ const router = createRouter({
       component: () => import('../QuSendFace/QuSendFace.vue')
     },
     {
-      path:'/Data',
+      path:'/Data/:qnid',
       name:'DataShow',
       component: () => import('../DataShowFace/DataShow.vue')
     },

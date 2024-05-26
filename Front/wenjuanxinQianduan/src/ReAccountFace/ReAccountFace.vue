@@ -1,12 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { Users } from '@/BasicDataStruct/users';
 import { useRouter } from 'vue-router';
 import { apiRegister } from '@/apis/register';
-import type { QuestionnaireAll } from '@/BasicDataStruct/QuestionType';
-import axios from 'axios'
-import { computed } from 'vue';
-
 const router=useRouter()
 
 // 创建响应式变量来绑定输入框的值

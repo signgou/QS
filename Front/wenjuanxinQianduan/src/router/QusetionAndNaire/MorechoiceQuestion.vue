@@ -24,7 +24,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MoreChoice, OPtion } from '@/BasicDataStruct/QuestionType';
-
+import { useQidGetQt } from '@/hook/useQidGetQt';
+import { useQidModQt } from '@/hook/useQidModQt';
 export default defineComponent({
   props: {
     question: {
@@ -33,20 +34,34 @@ export default defineComponent({
     }
   },
   methods: {
-    addOption() {
+    async addOption() {
       const newOptionTitle = prompt('请输入新选项的标题:');
       if (newOptionTitle) {
+        const { options } = await useQidGetQt(this.question.qid,"moreQns");
+        options.value.push(newOptionTitle);
+        await useQidModQt(this.question.qid,"moreQns",{
+          options:options.value
+        });
         this.question.addOption(new OPtion((this.question.Question.length + 1).toString(), newOptionTitle));
       }
     },
-    removeOption() {
+    async removeOption() {
       if (this.question.Question.length > 0) {
-        this.question.removeOption(this.question.Question.length - 1);
+        let index =this.question.Question.length - 1;
+        const { options } = await useQidGetQt(this.question.qid,"moreQns");
+        options.value.pop();
+        await useQidModQt(this.question.qid,"moreQns",{
+          options:options.value
+        });
+        this.question.removeOption(index);
       }
     },
-    changeTitle() {
+    async changeTitle() {
       const newTitle = prompt('请输入新的多选题标题:');
       if (newTitle) {
+        await useQidModQt(this.question.qid,'moreQns',{
+           title : newTitle
+        })
         this.question.changeTittle(newTitle);
       }
     }

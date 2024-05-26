@@ -1,38 +1,29 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref,onBeforeMount } from 'vue';
 import { QuestionnaireAll, oneChoiceP, MoreChoice, FillIn, OPtion } from '@/BasicDataStruct/QuestionType';
-import { useRouter } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
+import {useQnidGetAllProblem} from '@/hook/useQnidGetProblem';
+
+
 const router = useRouter()
+const route =useRoute();
+
+onBeforeMount( () => {
+  async function main() {
+    const qnid = route.params.qnid as string;
+    const {qts,qnName} = await useQnidGetAllProblem(qnid);
+    questionnaireEditor.value = new QuestionnaireAll(qnid,qnName.value,qts.value);
+  }
+  main().catch(err => {
+    alert(err);
+  })
+})
+
 // 创建问卷对象
-const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('wentiti', []));
-
-
-// 填充问卷数据
-questionnaireEditor.value.questionNaire.push(
-  new oneChoiceP('你喜欢玩什么游戏', [
-    new OPtion('4', '炉石传说-标准模式'),
-    new OPtion('1', '炉石传说-狂野模式'),
-    new OPtion('2', '炉石传说-竞技场'),
-    new OPtion('3', '炉石传说-酒馆战棋')
-  ]),
-  new MoreChoice('Multiple Choice Question', [
-    new OPtion('1', 'Option A'),
-    new OPtion('2', 'Option B'),
-    new OPtion('3', 'Option C')
-  ]),
-  new FillIn('Fill in the blank question', ['']),
-  new FillIn('Fill', ['']),
-   new MoreChoice('Multiple ', [
-    new OPtion('1', 'Option A'),
-    new OPtion('2', 'Option B'),
-    new OPtion('3', 'Option C'),
-    new OPtion('4', 'Option C')
-  ]),
-);
-
+const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('0','出错问卷',[]));
 function BackUser()
 {
-  router.push('/user')
+  router.back();
 }
 </script>
 
@@ -42,7 +33,7 @@ function BackUser()
     <div class="content-box">
       <div class="showBody-box">
          <div class="head-box">
-            <head>问卷名</head>   <!--这里有点小问题，显示被吞了,后面应该修改为读取问卷体标题-->
+            <div class="head">{{questionnaireEditor.Title}}</div>  
          </div>
          <div class="trueShow-box">
 
@@ -50,9 +41,9 @@ function BackUser()
 <div>
     <!-- 展示单选题 -->
     
-    <div v-for="(question, index) in questionnaireEditor.questionNaire" :key="index">
+    <div v-for="(question, index) in questionnaireEditor?.questionNaire" :key="index">
       <h3>{{ question instanceof oneChoiceP ? question.tittle : '' }}</h3>
-      <el-radio-group v-model="question.whichBeChoose" class="ml-4 vertical-radio-group" v-if="question instanceof oneChoiceP">
+      <el-radio-group v-model="question.whichBeChoose" style="align-items: flex-start;" class="ml-4 vertical-radio-group" v-if="question instanceof oneChoiceP">
         <el-radio v-for="(option, i) in question.returnQuestion()" :key="i" :label="option.value">
           {{ option.label }}
         </el-radio>
@@ -63,7 +54,7 @@ function BackUser()
 
       <!-- 展示多选题 -->
       <h3>{{ question instanceof MoreChoice ? question.tittle : '' }}</h3>
-      <el-checkbox-group v-model="question.whichBeChoose" class="ml-4 vertical-checkbox-group" v-if="question instanceof MoreChoice">
+      <el-checkbox-group v-model="question.whichBeChoose" style="align-items: flex-start;" class="ml-4 vertical-checkbox-group" v-if="question instanceof MoreChoice">
         <el-checkbox v-for="(option, i) in question.returnQuestion()" :key="i" :label="option.value">
           {{ option.label }}
         </el-checkbox>

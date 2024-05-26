@@ -1,11 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { Users } from '@/BasicDataStruct/users';
 import { useRouter } from 'vue-router';
 import { apiGetUserInfo } from '@/apis/login';
-import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
-import type { QuestionnaireAll } from '@/BasicDataStruct/QuestionType';
-import axios from 'axios'
 import {useUerInfoStore} from '@/store/userInfo'
 
 const router=useRouter()
@@ -28,14 +24,10 @@ function Loginin(intName: string, inPassword: string) {
 
   // router.push('/user')//need to delete
   // userInfoStore.id=inputName.value
-
 	apiGetUserInfo(param).then((res) => {
 		if(res.msg=='登录成功') {
       alert('登录成功');
-      userInfoStore.uid=res.data.uid
-      userInfoStore.id=inputName.value
-      userInfoStore.getAllQn(res.data.uid)
-      router.push('/user')
+      router.push(`/user/${res.data.uid}`);
     }
     else{
       alert('登录失败');

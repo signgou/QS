@@ -2,7 +2,7 @@ import {QuestionnaireAll} from"./QuestionType"
 
 export class Users
 {
-    userName: string = '';
+  userName: string = '';
   uid: string = '';
   questionnaire: QuestionnaireAll[] = [];
 

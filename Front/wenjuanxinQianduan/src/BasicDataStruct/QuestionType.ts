@@ -31,15 +31,15 @@ export class OPtion
 
 export class oneChoiceP
 {
-tittle: string='';
+  qid:string='';
+  tittle: string='';
   question:OPtion[]=[];
   whichBeChoose?:string='';
   constructor(tittle:string,question: OPtion[])
-  {
+  {   
       this.tittle=tittle;
       this.question=question;
   }
-  
   changeTittle(tittle :string):void
   {
     this.tittle=tittle;
@@ -76,6 +76,7 @@ export class MoreChoice {
   tittle: string = '';
   Question: OPtion[] = [];
   whichBeChoose: string[] = [];  
+  qid:string='';
 
   constructor(tit: string, que: OPtion[]) {
     this.tittle = tit;
@@ -106,9 +107,10 @@ export class MoreChoice {
 
 export class FillIn
 {
+  qid:string='';
   Tittle: string='';
-  Answer: string[]=[];
-  constructor(tit:string,Ans:string[])
+  Answer: string='';
+  constructor(tit:string,Ans:string)
   {
      this.Tittle=tit;
      this.Answer=Ans;
@@ -119,7 +121,7 @@ export class FillIn
     this.Tittle=tittle;
   }
 
-  changeAnswer(answer: string[]):void
+  changeAnswer(answer: string):void
   {
     this.Answer=answer;
   }
@@ -129,7 +131,7 @@ export class FillIn
     return this.Tittle;
   }
 
-  returnAnswer():string[]
+  returnAnswer():string
   {
      return this.Answer;
   }
@@ -138,10 +140,11 @@ export class FillIn
 
 export class QuestionnaireAll
 {
-   questionNaire: (oneChoiceP | MoreChoice | FillIn)[] = [];
+  questionNaire: (oneChoiceP | MoreChoice | FillIn)[] = [];
   Title: string = '';
-
-  constructor(title: string, que: (oneChoiceP | MoreChoice | FillIn)[]) {
+  qnid: string = '';
+  constructor(qnid:string ,title: string, que: (oneChoiceP | MoreChoice | FillIn)[]) {
+    this.qnid=qnid;
     this.Title = title;
     this.questionNaire = que;
   }

@@ -3,7 +3,7 @@
     <h3>{{ question.tittle }}</h3>
     <hr/>
     <div class="mb-2 flex items-start text-sm">
-      <el-radio-group v-model="question.whichBeChoose" class="ml-4 vertical-radio-group">
+      <el-radio-group v-model="question.whichBeChoose" style="align-items: flex-start;" class="ml-4 vertical-radio-group">
         <el-radio 
           v-for="(option, index) in question.question" 
           :key="index" 
@@ -24,6 +24,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { oneChoiceP, OPtion } from '@/BasicDataStruct/QuestionType';
+import { useQidModQt } from '@/hook/useQidModQt'; 
+import { useQidGetQt } from '@/hook/useQidGetQt';
 
 export default defineComponent({
   props: {
@@ -33,22 +35,39 @@ export default defineComponent({
     }
   },
   methods: {
-    addOption() {
+    async addOption() {
       const newOptionTitle = prompt('请输入新选项的标题:');
       if (newOptionTitle) {
+        const { options } = await useQidGetQt(this.question.qid,"oneQns");
+        options.value.push(newOptionTitle);
+        await useQidModQt(this.question.qid,"oneQns",{
+          options:options.value
+        });
         this.question.addOption(new OPtion((this.question.question.length + 1).toString(), newOptionTitle));
       }
+
     },
-    removeOption() {
+    async removeOption() {
       if (this.question.question.length > 0) {
-        this.question.removeOption(this.question.question.length - 1);
+        let index =this.question.question.length - 1;
+        const { options } = await useQidGetQt(this.question.qid,"oneQns");
+        options.value.pop();
+        await useQidModQt(this.question.qid,"oneQns",{
+          options:options.value
+        });
+        this.question.removeOption(index);
       }
+      
     },
-    changeTitle() {
+    async changeTitle() {
       const newTitle = prompt('请输入新的单选题标题:');
       if (newTitle) {
+        await useQidModQt(this.question.qid,'oneQns',{
+           title : newTitle
+        })
         this.question.changeTittle(newTitle);
       }
+    
     }
   }
 });
