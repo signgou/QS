@@ -11,7 +11,7 @@ const userModel = require('../../model/userModel');
 //获取某个用户的所有问卷(不包含具体信息)//初步完成
 router.get('/users/:uid/questionNaires', function(req, res, next) {  
     async function main(){
-        const {Qns} = await userModel.findById(req.params.uid).populate('Qns');
+        const {userName,Qns} = await userModel.findById(req.params.uid).populate('Qns');
         let qn  = Qns.map(element => {
             const { _id,__v, user ,...obj} = {...element}._doc;
             let newObj = {...{qnid : _id},...obj};
@@ -23,6 +23,7 @@ router.get('/users/:uid/questionNaires', function(req, res, next) {
         return res.json({
             code : '0019',
             msg : '获取问卷成功',
+            userName:userName,
             data : qn
         })
     }
@@ -111,6 +112,28 @@ router.post('/users/:uid/questionNaires', function(req, res, next) {
     })
 })
 
+//删除问卷
+router.delete('/questionNaires/:qnid', async function(req, res, next) {  
+    async function main(){
+        await oneQnModel.deleteMany({qns : req.params.qnid});
+        await moreQnModel.deleteMany({qns : req.params.qnid});
+        await fillQnModel.deleteMany({qns : req.params.qnid});
+        await QnsModel.findByIdAndDelete(req.params.qnid);
+        res.json({
+            code : '0027',
+            msg : '删除问卷成功',
+            data : null
+        })
+    }
+
+    main() .catch(err => {
+        res.json({
+            code : '1027',
+            msg : '删除失败,请稍后再试',
+            data : null
+        })
+    })
+})
 
 // //增加已有问卷的某个问题信息//初步完成
 router.post('/questionNaires/:type/:qnid', function(req, res, next) {  
@@ -303,6 +326,7 @@ router.get('/questionNaires/:type/:qid', function(req, res, next) {
                     code : '0009',
                     msg : '单选问题获取成功',
                     data : {
+                        qType:"oneQns",
                         qid :oneData._id,
                         title : oneData.title,
                         options : oneData.options,
@@ -318,9 +342,10 @@ router.get('/questionNaires/:type/:qid', function(req, res, next) {
                     break;
                 }
                 res.json({
-                    code : '00010',
+                    code : '0010',
                     msg : '多选问题获取成功',
                     data : {
+                        qType:"moreQns",
                         qid :moreData._id,
                         title : moreData.title,
                         options : moreData.options,
@@ -339,6 +364,7 @@ router.get('/questionNaires/:type/:qid', function(req, res, next) {
                     code : '0011',
                     msg : '填空问题获取成功',
                     data : {
+                        qType:"fillQns",
                         qid : fillData._id,
                         title : fillData.title,
                         answer: fillData.answer,
