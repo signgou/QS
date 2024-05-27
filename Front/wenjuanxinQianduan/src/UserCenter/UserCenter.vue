@@ -89,14 +89,14 @@ function Quit()
       alert('创建成功');
       //补充保存问卷id。。。
       userInfoStore.qn.push(res.data.qnid)
-      let testp:oneChoiceP={tittle:QnName.value,
-      question:[
-        new OPtion('1','你好啊'),
-        new OPtion('2','你好啊你好啊')
-      ]
+      // let testp:oneChoiceP={tittle:QnName.value,
+      // question:[
+      //   new OPtion('1','你好啊'),
+      //   new OPtion('2','你好啊你好啊')
+      // ]
 
-      }
-      exampleQuestionnaires.value.push(new QuestionnaireAll(QnName.value,[testp]))
+      // }
+      exampleQuestionnaires.value.push(new QuestionnaireAll(QnName.value,[]))
         
       // router.push('/create')
     }
