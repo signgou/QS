@@ -46,7 +46,12 @@ import { useRouter } from 'vue-router';
 // import { useUerInfoStore } from '@/store/userInfo';
 // const userInfoStore=useUerInfoStore()
 import { apiQnCreate } from '@/apis/qnCreate';
-
+import useQn from '@/hooks/useQn';
+import { onBeforeMount } from 'vue';
+import { apiAddOne,apiAddFill,apiAddMut } from '@/apis/addQt';
+import { useQnOperStore } from '@/store/qnOper';
+const qnOperStore=useQnOperStore()
+const{getAllProblem,getSingleTitle,qt,title}=useQn()
 
 export default defineComponent({
   components: {
@@ -56,19 +61,34 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
+
     const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('问卷标题', [
-      new oneChoiceP('单选题', [
-        new OPtion('1', '选项 1'),
-        new OPtion('2', '选项 2'),
-        new OPtion('3', '选项 3')
-      ]),
-      new MoreChoice('多选题', [
-        new OPtion('1', '选项 A'),
-        new OPtion('2', '选项 B'),
-        new OPtion('3', '选项 C')
-      ]),
-      new FillIn('填空题', ''),
+      // new oneChoiceP('单选题', [
+      //   new OPtion('1', '选项 1'),
+      //   new OPtion('2', '选项 2'),
+      //   new OPtion('3', '选项 3')
+      // ]),
+      // new MoreChoice('多选题', [
+      //   new OPtion('1', '选项 A'),
+      //   new OPtion('2', '选项 B'),
+      //   new OPtion('3', '选项 C')
+      // ]),
+      // new FillIn('填空题', []),
     ]));
+
+    onBeforeMount(()=>{
+      async function ttt() {
+        
+        console.log("************",qnOperStore.qnid)
+        await getSingleTitle(qnOperStore.qnid)
+        await getAllProblem(qnOperStore.qnid)
+        let pro =  qt.value
+        let ti= title.value
+          questionnaireEditor.value.changeTittle(ti)
+          questionnaireEditor.value.questionNaire=pro
+      }
+      ttt()
+    })
 
     const dialogVisible = ref(false);
 
@@ -98,21 +118,54 @@ export default defineComponent({
       dialogVisible.value = false;
     };
 
-    const addSpecificQuestion = (type: string) => {
+    const addSpecificQuestion = async (type: string) => {
       if (type === 'oneChoice') {
+        let param={
+          title:'新的单选题',
+          options:[
+          '选项 1',
+          '选项 2',
+          '选项 3',
+          ],
+          selecteds:[0,0,0]
+        }
+        let res = await apiAddOne(param,'oneQns',qnOperStore.qnid)
+        if(res.code=='0003'){
         questionnaireEditor.value.questionNaire.push(new oneChoiceP('新的单选题', [
           new OPtion('1', '选项 1'),
           new OPtion('2', '选项 2'),
           new OPtion('3', '选项 3')
         ]));
+      }
       } else if (type === 'moreChoice') {
-        questionnaireEditor.value.questionNaire.push(new MoreChoice('新的多选题', [
+        let param={
+          title:'新的多选题',
+          options:[
+          '选项 1',
+          '选项 2',
+          '选项 3',
+          ],
+          selecteds:[0,0,0]
+        }
+        let res = await apiAddMut(param,'moreQns',qnOperStore.qnid)
+        if(res.code=='0004'){
+          questionnaireEditor.value.questionNaire.push(new MoreChoice('新的多选题', [
           new OPtion('1', '选项 A'),
           new OPtion('2', '选项 B'),
           new OPtion('3', '选项 C')
         ]));
+        }
+        
       } else if (type === 'fillIn') {
-        questionnaireEditor.value.questionNaire.push(new FillIn('新的填空题', ''));
+        let param={
+          title:'新的填空题',
+          ans:[]
+        }
+        let res = await apiAddFill(param,'fillQns',qnOperStore.qnid)
+        if(res.code=='0005'){
+          questionnaireEditor.value.questionNaire.push(new FillIn('新的填空题', []));
+        }
+        
       }
       dialogVisible.value = false;
     };

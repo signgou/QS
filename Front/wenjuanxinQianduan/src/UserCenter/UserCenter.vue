@@ -11,6 +11,8 @@ import { apiQnCreate } from '@/apis/qnCreate';
 import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
 import { onBeforeMount} from "vue";
 import useQn from '@/hooks/useQn'
+import { useQnOperStore } from '@/store/qnOper';
+const qnOperStore= useQnOperStore()
 
 const router = useRouter()
 let QnName=ref('')
@@ -64,7 +66,7 @@ onBeforeMount(()=>{
     await userInfoStore.getAllQn(userInfoStore.uid)
     for(var it of userInfoStore.qn)
     {
-      console.log(it)
+      // console.log(it)
       await getSingleTitle(it)
       await getAllProblem(it)
       let pro =  qt.value
@@ -81,30 +83,30 @@ const user = ref<Users>(
 );
 
 
-function ChooseAndShow()
+function Choose(qnid:string)
 {
-  router.push('/QuestShow')
+  qnOperStore.qnid=qnid
+  // alert(qnid)
 }
 
-function Quit()
+async function Quit()
 {
   dialogVisible.value=false
   let param={
     qnName:QnName.value
   }
   
-  apiQnCreate(param,userInfoStore.uid).then((res) => {
+  let res = await apiQnCreate(param,userInfoStore.uid)
 		if(res.code=='0016') {
       alert('创建成功');
       //补充保存问卷id。。。
       userInfoStore.qn.push(res.data.qnid)
-      // let testp:oneChoiceP={tittle:QnName.value,
-      // question:[
+      
+
+      // let testpp:oneChoiceP=new oneChoiceP(QnName.value,[
       //   new OPtion('1','你好啊'),
       //   new OPtion('2','你好啊你好啊')
-      // ]
-
-      // }
+      // ])
       exampleQuestionnaires.value.push(new QuestionnaireAll(QnName.value,[]))
         
       // router.push('/create')
@@ -113,7 +115,7 @@ function Quit()
       alert('创建失败');
     }
     // console.log(res)
-	})
+	
 }
 
 </script>
@@ -129,7 +131,7 @@ function Quit()
         </div>
         <div class="trueShow-box">
           <div v-for="(questionnaire, index) in user.returnQuestionnaireAll()" :key="index">
-            <button class="questionnaire-btn" @click="ChooseAndShow">{{ questionnaire.returnTittle() }}</button>
+            <button class="questionnaire-btn" @click="Choose(userInfoStore.qn[index])">{{ questionnaire.returnTittle() }}</button>
           </div>
         </div>
       </div>

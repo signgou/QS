@@ -8,7 +8,7 @@ export default function(){
     let title=ref<string>('')
 
     async function getAllProblem(qnid:string){
-        
+        qt.value=[]
         let res=await apiGetOneQn(qnid)
         // apiGetOneQn(qnid).then((res)=>{
             if(res.code=='0018'){
@@ -18,13 +18,16 @@ export default function(){
                     
                     switch(it.type){
                         case 'oneQns':{
+                            
                             let question:OPtion[]=[]
                             let n:number=1
                             it.options.forEach((op:any)=> {
                                 question.push(new OPtion(n.toString(),op))
                                 n=n+1
                             });
+                            
                             qt.value.push(new oneChoiceP(it.title,question))
+                            break;
                         }
                         case 'moreQns':{
                             let question:OPtion[]=[]
@@ -34,15 +37,18 @@ export default function(){
                                 n=n+1
                             });
                             qt.value.push(new MoreChoice(it.title,question))
+                            break;
                         }
                         case 'fillQns':{
                             let n:number=1
                             let ans:string[]=[]
-                            it.answer.forEach((as:any) => {
+                            
+                            it.answer.forEach((as:string) => {
                                 ans.push(as)
                                 n=n+1
                             });
                             qt.value.push(new FillIn(it.title,ans))
+                            break;
                         }
                         default:
                     }
