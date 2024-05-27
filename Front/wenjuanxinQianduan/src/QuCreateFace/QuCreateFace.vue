@@ -52,6 +52,7 @@ import { apiAddOne,apiAddFill,apiAddMut } from '@/apis/addQt';
 import { useQnOperStore } from '@/store/qnOper';
 const qnOperStore=useQnOperStore()
 const{getAllProblem,getSingleTitle,qt,title}=useQn()
+import { apiDelQt } from '@/apis/delQt';
 
 export default defineComponent({
   components: {
@@ -79,7 +80,7 @@ export default defineComponent({
     onBeforeMount(()=>{
       async function ttt() {
         
-        console.log("************",qnOperStore.qnid)
+        // console.log("************",qnOperStore.qnid)
         await getSingleTitle(qnOperStore.qnid)
         await getAllProblem(qnOperStore.qnid)
         let pro =  qt.value
@@ -135,7 +136,7 @@ export default defineComponent({
           new OPtion('1', '选项 1'),
           new OPtion('2', '选项 2'),
           new OPtion('3', '选项 3')
-        ]));
+        ],res.data.qid));
       }
       } else if (type === 'moreChoice') {
         let param={
@@ -153,7 +154,7 @@ export default defineComponent({
           new OPtion('1', '选项 A'),
           new OPtion('2', '选项 B'),
           new OPtion('3', '选项 C')
-        ]));
+        ],res.data.qid));
         }
         
       } else if (type === 'fillIn') {
@@ -163,16 +164,44 @@ export default defineComponent({
         }
         let res = await apiAddFill(param,'fillQns',qnOperStore.qnid)
         if(res.code=='0005'){
-          questionnaireEditor.value.questionNaire.push(new FillIn('新的填空题', []));
+          questionnaireEditor.value.questionNaire.push(new FillIn('新的填空题', [],res.data.qid));
         }
         
       }
       dialogVisible.value = false;
     };
 
-    const removeQuestion = () => {
+    //删除问题
+    const removeQuestion = async () => {
       if (questionnaireEditor.value.questionNaire.length > 0) {
+        let pos = questionnaireEditor.value.questionNaire.length-1
+        let que = questionnaireEditor.value.questionNaire[pos]
+        // console.log(que.qid)
         questionnaireEditor.value.questionNaire.pop();
+        if(que instanceof oneChoiceP){
+          let res = await apiDelQt('oneQns',que.qid)
+          // console.log(res)
+          if(res.code=='0006'){
+            // questionnaireEditor.value.questionNaire.pop();
+            alert('删除成功！')
+          }
+        }
+        else if(que instanceof MoreChoice){
+          
+          let res = await apiDelQt('moreQns',que.qid)
+          // console.log("*****oh yeah")
+          if(res.code=='0007'){
+            // questionnaireEditor.value.questionNaire.pop();
+            alert('删除成功！')
+          }
+        }
+        else if(que instanceof FillIn){
+          let res = await apiDelQt('fillQns',que.qid)
+          if(res.code=='0008'){
+            // questionnaireEditor.value.questionNaire.pop();
+            alert('删除成功！')
+          }
+        }   
       }
     };
 

@@ -32,7 +32,7 @@ export const useUerInfoStore=defineStore('UserInfo',()=>{
         // id.value='test'
     }
 
-    
+
 
     return{getAllQn,reset,uid,qn,id}
 },

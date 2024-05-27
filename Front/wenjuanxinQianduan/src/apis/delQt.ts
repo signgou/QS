@@ -8,7 +8,7 @@ import httpRequest from '@/request/index'
 export function apiDelQt(type:string,qid:string) {
     return httpRequest({
 		url: `http://192.168.99.254:3000/api/questionNaires/${type}/${qid}`,
-		method: 'del',
+		method: 'delete',
 		
 	})
 }

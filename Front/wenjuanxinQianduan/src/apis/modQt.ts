@@ -13,7 +13,7 @@ interface QtMod {
 export function apiModQt(param:QtMod,type:string,qid:string) {
     return httpRequest({
 		url: `http://192.168.99.254:3000/api/questionNaires/${type}/${qid}`,
-		method: 'post',
+		method: 'patch',
 		data: param,
 	})
 }

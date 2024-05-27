@@ -31,13 +31,15 @@ export class OPtion
 
 export class oneChoiceP
 {
-tittle: string='';
+  tittle: string='';
   question:OPtion[]=[];
+  qid:string=''
   whichBeChoose?:string='';
-  constructor(tittle:string,question: OPtion[])
+  constructor(tittle:string,question: OPtion[],qidInfo:string)
   {
       this.tittle=tittle;
       this.question=question;
+      this.qid=qidInfo
   }
   
   changeTittle(tittle :string):void
@@ -75,11 +77,13 @@ tittle: string='';
 export class MoreChoice {
   tittle: string = '';
   Question: OPtion[] = [];
+  qid:string=''
   whichBeChoose: string[] = [];  
 
-  constructor(tit: string, que: OPtion[]) {
+  constructor(tit: string, que: OPtion[],qidInfo:string) {
     this.tittle = tit;
     this.Question = que;
+    this.qid=qidInfo
   }
 
   changeTittle(tittle: string): void {
@@ -108,10 +112,12 @@ export class FillIn
 {
   Tittle: string='';
   Answer: string[]=[];
-  constructor(tit:string,Ans:string[])
+  qid:string=''
+  constructor(tit:string,Ans:string[],qidInfo:string)
   {
      this.Tittle=tit;
      this.Answer=Ans;
+     this.qid=qidInfo
   }
 
   changeTittle(tittle :string):void

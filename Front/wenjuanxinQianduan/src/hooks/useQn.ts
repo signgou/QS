@@ -26,7 +26,7 @@ export default function(){
                                 n=n+1
                             });
                             
-                            qt.value.push(new oneChoiceP(it.title,question))
+                            qt.value.push(new oneChoiceP(it.title,question,it.qid))
                             break;
                         }
                         case 'moreQns':{
@@ -36,7 +36,7 @@ export default function(){
                                 question.push(new OPtion(n.toString(),op))
                                 n=n+1
                             });
-                            qt.value.push(new MoreChoice(it.title,question))
+                            qt.value.push(new MoreChoice(it.title,question,it.qid))
                             break;
                         }
                         case 'fillQns':{
@@ -47,7 +47,7 @@ export default function(){
                                 ans.push(as)
                                 n=n+1
                             });
-                            qt.value.push(new FillIn(it.title,ans))
+                            qt.value.push(new FillIn(it.title,ans,it.qid))
                             break;
                         }
                         default:
