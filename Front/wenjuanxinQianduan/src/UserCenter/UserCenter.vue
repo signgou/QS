@@ -56,10 +56,11 @@ let exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
 // })
 
 onBeforeMount(()=>{
-
-  async function ttt(){
-    let{getSingleTitle,getAllProblem,qt,title}=useQn();
   
+  async function ttt(){
+    // userInfoStore.reset
+    let{getSingleTitle,getAllProblem,qt,title}=useQn();
+    
     await userInfoStore.getAllQn(userInfoStore.uid)
     for(var it of userInfoStore.qn)
     {

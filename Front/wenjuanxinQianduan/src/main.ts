@@ -10,6 +10,7 @@ import axios from 'axios'
 
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
+
 const app = createApp(App)
 
 app.config.globalProperties.$http = axios

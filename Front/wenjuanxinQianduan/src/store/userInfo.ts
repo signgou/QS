@@ -75,7 +75,7 @@ export const useUerInfoStore=defineStore('UserInfo',()=>{
     // }
 
     async function getAllQn(uid:string){
-        
+        qn.value=[]
         let res =  await apiUserAll(uid)
         // apiUserAll(uid).then((res)=>{
             if(res.code=='0019'){
@@ -92,12 +92,16 @@ export const useUerInfoStore=defineStore('UserInfo',()=>{
 
     function reset()
     {
-        uid.value='test'
+        // uid.value='test'
         qn.value=[]
-        id.value='test'
+        // id.value='test'
     }
 
-    persist:true
+    
 
     return{getAllQn,reset,uid,qn,id}
-})
+},
+{
+    persist:true
+}
+)
