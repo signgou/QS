@@ -80,7 +80,7 @@ export const useUerInfoStore=defineStore('UserInfo',()=>{
         // apiUserAll(uid).then((res)=>{
             if(res.code=='0019'){
                 for(var it of res.data){
-                    // console.log("一个qnid被push\n")
+                    console.log("一个qnid被push\n")
                     qn.value.push(it.qnid)
                 }
             }

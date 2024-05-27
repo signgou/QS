@@ -56,17 +56,22 @@ let exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
 // })
 
 onBeforeMount(()=>{
+
+  async function ttt(){
+    let{getSingleTitle,getAllProblem,qt,title}=useQn();
   
-    let{getSingleTitle,getAllProblem}=useQn();
-    userInfoStore.qn.forEach(async (it:string)=>{
-    let ti:string=await getSingleTitle(it)
-    let pro=await getAllProblem(it)
-    exampleQuestionnaires.value.push(new QuestionnaireAll(ti,pro))
-    // console.log("一个问卷被push\n")
-  }
-  )
-  
-  
+    await userInfoStore.getAllQn(userInfoStore.uid)
+    for(var it of userInfoStore.qn)
+    {
+      console.log(it)
+      await getSingleTitle(it)
+      await getAllProblem(it)
+      let pro =  qt.value
+      let ti= title.value
+      exampleQuestionnaires.value.push(new QuestionnaireAll(ti,pro))     
+    }
+}
+ttt()
 })
 
 // 创建示例用户对象

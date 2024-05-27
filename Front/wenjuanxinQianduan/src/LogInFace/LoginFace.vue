@@ -30,11 +30,12 @@ function Loginin(intName: string, inPassword: string) {
   // userInfoStore.id=inputName.value
   async function test(){
     let res = await apiGetUserInfo(param)
+    // let {getAllQn}=userInfoStore
     if(res.msg=='登录成功') {
       alert('登录成功');
       userInfoStore.uid=res.data.uid
       userInfoStore.id=inputName.value
-      userInfoStore.getAllQn(userInfoStore.uid)
+      // getAllQn(userInfoStore.uid)
       router.push('/user')
     }
     else{

@@ -1,18 +1,19 @@
 import { apiGetOneQn } from "@/apis/getOneQn"
 import { oneChoiceP,MoreChoice,FillIn,OPtion } from "@/BasicDataStruct/QuestionType"
+import{ref} from 'vue'
 
 export default function(){
 
-    function getAllProblem(qnid:string):(oneChoiceP | MoreChoice | FillIn)[]{
-        async function getRes()
-        {
-            return await apiGetOneQn(qnid)
-        }
-        let res=getRes()
+    let qt=ref<(oneChoiceP | MoreChoice | FillIn)[]>([])
+    let title=ref<string>('')
+
+    async function getAllProblem(qnid:string){
+        
+        let res=await apiGetOneQn(qnid)
         // apiGetOneQn(qnid).then((res)=>{
             if(res.code=='0018'){
                 // console.log("@@@@@@@@",res)
-                let que: (oneChoiceP | MoreChoice | FillIn)[]=[]
+                
                 res.data.forEach((it:any) => {
                     
                     switch(it.type){
@@ -23,7 +24,7 @@ export default function(){
                                 question.push(new OPtion(n.toString(),op))
                                 n=n+1
                             });
-                            que.push(new oneChoiceP(it.title,question))
+                            qt.value.push(new oneChoiceP(it.title,question))
                         }
                         case 'moreQns':{
                             let question:OPtion[]=[]
@@ -32,7 +33,7 @@ export default function(){
                                 question.push(new OPtion(n.toString(),op))
                                 n=n+1
                             });
-                            que.push(new MoreChoice(it.title,question))
+                            qt.value.push(new MoreChoice(it.title,question))
                         }
                         case 'fillQns':{
                             let n:number=1
@@ -41,36 +42,36 @@ export default function(){
                                 ans.push(as)
                                 n=n+1
                             });
-                            que.push(new FillIn(it.title,ans))
+                            qt.value.push(new FillIn(it.title,ans))
                         }
                         default:
                     }
                 });
-                console.log("@@@@@@@",que)
-                return que
+                // console.log("@@@@@@@",que)
+                
             }
             else{
-                // alert('获取问题信息失败！')
-                return []
+                alert('获取问题信息失败！')               
             }
         // })
     }
 
-    function getSingleTitle(qnid:string):string{
+    async function getSingleTitle(qnid:string){
         // async function getRes() {return await apiGetOneQn(qnid)}
         
-        apiGetOneQn(qnid).then((res)=>{
+        let res= await apiGetOneQn(qnid)
             if(res.code=='0018')
                 {
                     // console.log("@@@@@@@@",res.qnName)
-                    return res.qnName
+                    title.value = res.qnName
+                    // console.log("@@@@@@@@",`"获取了${res.qnName}"`)
                 }
             // console.log("********",res.qnName)
-            return ''
-        })
+            else{title.value =  ''}
+        
             // console.log("@@@@@@@@",res)
                    
     }
 
-    return {getAllProblem,getSingleTitle}
+    return {getAllProblem,getSingleTitle,qt,title}
 }
