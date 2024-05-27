@@ -11,7 +11,7 @@ export default function(){
         let res=getRes()
         // apiGetOneQn(qnid).then((res)=>{
             if(res.code=='0018'){
-                console.log("@@@@@@@@",res)
+                // console.log("@@@@@@@@",res)
                 let que: (oneChoiceP | MoreChoice | FillIn)[]=[]
                 res.data.forEach((it:any) => {
                     
@@ -57,8 +57,9 @@ export default function(){
     }
 
     function getSingleTitle(qnid:string):string{
-        let res = async ()=>{return await apiGetOneQn(qnid)}
+        async function getRes() {return await apiGetOneQn(qnid)}
         
+        let res = getRes()
             // console.log("@@@@@@@@",res)
             if(res.code=='0018')
                 {

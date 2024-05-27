@@ -74,11 +74,9 @@ export const useUerInfoStore=defineStore('UserInfo',()=>{
     //     // })
     // }
 
-    function getAllQn(uid:string){
-        async function getRes(){
-            return await apiUserAll(uid)
-        } 
-        let res=getRes()
+    async function getAllQn(uid:string){
+        
+        let res =  await apiUserAll(uid)
         // apiUserAll(uid).then((res)=>{
             if(res.code=='0019'){
                 for(var it of res.data){

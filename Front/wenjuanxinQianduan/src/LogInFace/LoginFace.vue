@@ -28,9 +28,8 @@ function Loginin(intName: string, inPassword: string) {
 
   // router.push('/user')//need to delete
   // userInfoStore.id=inputName.value
-
-	apiGetUserInfo(param).then((res) => {
-		if(res.msg=='登录成功') {
+  async function test(){let res = await apiGetUserInfo(param)
+    if(res.msg=='登录成功') {
       alert('登录成功');
       userInfoStore.uid=res.data.uid
       userInfoStore.id=inputName.value
@@ -40,8 +39,12 @@ function Loginin(intName: string, inPassword: string) {
     else{
       alert('登录失败');
     }
+  }
+  test()
+	// apiGetUserInfo(param).then((res) => {
+		
     // console.log(res)
-	})
+	// })
 
 }
 
