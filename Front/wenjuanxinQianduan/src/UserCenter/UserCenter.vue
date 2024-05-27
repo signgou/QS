@@ -42,7 +42,8 @@ function Edit()
 
 function Send()
 {
-  router.push('/QuestShare')
+  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
+  router.push(`/QuestShare/${qnid}`)
 }
 
 async function Delete(){

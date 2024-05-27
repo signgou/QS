@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import MainStage from './MainStage/MainStage.vue';
-import QuCreateFace from './QuCreateFace/QuCreateFace.vue';
-import UserCenter from './UserCenter/UserCenter.vue';
-import QuestionnaireShowtool from './router/QusetionAndNaire/QuestionnaireShowtool.vue';
+import QnFillEnd from './QnFill/QnFillEnd.vue';
 </script>
 
 <template>
-  <!-- <UserCenter/> -->
-  <!-- <QuestionnaireShowtool/> -->
+  <!-- <QnFillEnd></QnFillEnd> -->
   <RouterView></RouterView>
-  <!-- <QuCreateFace/> -->
 </template>
 
 <style scoped>

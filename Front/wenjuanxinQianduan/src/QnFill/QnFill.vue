@@ -9,6 +9,8 @@ import {
 } from "@/BasicDataStruct/QuestionType";
 import { useRoute, useRouter } from "vue-router";
 import { useQnidGetAllProblem } from "@/hook/useQnidGetProblem";
+import { useQidModQt } from "@/hook/useQidModQt";
+import { useQidGetQt } from "@/hook/useQidGetQt";
 
 const router = useRouter();
 const route = useRoute();
@@ -32,8 +34,34 @@ onBeforeMount(() => {
 const questionnaireEditor = ref<QuestionnaireAll>(
   new QuestionnaireAll("0", "出错问卷", [])
 );
-function BackUser() {
-  router.back();
+async function fillEnd() {
+    let len = questionnaireEditor.value.questionNaire.length;
+    for(let i=0;i<len;i++){
+        let qns=questionnaireEditor.value.questionNaire[i];
+        if(qns instanceof oneChoiceP){
+            const {selecteds} = await useQidGetQt(qns.qid,'oneQns');
+            selecteds.value[Number(qns.whichBeChoose as string)-1]++;
+            await useQidModQt(qns.qid,'oneQns',{
+                selecteds:selecteds.value
+            })
+        }   
+        else if(qns instanceof MoreChoice){
+            const {selecteds} = await useQidGetQt(qns.qid,'moreQns');   
+            qns.whichBeChoose.forEach(val => {
+                selecteds.value[Number(val as string)-1]++;
+            })
+            await useQidModQt(qns.qid,'moreQns',{
+                selecteds:selecteds.value
+            })
+        }
+        else if(qns instanceof FillIn){
+            await useQidModQt(qns.qid,'fillQns',{
+                $push:{ answer : qns.Answer }
+            })
+        }
+
+    }
+    router.push('/fillEnd');
 }
 </script>
 
@@ -85,7 +113,7 @@ function BackUser() {
                 <el-checkbox
                   v-for="(option, i) in question.returnQuestion()"
                   :key="i"
-                  :value="option.value"
+                  :value = "option.value"
                 >
                   {{ option.label }}
                 </el-checkbox>
@@ -105,7 +133,7 @@ function BackUser() {
       </div>
     </div>
     <div class="down-box">
-      <button class="down-btn" @click="BackUser">返回</button>
+      <button class="down-btn" @click="fillEnd">填写完成</button>
     </div>
   </div>
 </template>

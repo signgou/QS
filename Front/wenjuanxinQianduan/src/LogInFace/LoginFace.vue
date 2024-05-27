@@ -2,10 +2,8 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { apiGetUserInfo } from '@/apis/login';
-import {useUerInfoStore} from '@/store/userInfo'
 
 const router=useRouter()
-const userInfoStore=useUerInfoStore()
 
 // 创建响应式变量来绑定输入框的值
 let inputName = ref<string>('');

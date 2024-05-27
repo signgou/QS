@@ -7,7 +7,7 @@
         <el-checkbox 
           v-for="(option, index) in question.Question" 
           :key="index" 
-          :label="option.value">
+          :value="option.value">
           {{ option.label }}
         </el-checkbox>
       </el-checkbox-group>
@@ -37,10 +37,10 @@ export default defineComponent({
     async addOption() {
       const newOptionTitle = prompt('请输入新选项的标题:');
       if (newOptionTitle) {
-        const { options } = await useQidGetQt(this.question.qid,"moreQns");
-        options.value.push(newOptionTitle);
-        await useQidModQt(this.question.qid,"moreQns",{
-          options:options.value
+        await useQidModQt(this.question.qid,"moreQns",{$push:{
+          options:newOptionTitle,
+          selecteds:0
+        }
         });
         this.question.addOption(new OPtion((this.question.Question.length + 1).toString(), newOptionTitle));
       }
@@ -48,10 +48,11 @@ export default defineComponent({
     async removeOption() {
       if (this.question.Question.length > 0) {
         let index =this.question.Question.length - 1;
-        const { options } = await useQidGetQt(this.question.qid,"moreQns");
-        options.value.pop();
         await useQidModQt(this.question.qid,"moreQns",{
-          options:options.value
+          $pop:{
+            options:1,
+            selecteds:1
+          }
         });
         this.question.removeOption(index);
       }

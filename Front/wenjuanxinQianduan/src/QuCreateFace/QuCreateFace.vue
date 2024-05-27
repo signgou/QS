@@ -136,7 +136,7 @@ export default defineComponent({
 
     function share(){
       // 分享问卷的逻辑
-      router.push('/QuestShare')
+      router.push(`/QuestShare/${route.params.qnid}`)
     };
 
     return {

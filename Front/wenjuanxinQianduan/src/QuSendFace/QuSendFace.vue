@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
-const router=useRouter()
+import { useRouter,useRoute } from 'vue-router';
+const router=useRouter();
+const route =useRoute();
 function Quit()
 {
   router.push('/')
@@ -19,7 +20,9 @@ function Back()
          <div class="head-box">
             <div class="head">问卷分享</div>
          </div>
-         <div class="trueShow-box"></div>
+         <div class="trueShow-box">
+          <h2>url = http://localhost:5173/fill/{{ route.params.qnid }}</h2>
+         </div>
       </div>
     </div>
     <div class="down-box">

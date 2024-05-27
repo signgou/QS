@@ -7,7 +7,7 @@
         <el-radio 
           v-for="(option, index) in question.question" 
           :key="index" 
-          :label="option.value">
+          :value="option.value">
           {{ option.label }}
         </el-radio>
       </el-radio-group>
@@ -38,22 +38,22 @@ export default defineComponent({
     async addOption() {
       const newOptionTitle = prompt('请输入新选项的标题:');
       if (newOptionTitle) {
-        const { options } = await useQidGetQt(this.question.qid,"oneQns");
-        options.value.push(newOptionTitle);
-        await useQidModQt(this.question.qid,"oneQns",{
-          options:options.value
+        await useQidModQt(this.question.qid,"oneQns",{$push:{
+          options:newOptionTitle,
+          selecteds:0
+        }
         });
         this.question.addOption(new OPtion((this.question.question.length + 1).toString(), newOptionTitle));
       }
-
     },
     async removeOption() {
       if (this.question.question.length > 0) {
         let index =this.question.question.length - 1;
-        const { options } = await useQidGetQt(this.question.qid,"oneQns");
-        options.value.pop();
         await useQidModQt(this.question.qid,"oneQns",{
-          options:options.value
+          $pop:{
+            options:1,
+            selecteds:1
+          }
         });
         this.question.removeOption(index);
       }

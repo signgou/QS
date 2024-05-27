@@ -1,20 +1,101 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
-const router = useRouter()
-function Back(){
-  router.go(-1)
+import { useRouter, useRoute } from "vue-router";
+import { onBeforeMount, ref } from "vue";
+import { useQnidGetShow } from "@/hook/useQnidGetShow";
+import {
+  QuestionnaireAll,
+  oneChoiceP,
+  MoreChoice,
+  FillIn,
+  OPtion,
+} from "@/BasicDataStruct/QuestionType";
+const route = useRoute();
+const router = useRouter();
+onBeforeMount(() => {
+  async function main() {
+    const qnid = route.params.qnid as string;
+    const { qts, qnName } = await useQnidGetShow(qnid);
+    questionnaireEditor.value = new QuestionnaireAll(
+      qnid,
+      qnName.value,
+      qts.value
+    );
+    console.log("获取信息成功");
+  }
+  main()
+  // .catch((err) => {
+  //   alert(err);
+  // });
+});
+
+function getData(FillIn:FillIn):any[]{
+  let res:any[]=[];
+  FillIn.answers.forEach(val =>{
+    res.push({answer: val});
+  })
+  return res;
+}
+// 创建问卷对象
+const questionnaireEditor = ref<QuestionnaireAll>(
+  new QuestionnaireAll("0", "出错问卷", [])
+);
+function Back() {
+  router.back();
 }
 </script>
 
 
 <template>
- <div class="Main-box">
+  <div class="Main-box">
     <div class="content-box">
       <div class="showBody-box">
-         <div class="head-box">
-            <head>数据展示</head>
-         </div>
-         <div class="trueShow-box"></div>
+        <div class="head-box">
+          <div class="head">数据展示</div>
+        </div>
+        <div class="trueShow-box">
+          <div>
+            <div
+              v-for="(question, index) in questionnaireEditor?.questionNaire"
+              :key="index"
+            >
+              <!-- 展示单选题 -->
+              <el-table
+                :data="question.question"
+                style="width: 100% "
+                v-if= 'question instanceof oneChoiceP'
+              >
+                <el-table-column :label='"单选问卷:"+question.tittle' >
+                  <el-table-column prop="label" label="选项名称" />
+                  <el-table-column prop="selectedNum" label="已选人数" />
+                </el-table-column>
+              </el-table>
+
+              <!-- 展示多选题 -->
+              <el-table
+                :data="question.Question"
+                style="width: 100%"
+                v-if="question instanceof MoreChoice"
+              >
+                <el-table-column :label='"多选问卷:"+question.tittle'>
+                  <el-table-column prop="label" label="选项名称" />
+                  <el-table-column prop="selectedNum" label="已选人数" />
+                </el-table-column>
+              </el-table>
+
+              <!-- 展示填空题 -->
+              <el-table
+                :data="getData(question)"
+                style="width: 100%"
+                v-if="question instanceof FillIn"
+              >
+                <el-table-column :label='"填空问卷:"+question.Tittle' >
+                  <el-table-column prop="answer" label="填空内容" />
+                </el-table-column>
+              </el-table>
+              <el-divider />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="down-box">
@@ -48,28 +129,31 @@ function Back(){
   }
 
   .showBody-box {
+    align-items: center;
     height: 800px;
-    width: 1390px;
-    border: 1px solid rgb(4, 2, 21); /* 添加边框 */
-    .head-box
-    {
-        height: 100px;
     width: 1380px;
-    border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+    .head-box {
+      height: 50px;
+      width: 1380px;
+      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; 
+      margin-bottom: 20px;
     }
-    .trueShow-box
-    {
-         height: 700px;
-  width: 1380px;
-  border: 1px solid rgb(4, 2, 21); /* 添加边框 */
-  overflow-y: auto; /* 启用垂直滚动条 */
-  display: flex;
-  flex-direction: column; /* 使内部组件垂直排列 */
-  padding: 10px; /* 添加内边距 */
+    .trueShow-box {
+      height: 720px;
+      width: 1380px;
+      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+      overflow-y: auto; /* 启用垂直滚动条 */
+      display: flex;
+      flex-direction: column; /* 使内部组件垂直排列 */
+      padding: 10px; /* 添加内边距 */
     }
   }
   .down-box {
-    height: 130px;
+    height: 100px;
     width: 100%; /* 使用100%宽度 */
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
     margin-top: 10px; /* 添加顶部间距 */
