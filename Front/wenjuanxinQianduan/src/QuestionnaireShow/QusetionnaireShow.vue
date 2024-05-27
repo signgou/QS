@@ -2,33 +2,31 @@
 import { ref } from 'vue';
 import { QuestionnaireAll, oneChoiceP, MoreChoice, FillIn, OPtion } from '@/BasicDataStruct/QuestionType';
 import { useRouter } from 'vue-router';
+import { onBeforeMount } from 'vue';
+import useQn from '@/hooks/useQn';
 const router = useRouter()
+import { useQnOperStore } from '@/store/qnOper';
+const qnOperStore=useQnOperStore()
 // 创建问卷对象
 const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('wentiti', []));
 
-
-// 填充问卷数据
-questionnaireEditor.value.questionNaire.push(
-  new oneChoiceP('你喜欢玩什么游戏', [
-    new OPtion('4', '炉石传说-标准模式'),
-    new OPtion('1', '炉石传说-狂野模式'),
-    new OPtion('2', '炉石传说-竞技场'),
-    new OPtion('3', '炉石传说-酒馆战棋')
-  ]),
-  new MoreChoice('Multiple Choice Question', [
-    new OPtion('1', 'Option A'),
-    new OPtion('2', 'Option B'),
-    new OPtion('3', 'Option C')
-  ]),
-  new FillIn('Fill in the blank question', ['']),
-  new FillIn('Fill', ['']),
-   new MoreChoice('Multiple ', [
-    new OPtion('1', 'Option A'),
-    new OPtion('2', 'Option B'),
-    new OPtion('3', 'Option C'),
-    new OPtion('4', 'Option C')
-  ]),
-);
+onBeforeMount(()=>{
+      async function ttt() {
+        const{getAllProblem,getSingleTitle,qt,title}=useQn()
+        await getSingleTitle(qnOperStore.qnid)
+        await getAllProblem(qnOperStore.qnid)
+        let pro =  qt.value
+        let ti= title.value
+          questionnaireEditor.value.changeTittle(ti)
+          questionnaireEditor.value.questionNaire=pro
+      }
+      try{
+        ttt()
+      }catch(error){
+        console.log(error)
+      };
+      
+    })
 
 function BackUser()
 {

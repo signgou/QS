@@ -13,20 +13,20 @@ questionnaireEditor.value.questionNaire.push(
     new OPtion('1', 'Option 1'),
     new OPtion('2', 'Option 2'),
     new OPtion('3', 'Option 3')
-  ]),
+  ],''),
   new MoreChoice('Multiple Choice Question', [
     new OPtion('1', 'Option A'),
     new OPtion('2', 'Option B'),
     new OPtion('3', 'Option C')
-  ]),
-  new FillIn('Fill in the blank question', ''),
-  new FillIn('Fill', ''),
+  ],''),
+  new FillIn('Fill in the blank question', [],''),
+  new FillIn('Fill', [],''),
    new MoreChoice('Multiple ', [
     new OPtion('1', 'Option A'),
     new OPtion('2', 'Option B'),
     new OPtion('3', 'Option C'),
     new OPtion('4', 'Option C')
-  ]),
+  ],''),
 );
 </script>
 

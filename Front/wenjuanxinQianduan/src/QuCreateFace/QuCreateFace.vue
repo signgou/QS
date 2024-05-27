@@ -47,11 +47,11 @@ import { useRouter } from 'vue-router';
 // const userInfoStore=useUerInfoStore()
 import { apiQnCreate } from '@/apis/qnCreate';
 import useQn from '@/hooks/useQn';
+const{getAllProblem,getSingleTitle,qt,title}=useQn()
 import { onBeforeMount } from 'vue';
 import { apiAddOne,apiAddFill,apiAddMut } from '@/apis/addQt';
 import { useQnOperStore } from '@/store/qnOper';
 const qnOperStore=useQnOperStore()
-const{getAllProblem,getSingleTitle,qt,title}=useQn()
 import { apiDelQt } from '@/apis/delQt';
 
 export default defineComponent({

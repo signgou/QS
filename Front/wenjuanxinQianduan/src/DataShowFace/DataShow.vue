@@ -14,7 +14,9 @@ function Back(){
          <div class="head-box">
             <head>数据展示</head>
          </div>
-         <div class="trueShow-box"></div>
+         <div class="trueShow-box">
+          
+         </div>
       </div>
     </div>
     <div class="down-box">
@@ -90,5 +92,8 @@ function Back(){
   .down-btn:hover {
     background-color: #0056b3;
   }
+  // .down-btn:focus {
+  //   background-color: #0056b3;
+  // }
 }
 </style>

@@ -230,6 +230,10 @@ async function Quit()
       .questionnaire-btn:hover {
         background-color: #0056b3;
       }
+
+      .questionnaire-btn:active{
+        background-color:#0056b3;
+      }
     }
   }
 
