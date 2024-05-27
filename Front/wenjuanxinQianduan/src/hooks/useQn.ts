@@ -57,17 +57,19 @@ export default function(){
     }
 
     function getSingleTitle(qnid:string):string{
-        async function getRes() {return await apiGetOneQn(qnid)}
+        // async function getRes() {return await apiGetOneQn(qnid)}
         
-        let res = getRes()
-            // console.log("@@@@@@@@",res)
+        apiGetOneQn(qnid).then((res)=>{
             if(res.code=='0018')
                 {
                     // console.log("@@@@@@@@",res.qnName)
                     return res.qnName
                 }
+            // console.log("********",res.qnName)
             return ''
-        
+        })
+            // console.log("@@@@@@@@",res)
+                   
     }
 
     return {getAllProblem,getSingleTitle}

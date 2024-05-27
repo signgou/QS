@@ -28,7 +28,8 @@ function Loginin(intName: string, inPassword: string) {
 
   // router.push('/user')//need to delete
   // userInfoStore.id=inputName.value
-  async function test(){let res = await apiGetUserInfo(param)
+  async function test(){
+    let res = await apiGetUserInfo(param)
     if(res.msg=='登录成功') {
       alert('登录成功');
       userInfoStore.uid=res.data.uid
