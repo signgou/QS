@@ -9,7 +9,8 @@ import { useUerInfoStore } from '@/store/userInfo';
 const userInfoStore=useUerInfoStore()
 import { apiQnCreate } from '@/apis/qnCreate';
 import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
-import { onMounted,onBeforeMount} from "vue";
+import { onBeforeMount} from "vue";
+import useQn from '@/hooks/useQn'
 
 const router = useRouter()
 let QnName=ref('')
@@ -43,23 +44,26 @@ function Send()
   router.push('/QuestShare')
 }
 
-
 let exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
 
-onBeforeMount(()=>{
-  // let uid = userInfoStore.uid
-  // userInfoStore.qn.forEach((it:string)=>{
-  //   exampleQuestionnaires.value.push(new QuestionnaireAll(userInfoStore.getSingleTitle(it),userInfoStore.getAllProblem(it)))
-  // })
-  exampleQuestionnaires.value=[]
-  let inde:string[]=userInfoStore.qn
-  let{getSingleTitle,getAllProblem}=userInfoStore
-  inde.forEach(qnid => {
-    exampleQuestionnaires.value.push(new QuestionnaireAll(getSingleTitle(qnid),getAllProblem(qnid)))
 
-    //test
-    
-  });
+//  onBeforeMount(()=>{
+//   let uid = userInfoStore.uid
+//   userInfoStore.getAllQn(userInfoStore.uid)
+  
+  
+//     //test
+// })
+
+onBeforeMount(()=>{
+  let{getSingleTitle,getAllProblem}=useQn();
+  userInfoStore.qn.forEach((it:string)=>{
+    let ti:string=getSingleTitle(it)
+    let pro=getAllProblem(it)
+    exampleQuestionnaires.value.push(new QuestionnaireAll(ti,pro))
+    // console.log("一个问卷被push\n")
+  }
+  )
 })
 
 // 创建示例用户对象
@@ -85,7 +89,14 @@ function Quit()
       alert('创建成功');
       //补充保存问卷id。。。
       userInfoStore.qn.push(res.data.qnid)
-      exampleQuestionnaires.value.push(new QuestionnaireAll(QnName.value,[]))
+      let testp:oneChoiceP={tittle:QnName.value,
+      question:[
+        new OPtion('1','你好啊'),
+        new OPtion('2','你好啊你好啊')
+      ]
+
+      }
+      exampleQuestionnaires.value.push(new QuestionnaireAll(QnName.value,[testp]))
         
       // router.push('/create')
     }
