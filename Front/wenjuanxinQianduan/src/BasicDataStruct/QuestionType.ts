@@ -3,7 +3,7 @@ export class OPtion
 {
   value: string='';//选项序号-索引
   label: string = '';//选项名字
-
+  selectedNum: number=0;
   constructor(value :string,name :string)
   {
      this.value=value;
