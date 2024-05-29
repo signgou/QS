@@ -4,6 +4,7 @@ import MainStage from './MainStage/MainStage.vue';
 import QuCreateFace from './QuCreateFace/QuCreateFace.vue';
 import UserCenter from './UserCenter/UserCenter.vue';
 import QuestionnaireShowtool from './router/QusetionAndNaire/QuestionnaireShowtool.vue';
+import FillinQuestion from './router/QusetionAndNaire/FillinQuestion.vue';
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import QuestionnaireShowtool from './router/QusetionAndNaire/QuestionnaireShowto
   <!-- <QuestionnaireShowtool/> -->
   <RouterView></RouterView>
   <!-- <QuCreateFace/> -->
+
 </template>
 
 <style scoped>

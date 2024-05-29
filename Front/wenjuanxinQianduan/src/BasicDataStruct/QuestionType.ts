@@ -1,4 +1,4 @@
-
+import { apiModQt } from "@/apis/modQt";
 export class OPtion
 {
   value: string='';//选项序号-索引
@@ -45,14 +45,43 @@ export class oneChoiceP
   changeTittle(tittle :string):void
   {
     this.tittle=tittle;
+    let param={
+      title:tittle
+    }
+    async function mod(qid:string){
+      await apiModQt(param,"oneQns",qid)
+    }
+    let res=mod(this.qid)
   }
 
   addOption(option: OPtion): void {
     this.question.push(option);
+    let tmp:string[]=[]
+    this.question.forEach(it => {
+      tmp.push(it.returnlabel())
+    });
+    let param={
+      options:tmp
+    }
+    async function mod(qid:string){
+      await apiModQt(param,"oneQns",qid)
+    }
+    let res=mod(this.qid)
   }
 
   removeOption(index: number): void {
     this.question.splice(index, 1);
+    let tmp:string[]=[]
+    this.question.forEach(it => {
+      tmp.push(it.returnlabel())
+    });
+    let param={
+      options:tmp
+    }
+    async function mod(qid:string){
+      await apiModQt(param,"oneQns",qid)
+    }
+    let res=mod(this.qid)
   }
 
   returnTittle():string
@@ -88,14 +117,43 @@ export class MoreChoice {
 
   changeTittle(tittle: string): void {
     this.tittle = tittle;
+    let param={
+      title:tittle
+    }
+    async function mod(qid:string){
+      await apiModQt(param,"moreQns",qid)
+    }
+    let res=mod(this.qid)
   }
 
   addOption(option: OPtion): void {
     this.Question.push(option);
+    let tmp:string[]=[]
+    this.Question.forEach(it => {
+      tmp.push(it.returnlabel())
+    });
+    let param={
+      options:tmp
+    }
+    async function mod(qid:string){
+      await apiModQt(param,"moreQns",qid)
+    }
+    let res=mod(this.qid)
   }
 
   removeOption(index: number): void {
     this.Question.splice(index, 1);
+    let tmp:string[]=[]
+    this.Question.forEach(it => {
+      tmp.push(it.returnlabel())
+    });
+    let param={
+      options:tmp
+    }
+    async function mod(qid:string){
+      await apiModQt(param,"moreQns",qid)
+    }
+    let res=mod(this.qid)
   }
 
   returnTittle(): string {
@@ -123,11 +181,27 @@ export class FillIn
   changeTittle(tittle :string):void
   {
     this.Tittle=tittle;
+    let param={
+      title:tittle
+    }
+    async function mod(qid:string){
+      await apiModQt(param,"fillQns",qid)
+    }
+    let res=mod(this.qid)
+    
   }
 
-  changeAnswer(answer: string[]):void
+  changeAnswer(answer: string):void
   {
-    this.Answer=answer;
+    // this.Answer.push(answer);
+    this.Answer.push(answer)
+    let param={
+      ans:this.Answer
+    }
+    async function mod(qid:string){
+      await apiModQt(param,"fillQns",qid)
+    }
+    let res=mod(this.qid)
   }
 
   returnTittle():string

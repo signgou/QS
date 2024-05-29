@@ -53,6 +53,8 @@ import { apiAddOne,apiAddFill,apiAddMut } from '@/apis/addQt';
 import { useQnOperStore } from '@/store/qnOper';
 const qnOperStore=useQnOperStore()
 import { apiDelQt } from '@/apis/delQt';
+import { useQtOperStore } from '@/store/qtOper';
+const qtOperStore=useQtOperStore()
 
 export default defineComponent({
   components: {
@@ -84,9 +86,12 @@ export default defineComponent({
         await getSingleTitle(qnOperStore.qnid)
         await getAllProblem(qnOperStore.qnid)
         let pro =  qt.value
+        // console.log("****",pro)
         let ti= title.value
           questionnaireEditor.value.changeTittle(ti)
           questionnaireEditor.value.questionNaire=pro
+          
+          qtOperStore.qt=pro//更新操作的qt
       }
       ttt()
     })
@@ -137,6 +142,7 @@ export default defineComponent({
           new OPtion('2', '选项 2'),
           new OPtion('3', '选项 3')
         ],res.data.qid));
+        
       }
       } else if (type === 'moreChoice') {
         let param={
@@ -155,6 +161,8 @@ export default defineComponent({
           new OPtion('2', '选项 B'),
           new OPtion('3', '选项 C')
         ],res.data.qid));
+
+        
         }
         
       } else if (type === 'fillIn') {
@@ -165,6 +173,8 @@ export default defineComponent({
         let res = await apiAddFill(param,'fillQns',qnOperStore.qnid)
         if(res.code=='0005'){
           questionnaireEditor.value.questionNaire.push(new FillIn('新的填空题', [],res.data.qid));
+
+          
         }
         
       }
@@ -178,6 +188,8 @@ export default defineComponent({
         let que = questionnaireEditor.value.questionNaire[pos]
         // console.log(que.qid)
         questionnaireEditor.value.questionNaire.pop();
+
+        // qtOperStore.qt.pop()
         if(que instanceof oneChoiceP){
           let res = await apiDelQt('oneQns',que.qid)
           // console.log(res)

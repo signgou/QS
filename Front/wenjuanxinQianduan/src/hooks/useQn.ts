@@ -40,13 +40,14 @@ export default function(){
                             break;
                         }
                         case 'fillQns':{
-                            let n:number=1
+                            
                             let ans:string[]=[]
                             
                             it.answer.forEach((as:string) => {
                                 ans.push(as)
-                                n=n+1
+                                // console.log("******")
                             });
+                            // console.log(ans)
                             qt.value.push(new FillIn(it.title,ans,it.qid))
                             break;
                         }

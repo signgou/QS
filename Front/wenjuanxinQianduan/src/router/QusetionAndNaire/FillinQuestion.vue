@@ -4,7 +4,7 @@
     <hr />
     <div class="my-2 flex items-start text-sm">
       <el-input
-        v-model="question.Answer"
+        v-model="question.Answer[0]"
         style="width: 240px"
         placeholder="请填写答案"
         @change="updateAnswer"

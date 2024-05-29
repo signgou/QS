@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router';
 import { useUerInfoStore } from '@/store/userInfo';
 const userInfoStore=useUerInfoStore()
 import { apiQnCreate } from '@/apis/qnCreate';
+import { apiDelQn } from '@/apis/delQn';
 import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
 import { onBeforeMount} from "vue";
 import useQn from '@/hooks/useQn'
@@ -17,6 +18,7 @@ const qnOperStore= useQnOperStore()
 const router = useRouter()
 let QnName=ref('')
 let dialogVisible=ref(false)
+let selectedindex=ref(0)
 
 function Create(){
   dialogVisible.value=true  
@@ -46,6 +48,17 @@ function Send()
   router.push('/QuestShare')
 }
 
+async function Del()
+{
+  let res = await apiDelQn(qnOperStore.qnid)
+  if(res.code=='0027') {
+    alert("删除成功！")
+    
+    exampleQuestionnaires.value.splice(qnOperStore.index,1)
+  }
+  
+}
+
 let exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
 
 
@@ -56,12 +69,12 @@ let exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
   
 //     //test
 // })
-
+let{getSingleTitle,getAllProblem,qt,title}=useQn();
 onBeforeMount(()=>{
   
   async function ttt(){
     // userInfoStore.reset
-    let{getSingleTitle,getAllProblem,qt,title}=useQn();
+    
     
     await userInfoStore.getAllQn(userInfoStore.uid)
     for(var it of userInfoStore.qn)
@@ -73,6 +86,7 @@ onBeforeMount(()=>{
       let ti= title.value
       exampleQuestionnaires.value.push(new QuestionnaireAll(ti,pro))     
     }
+    selectedindex.value=0
 }
 ttt()
 })
@@ -83,9 +97,13 @@ const user = ref<Users>(
 );
 
 
-function Choose(qnid:string)
+function Choose(qnid:string,index:number)
 {
   qnOperStore.qnid=qnid
+  qnOperStore.index=index
+  // selectedindex.value=index
+
+  // qtOperStore.qt=qt.value
   // alert(qnid)
 }
 
@@ -131,7 +149,7 @@ async function Quit()
         </div>
         <div class="trueShow-box">
           <div v-for="(questionnaire, index) in user.returnQuestionnaireAll()" :key="index">
-            <button class="questionnaire-btn" @click="Choose(userInfoStore.qn[index])">{{ questionnaire.returnTittle() }}</button>
+            <button class="questionnaire-btn" @click="Choose(userInfoStore.qn[index],index)">{{ questionnaire.returnTittle() }}</button>
           </div>
         </div>
       </div>
@@ -140,7 +158,7 @@ async function Quit()
         <button class="side-btn" @click="DataShow">数据展示</button>
         <button class="side-btn" @click="Edit">进入编辑</button>
         <button class="side-btn" @click="Send">发布问卷</button>
-        <button class="side-btn">删除问卷</button>
+        <button class="side-btn" @click="Del">删除问卷</button>
         <button class="side-btn" @click="QusetShow">问卷预览</button>
       </div>
 
@@ -231,9 +249,10 @@ async function Quit()
         background-color: #0056b3;
       }
 
-      .questionnaire-btn:active{
+      .questionnaire-btn:focus{
         background-color:#0056b3;
       }
+      
     }
   }
 
