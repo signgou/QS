@@ -1,9 +1,32 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
+import { FillIn,oneChoiceP,MoreChoice } from '@/BasicDataStruct/QuestionType';
+import { onBeforeMount,ref } from 'vue';
 const router = useRouter()
+import { useQtOperStore } from '@/store/qtOper';
+const qtOperStore=useQtOperStore()
+
 function Back(){
   router.go(-1)
 }
+
+function getData(FillIn:FillIn):any[]{
+  let res:any[]=[];
+  FillIn.Answer.forEach(val =>{
+    res.push({answer: val});
+  })
+  return res;
+}
+
+let qtList=ref<(oneChoiceP | MoreChoice | FillIn)[]>([])
+onBeforeMount(()=>{
+  async function ttt() {
+    await qtOperStore.getQt()
+    qtList.value=qtOperStore.qtt
+  }
+  ttt();
+})
+
 </script>
 
 
@@ -15,7 +38,49 @@ function Back(){
             <head>数据展示</head>
          </div>
          <div class="trueShow-box">
-          
+          <div>
+            <div
+              v-for="(question, index) in qtList"
+              :key="index"
+            >
+              <!-- 展示单选题 -->
+              <el-table
+                :data="question.question"
+                style="width: 100% "
+                v-if= 'question instanceof oneChoiceP'
+              >
+                <el-table-column :label='"单选问卷:"+question.tittle' >
+                  <el-table-column prop="label" label="选项名称" />
+                  <el-table-column prop="selectedNum" label="已选人数" />
+                </el-table-column>
+              </el-table>
+
+              <!-- 展示多选题 -->
+              <el-table
+                :data="question.Question"
+                style="width: 100%"
+                v-if="question instanceof MoreChoice"
+              >
+                <el-table-column :label='"多选问卷:"+question.tittle'>
+                  <el-table-column prop="label" label="选项名称" />
+                  <el-table-column prop="selectedNum" label="已选人数" />
+                </el-table-column>
+              </el-table>
+
+              <!-- 展示填空题 -->
+              <el-table
+                :data="getData(question)"
+                style="width: 100%"
+                v-if="question instanceof FillIn"
+              >
+                <el-table-column :label='"填空问卷:"+question.Tittle' >
+                  <el-table-column prop="answer" label="填空内容" />
+                </el-table-column>
+              </el-table>
+              <el-divider />
+            </div>
+          </div>
+
          </div>
       </div>
     </div>

@@ -2,12 +2,22 @@ import {defineStore, skipHydrate} from 'pinia'
 
 import { apiUserAll } from '@/apis/userAll'
 import { FillIn, MoreChoice, OPtion, QuestionnaireAll, oneChoiceP } from '@/BasicDataStruct/QuestionType';
-import { ref } from "vue";
+import { ref,toRefs } from "vue";
+import useQn from '@/hooks/useQn';
+import { useQnOperStore } from './qnOper';
+const qnOperStore=useQnOperStore()
+let {qt,getAllProblem}= useQn()
 
 export const useQtOperStore=defineStore('QtOper',()=>{
-    let qt=ref<(oneChoiceP | MoreChoice | FillIn)[]>([])
+    let qtt=ref<(oneChoiceP | MoreChoice | FillIn)[]>([])
 
-    return{qt}
+    async function getQt()
+    {
+        await getAllProblem(qnOperStore.qnid)
+        qtt.value=qt.value
+    }
+
+    return{qtt,getQt}
 },
 {
     persist:true

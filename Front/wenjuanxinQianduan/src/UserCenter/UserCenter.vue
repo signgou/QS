@@ -13,6 +13,8 @@ import Questionnaire from '@/router/QusetionAndNaire/Questionnaire.vue';
 import { onBeforeMount} from "vue";
 import useQn from '@/hooks/useQn'
 import { useQnOperStore } from '@/store/qnOper';
+import { useQtOperStore } from '@/store/qtOper';
+const qtOperStore=useQtOperStore()
 const qnOperStore= useQnOperStore()
 
 const router = useRouter()
@@ -103,7 +105,7 @@ function Choose(qnid:string,index:number)
   qnOperStore.index=index
   // selectedindex.value=index
 
-  // qtOperStore.qt=qt.value
+  // qtOperStore.qt=qt.value//??????
   // alert(qnid)
 }
 
