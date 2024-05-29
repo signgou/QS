@@ -4,7 +4,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/QuestShow',
+      path: '/QuestShow/:qnid',
       name: 'QuestShow',
       component: () => import('../QuestionnaireShow/QusetionnaireShow.vue')//这里写具体哪个组件
     },

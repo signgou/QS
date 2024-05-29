@@ -32,7 +32,12 @@ function ReturnLogin(){
 
 function QusetShow()
 {
-  router.push('/QuestShow')
+  router.push({
+    name:'QuestShow',
+    params:{
+      qnid:qnOperStore.qnid
+    }
+  })
 }
 
 function DataShow()
