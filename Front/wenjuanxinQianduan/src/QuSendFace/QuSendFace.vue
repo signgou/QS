@@ -29,7 +29,7 @@ function Back()
       </div>
     </div>
     <div class="down-box">
-      <button class="down-btn" @click="Quit">退出</button>
+      <button class="down-btn" @click="Quit">退出登录</button>
       <button class="down-btn" @click="Back">返回</button>
     </div>
   </div>

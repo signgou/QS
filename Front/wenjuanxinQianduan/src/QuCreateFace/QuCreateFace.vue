@@ -274,6 +274,7 @@ export default defineComponent({
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
     .vertical-radio-group {
       flex-direction: column;
+      
     }
     .button-group {
       margin-top: 10px;

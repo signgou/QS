@@ -156,10 +156,12 @@ function BackUser()
 {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
  .vertical-checkbox-group {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
   

@@ -48,7 +48,7 @@ const router = createRouter({
     {
       path:'/Success/:qnid',
       name:'Success',
-      component: () => import('../SuccessFace/SuccessFace.vue')
+      component: () => import('../QuFillFace/QuFillSuccess.vue')
     },
   ]
 })

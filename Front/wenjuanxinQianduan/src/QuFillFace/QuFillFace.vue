@@ -34,7 +34,10 @@ onBeforeMount(()=>{
 // let selectedOption=ref<string>('')
 function Submit()
 {
-  router.push('/success')
+  router.push({
+    name:'Success',
+    params:qnid
+  })
 }
 
 async function confirm(que:oneChoiceP|MoreChoice|FillIn){
@@ -156,73 +159,82 @@ async function confirm(que:oneChoiceP|MoreChoice|FillIn){
 </template>
 
 <style lang='scss' scoped>
+/* 定义主容器样式 */
 .Main-box {
-  height: 930px;
-  width: 1400px;
-  overflow: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: aliceblue;
+  height: 930px; /* 设置高度 */
+  width: 1400px; /* 设置宽度 */
+  overflow: auto; /* 允许内容溢出时滚动 */
+  position: absolute; /* 绝对定位 */
+  top: 50%; /* 使容器垂直居中 */
+  left: 50%; /* 使容器水平居中 */
+  transform: translate(-50%, -50%); /* 将容器中心点移至视口中心 */
+  background-color: aliceblue; /* 设置背景颜色 */
   background-size: cover; /* 使背景图片覆盖整个容器 */
   background-position: center; /* 使背景图片居中 */
   background-repeat: no-repeat; /* 防止背景图片重复 */
-  border-radius: 15px;
+  border-radius: 15px; /* 设置圆角 */
   padding: 10px; /* 添加内边距 */
-  display: flex;
+  display: flex; /* 使用 flex 布局 */
   flex-direction: column; /* 使子元素垂直排列 */
-  align-items: center; /* 水平居中 */
+  align-items: center; /* 水平居中对齐子元素 */
 
+  /* 定义内容容器样式 */
   .content-box {
-    display: flex;
+    display: flex; /* 使用 flex 布局 */
     flex-direction: row; /* 使 .showBody-box 和 .side-box 水平排列 */
-    align-items: flex-start; /* 上对齐 */
-    gap: 10px; /* 添加间距 */
+    align-items: flex-start; /* 子元素上对齐 */
+    gap: 10px; /* 添加子元素间距 */
   }
 
+  /* 定义主显示容器样式 */
   .showBody-box {
-    height: 800px;
-    width: 1390px;
+    height: 800px; /* 设置高度 */
+    width: 1390px; /* 设置宽度 */
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
-    .head-box
-    {
-        height: 100px;
-    width: 1380px;
-    border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+
+    /* 定义头部容器样式 */
+    .head-box {
+      height: 100px; /* 设置高度 */
+      width: 1380px; /* 设置宽度 */
+      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
     }
-    .trueShow-box
-    {
-         height: 700px;
-  width: 1380px;
-  border: 1px solid rgb(4, 2, 21); /* 添加边框 */
-  overflow-y: auto; /* 启用垂直滚动条 */
-  display: flex;
-  flex-direction: column; /* 使内部组件垂直排列 */
-  padding: 10px; /* 添加内边距 */
+
+    /* 定义内容显示区域样式 */
+    .trueShow-box {
+      height: 700px; /* 设置高度 */
+      width: 1380px; /* 设置宽度 */
+      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+      overflow-y: auto; /* 启用垂直滚动条 */
+      display: flex; /* 使用 flex 布局 */
+      flex-direction: column; /* 使内部组件垂直排列 */
+      padding: 10px; /* 添加内边距 */
     }
   }
+
+  /* 定义底部容器样式 */
   .down-box {
-    height: 130px;
-    width: 100%; /* 使用100%宽度 */
+    height: 130px; /* 设置高度 */
+    width: 100%; /* 使用 100% 宽度 */
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
     margin-top: 10px; /* 添加顶部间距 */
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    gap: 20px; /* 按钮之间的间距 */
+    display: flex; /* 使用 flex 布局 */
+    justify-content: center; /* 子元素水平居中 */
+    align-items: center; /* 子元素垂直居中 */
+    gap: 20px; /* 添加子元素间距 */
   }
 
-  .vertical-radio-group
-{
-  display: flex;
-  flex-direction: column;
-}
- .vertical-checkbox-group {
-  display: flex;
-  flex-direction: column;
-}
+  /* 定义垂直单选按钮组样式 */
+  .vertical-radio-group {
+    display: flex; /* 使用 flex 布局 */
+    flex-direction: column; /* 使子元素垂直排列 */
+    align-items: flex-start;
+  }
 
-  
+  /* 定义垂直复选框组样式 */
+  .vertical-checkbox-group {
+    display: flex; /* 使用 flex 布局 */
+    flex-direction: column; /* 使子元素垂直排列 */
+    align-items: flex-start;
+  }
 }
 </style>
