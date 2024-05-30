@@ -4,11 +4,11 @@ export class OPtion
   value: string='';//选项序号-索引
   label: string = '';//选项名字
   selectedNum: number=0;
-  constructor(value :string,name :string)
+  constructor(value :string,name :string,num:number)
   {
      this.value=value;
      this.label=name;
-
+    this.selectedNum=num;
   }
    
   changeLabel(nameNew:string):void
@@ -171,6 +171,7 @@ export class FillIn
   Tittle: string='';
   Answer: string[]=[];
   qid:string=''
+  TmpAns:string=''
   constructor(tit:string,Ans:string[],qidInfo:string)
   {
      this.Tittle=tit;
@@ -246,6 +247,9 @@ export class QuestionnaireAll
 
   getQuestions(): (oneChoiceP | MoreChoice | FillIn)[] {
     return this.questionNaire;
+  }
+  changeQuestions(que:(oneChoiceP | MoreChoice | FillIn)[]){
+    this.questionNaire=que
   }
 
 }

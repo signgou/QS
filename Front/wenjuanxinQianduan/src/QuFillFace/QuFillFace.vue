@@ -7,14 +7,17 @@ import useQn from '@/hooks/useQn';
 const router = useRouter()
 import { useQnOperStore } from '@/store/qnOper';
 const qnOperStore=useQnOperStore()
+import { apiModQt } from '@/apis/modQt';
+import { useRoute } from 'vue-router';
+const {qnid}=useRoute().params
 // 创建问卷对象
 const questionnaireEditor = ref<QuestionnaireAll>(new QuestionnaireAll('wentiti', []));
 
 onBeforeMount(()=>{
       async function ttt() {
         const{getAllProblem,getSingleTitle,qt,title}=useQn()
-        await getSingleTitle(qnOperStore.qnid)
-        await getAllProblem(qnOperStore.qnid)
+        await getSingleTitle(qnid as string)
+        await getAllProblem(qnid as string)
         let pro =  qt.value
         let ti= title.value
           questionnaireEditor.value.changeTittle(ti)
@@ -28,9 +31,60 @@ onBeforeMount(()=>{
       
     })
 
-function BackUser()
+// let selectedOption=ref<string>('')
+function Submit()
 {
-  router.push('/user')
+  router.push('/success')
+}
+
+async function confirm(que:oneChoiceP|MoreChoice|FillIn){
+  if(que instanceof oneChoiceP){
+    let tp:string|undefined = que.whichBeChoose
+    let n:number=Number(tp)
+    que.question[n-1].selectedNum+=1
+    let sub:number[]=[]
+    let cnt=0
+    que.question.forEach((it:OPtion) => {
+      sub[cnt]=it.selectedNum
+      cnt+=1
+    });
+    let param={
+      selecteds:sub
+    }
+    let res=await apiModQt(param,'oneQns',que.qid)
+    // console.log(res)
+    if(res.code[0]=='0') alert('确认成功')
+  }
+
+  else if(que instanceof MoreChoice){
+    let tp:string[]=que.whichBeChoose
+    tp.forEach(it => {
+      que.Question[Number(it)-1].selectedNum+=1
+    });
+    let sub:number[]=[]
+    let cnt=0
+    que.Question.forEach((it:OPtion) => {
+      sub[cnt]=it.selectedNum
+      cnt+=1
+    });
+    let param={
+      selecteds:sub
+    }
+    let res=await apiModQt(param,'moreQns',que.qid)
+    // console.log(res)
+    if(res.code[0]=='0') alert('确认成功')
+  }
+
+  else if(que instanceof FillIn){
+    let tp = que.Answer
+    // console.log(que.TmpAns)
+    tp.push(que.TmpAns)
+    let param={
+      answer:tp
+    }
+    let res=await apiModQt(param,'fillQns',que.qid)
+    if(res.code[0]=='0') alert('确认成功')
+  }
 }
 </script>
 
@@ -46,14 +100,16 @@ function BackUser()
 
    <!--真正的问卷展示部分-->     
 <div>
-    <!-- 展示单选题 -->
+    
     
     <div v-for="(question, index) in questionnaireEditor.questionNaire" :key="index">
+      <!-- 展示单选题 -->
       <h3>{{ question instanceof oneChoiceP ? question.tittle : '' }}</h3>
       <el-radio-group v-model="question.whichBeChoose" class="ml-4 vertical-radio-group" v-if="question instanceof oneChoiceP">
         <el-radio v-for="(option, i) in question.returnQuestion()" :key="i" :label="option.value">
           {{ option.label }}
         </el-radio>
+        <button @click="confirm(question)">确认答案</button>
       </el-radio-group>
       <hr/>
 
@@ -65,13 +121,18 @@ function BackUser()
         <el-checkbox v-for="(option, i) in question.returnQuestion()" :key="i" :label="option.value">
           {{ option.label }}
         </el-checkbox>
+        <button @click="confirm(question)">确认答案</button>
       </el-checkbox-group>
       <hr/>
 
-      <!-- 展示填空题 -->
-      <h3>{{ question instanceof FillIn ? question.Tittle : '' }}</h3>
-      <el-input v-model="question.TmpAns" placeholder="Please input your answer" v-if="question instanceof FillIn" />
-      <hr/>
+      <div v-if="question instanceof FillIn">
+        <!-- 展示填空题 -->
+        <h3>{{ question instanceof FillIn ? question.Tittle : '' }}</h3>
+        <el-input v-model="question.TmpAns" placeholder="Please input your answer" v-if="question instanceof FillIn" />
+        <button @click="confirm(question)">确认答案</button>
+        <hr/>
+      </div>
+      
     </div>
   </div>
 
@@ -88,7 +149,7 @@ function BackUser()
       </div>
     </div>
     <div class="down-box">
-      <button class="down-btn" @click="BackUser">返回</button>
+      <button class="down-btn" @click="Submit">提交问卷</button>
     </div>
   </div>
 

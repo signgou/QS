@@ -91,7 +91,7 @@ export default defineComponent({
           questionnaireEditor.value.changeTittle(ti)
           questionnaireEditor.value.questionNaire=pro
           
-          qtOperStore.qt=pro//更新操作的qt
+          qtOperStore.qtt=pro//更新操作的qt
       }
       ttt()
     })
@@ -138,9 +138,9 @@ export default defineComponent({
         let res = await apiAddOne(param,'oneQns',qnOperStore.qnid)
         if(res.code=='0003'){
         questionnaireEditor.value.questionNaire.push(new oneChoiceP('新的单选题', [
-          new OPtion('1', '选项 1'),
-          new OPtion('2', '选项 2'),
-          new OPtion('3', '选项 3')
+          new OPtion('1', '选项 1',0),
+          new OPtion('2', '选项 2',0),
+          new OPtion('3', '选项 3',0)
         ],res.data.qid));
         
       }
@@ -157,9 +157,9 @@ export default defineComponent({
         let res = await apiAddMut(param,'moreQns',qnOperStore.qnid)
         if(res.code=='0004'){
           questionnaireEditor.value.questionNaire.push(new MoreChoice('新的多选题', [
-          new OPtion('1', '选项 A'),
-          new OPtion('2', '选项 B'),
-          new OPtion('3', '选项 C')
+          new OPtion('1', '选项 A',0),
+          new OPtion('2', '选项 B',0),
+          new OPtion('3', '选项 C',0)
         ],res.data.qid));
 
         

@@ -21,8 +21,14 @@ export default function(){
                             
                             let question:OPtion[]=[]
                             let n:number=1
+                            let chosen:number[]=[]
+                            let ind:number=0
+                            it.selecteds.forEach((num:number) => {
+                                chosen[ind]=num
+                                ind=ind+1
+                            });
                             it.options.forEach((op:any)=> {
-                                question.push(new OPtion(n.toString(),op))
+                                question.push(new OPtion(n.toString(),op,chosen[n-1]))
                                 n=n+1
                             });
                             
@@ -32,8 +38,14 @@ export default function(){
                         case 'moreQns':{
                             let question:OPtion[]=[]
                             let n:number=1
+                            let chosen:number[]=[]
+                            let ind:number=0
+                            it.selecteds.forEach((num:number) => {
+                                chosen[ind]=num
+                                ind=ind+1
+                            });
                             it.options.forEach((op:any)=> {
-                                question.push(new OPtion(n.toString(),op))
+                                question.push(new OPtion(n.toString(),op,chosen[n-1]))
                                 n=n+1
                             });
                             qt.value.push(new MoreChoice(it.title,question,it.qid))

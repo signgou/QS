@@ -36,7 +36,7 @@ export default defineComponent({
     addOption() {
       const newOptionTitle = prompt('请输入新选项的标题:');
       if (newOptionTitle) {
-        this.question.addOption(new OPtion((this.question.Question.length + 1).toString(), newOptionTitle));
+        this.question.addOption(new OPtion((this.question.Question.length + 1).toString(), newOptionTitle,0));
       }
     },
     removeOption() {

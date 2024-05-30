@@ -7,7 +7,7 @@ import QuCreateFace from '@/QuCreateFace/QuCreateFace.vue';
 import QuSendFace from '@/QuSendFace/QuSendFace.vue';
 import DataShow from '@/DataShowFace/DataShow.vue';
 import HelloWorld from '@/components/HelloWorld.vue'
-import QuestionnaireShowtool from '@/router/QusetionAndNaire/QuestionnaireShowtool.vue';
+import QuestionnaireShowtool from '@/QuFillFace/QuestionnaireShowtool.vue';
 import QusetionnaireShow from '@/QuestionnaireShow/QusetionnaireShow.vue';
 import UserCenter from '@/UserCenter/UserCenter.vue';
 </script>

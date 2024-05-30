@@ -31,7 +31,7 @@ const router = createRouter({
       component: () => import('../QuCreateFace/QuCreateFace.vue')
     },
     {
-      path:'/QuestShare',
+      path:'/QuestShare/:qnid',
       name:'QuestShare',
       component: () => import('../QuSendFace/QuSendFace.vue')
     },
@@ -39,6 +39,16 @@ const router = createRouter({
       path:'/Data',
       name:'DataShow',
       component: () => import('../DataShowFace/DataShow.vue')
+    },
+    {
+      path:'/QuestFill/:qnid',
+      name:'QuestFill',
+      component: () => import('../QuFillFace/QuFillFace.vue')
+    },
+    {
+      path:'/Success/:qnid',
+      name:'Success',
+      component: () => import('../SuccessFace/SuccessFace.vue')
     },
   ]
 })

@@ -6,7 +6,7 @@ interface QtMod {
 	title?:string,
     options?:string[],
     selecteds?:number[],
-    ans?:string[]
+    answer?:string[]
 }
 
 // 获取用户信息

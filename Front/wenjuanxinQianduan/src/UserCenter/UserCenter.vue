@@ -52,7 +52,10 @@ function Edit()
 
 function Send()
 {
-  router.push('/QuestShare')
+  router.push({
+    name:'QuestShare',
+    params:{qnid:qnOperStore.qnid}
+  })
 }
 
 async function Del()
@@ -81,8 +84,6 @@ onBeforeMount(()=>{
   
   async function ttt(){
     // userInfoStore.reset
-    
-    
     await userInfoStore.getAllQn(userInfoStore.uid)
     for(var it of userInfoStore.qn)
     {
@@ -110,7 +111,8 @@ function Choose(qnid:string,index:number)
   qnOperStore.index=index
   // selectedindex.value=index
 
-  // qtOperStore.qt=qt.value//??????
+  qtOperStore.getQt()
+  // qtOperStore.qtt=qt.value//??????
   // alert(qnid)
 }
 

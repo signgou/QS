@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 const router=useRouter()
+import {useRoute} from 'vue-router'
+const route = useRoute()
+let {qnid}=route.params
+
 function Quit()
 {
   router.push('/')
@@ -19,7 +23,9 @@ function Back()
          <div class="head-box">
             <head>问卷分享</head>
          </div>
-         <div class="trueShow-box"></div>
+         <div class="trueShow-box">
+          请复制此链接填写问卷：{{ `http://192.168.99.187:8080/QuestFill/${qnid}` }}
+         </div>
       </div>
     </div>
     <div class="down-box">
@@ -72,6 +78,7 @@ function Back()
   display: flex;
   flex-direction: column; /* 使内部组件垂直排列 */
   padding: 10px; /* 添加内边距 */
+  font-size: 30px
     }
   }
   .down-box {
