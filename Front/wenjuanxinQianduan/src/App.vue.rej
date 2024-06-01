@@ -1,0 +1,32 @@
+diff a/wenjuanxinQianduan/src/App.vue b/wenjuanxinQianduan/src/App.vue	(rejected hunks)
+@@ -2,25 +2,24 @@
+ import { RouterLink, RouterView } from 'vue-router'
+ import { ElContainer } from 'element-plus';
+ import LoginFace from './LogInFace/LoginFace.vue';
+-import UserCenter from './UserCenter/UserCenter.vue';
++import MainStage from './MainStage/MainStage.vue';
+ import ReAccountFace from './ReAccountFace/ReAccountFace.vue';
+ import QuCreateFace from './QuCreateFace/QuCreateFace.vue';
+ import QuSendFace from './QuSendFace/QuSendFace.vue';
+ import DataShow from './DataShowFace/DataShow.vue';
+-import QuestionnaireShow from './QuestionnaireShow/QusetionnaireShow.vue';
+-
++import HelloWorld from './components/HelloWorld.vue'
+ </script>
+ 
+ <template>
+      
+-<DataShow/>
+-      
++<ReAccountFace/>
++
+      
+ 
+ </template>
+ 
+ <style scoped>
+- /*   .el-container {
++   .el-container {
+  height: 900px;
+  width:1400px;
+ border: 1px solid black;
