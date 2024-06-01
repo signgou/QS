@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 function Back() {
-    router.back();
+    router.push('/');
 }
 </script>
 
@@ -14,7 +14,7 @@ function Back() {
             <el-col>
                 <el-result icon="success" title="问卷填写成功" sub-title="感谢你的参与">
                     <template #extra>
-                        <el-button type="primary" @click='Back'>Back</el-button>
+                        <el-button type="primary" @click='Back'>我也想创建问卷</el-button>
                     </template>
                 </el-result>
             </el-col>

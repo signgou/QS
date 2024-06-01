@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useRouter,useRoute } from 'vue-router';
+import { ref } from 'vue';
 const router=useRouter();
 const route =useRoute();
 function Quit()
@@ -10,6 +11,8 @@ function Back()
 {
   router.go(-1)
 }
+
+let shareURL = ref<string>("192.168.99.254:5173") 
 </script>
 
 
@@ -21,7 +24,7 @@ function Back()
             <div class="head">问卷分享</div>
          </div>
          <div class="trueShow-box">
-          <h2>url = http://localhost:5173/fill/{{ route.params.qnid }}</h2>
+          <h2> 分享链接  http://{{shareURL}}/fill/{{ route.params.qnid }}</h2>
          </div>
       </div>
     </div>

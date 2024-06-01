@@ -44,7 +44,6 @@ import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
 import { useRouter,useRoute } from 'vue-router';
 import { useQnidGetAllProblem } from '@/hook/useQnidGetProblem';
 import { useQnidCreateQt } from '@/hook/useQnidCreatQt';
-import { useQidDelQt } from '@/hook/useQiddelQt';
 import { useQnidDelQn } from '@/hook/useQnidDelQn';
 
 

@@ -183,15 +183,15 @@ function Quit()
     height: 800px;
     width: 1200px;
     border: 1px solid rgb(4, 2, 21);
-
+    border-radius: 10px;
     .head-box {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-bottom: 20px;
 
-      head {
-        font-size: 5em;
+      .head {
+        font-size: 2em;
         font-weight: bold;
         margin-bottom: 10px;
       }
@@ -210,6 +210,7 @@ function Quit()
     height: 800px;
     width: 170px;
     border: 1px solid rgb(4, 2, 21);
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -234,6 +235,7 @@ function Quit()
     height: 130px;
     width: 100%;
     border: 1px solid rgb(4, 2, 21);
+    border-radius: 10px;
     margin-top: 10px;
     display: flex;
     justify-content: center;
