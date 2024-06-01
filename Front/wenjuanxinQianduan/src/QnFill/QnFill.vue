@@ -1,0 +1,206 @@
+<script lang="ts" setup>
+import { ref, onBeforeMount } from "vue";
+import {
+  QuestionnaireAll,
+  oneChoiceP,
+  MoreChoice,
+  FillIn,
+  OPtion,
+} from "@/BasicDataStruct/QuestionType";
+import { useRoute, useRouter } from "vue-router";
+import { useQnidGetAllProblem } from "@/hook/useQnidGetProblem";
+import { useQidModQt } from "@/hook/useQidModQt";
+import { useQidGetQt } from "@/hook/useQidGetQt";
+
+const router = useRouter();
+const route = useRoute();
+
+onBeforeMount(() => {
+  async function main() {
+    const qnid = route.params.qnid as string;
+    const { qts, qnName } = await useQnidGetAllProblem(qnid);
+    questionnaireEditor.value = new QuestionnaireAll(
+      qnid,
+      qnName.value,
+      qts.value
+    );
+  }
+  main().catch((err) => {
+    alert(err);
+  });
+});
+
+// 创建问卷对象
+const questionnaireEditor = ref<QuestionnaireAll>(
+  new QuestionnaireAll("0", "出错问卷", [])
+);
+async function fillEnd() {
+    let len = questionnaireEditor.value.questionNaire.length;
+    for(let i=0;i<len;i++){
+        let qns=questionnaireEditor.value.questionNaire[i];
+        if(qns instanceof oneChoiceP){
+            const {selecteds} = await useQidGetQt(qns.qid,'oneQns');
+            selecteds.value[Number(qns.whichBeChoose as string)-1]++;
+            await useQidModQt(qns.qid,'oneQns',{
+                selecteds:selecteds.value
+            })
+        }   
+        else if(qns instanceof MoreChoice){
+            const {selecteds} = await useQidGetQt(qns.qid,'moreQns');   
+            qns.whichBeChoose.forEach(val => {
+                selecteds.value[Number(val as string)-1]++;
+            })
+            await useQidModQt(qns.qid,'moreQns',{
+                selecteds:selecteds.value
+            })
+        }
+        else if(qns instanceof FillIn){
+            await useQidModQt(qns.qid,'fillQns',{
+                $push:{ answer : qns.Answer }
+            })
+        }
+
+    }
+    router.push('/fillEnd');
+}
+</script>
+
+
+<template>
+  <div class="Main-box">
+    <div class="content-box">
+      <div class="showBody-box">
+        <div class="head-box">
+          <div class="head">{{ questionnaireEditor.Title }}</div>
+        </div>
+        <div class="trueShow-box">
+          <!--真正的问卷展示部分-->
+          <div>
+            <!-- 展示单选题 -->
+
+            <div
+              v-for="(question, index) in questionnaireEditor?.questionNaire"
+              :key="index"
+            >
+              <h3>
+                {{ question instanceof oneChoiceP ? question.tittle : "" }}
+              </h3>
+              <el-radio-group
+                v-model="question.whichBeChoose"
+                style="align-items: flex-start"
+                class="ml-4 vertical-radio-group"
+                v-if="question instanceof oneChoiceP"
+              >
+                <el-radio
+                  v-for="(option, i) in question.returnQuestion()"
+                  :key="i"
+                  :value="option.value"
+                >
+                  {{ option.label }}
+                </el-radio>
+              </el-radio-group>
+
+              <!-- 展示多选题 -->
+              <h3>
+                {{ question instanceof MoreChoice ? question.tittle : "" }}
+              </h3>
+              <el-checkbox-group
+                v-model="question.whichBeChoose"
+                style="align-items: flex-start"
+                class="ml-4 vertical-checkbox-group"
+                v-if="question instanceof MoreChoice"
+              >
+                <el-checkbox
+                  v-for="(option, i) in question.returnQuestion()"
+                  :key="i"
+                  :value = "option.value"
+                >
+                  {{ option.label }}
+                </el-checkbox>
+              </el-checkbox-group>
+
+              <!-- 展示填空题 -->
+              <h3>{{ question instanceof FillIn ? question.Tittle : "" }}</h3>
+              <el-input
+                v-model="question.Answer"
+                placeholder="Please input your answer"
+                v-if="question instanceof FillIn"
+              />
+              <el-divider />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="down-box">
+      <button class="down-btn" @click="fillEnd">填写完成</button>
+    </div>
+  </div>
+</template>
+
+<style lang='scss' scoped>
+.Main-box {
+  height: 930px;
+  width: 1400px;
+  overflow: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: aliceblue;
+  background-size: cover; /* 使背景图片覆盖整个容器 */
+  background-position: center; /* 使背景图片居中 */
+  background-repeat: no-repeat; /* 防止背景图片重复 */
+  border-radius: 15px;
+  padding: 10px; /* 添加内边距 */
+  display: flex;
+  flex-direction: column; /* 使子元素垂直排列 */
+  align-items: center; /* 水平居中 */
+
+  .content-box {
+    display: flex;
+    flex-direction: row; /* 使 .showBody-box 和 .side-box 水平排列 */
+    align-items: flex-start; /* 上对齐 */
+    gap: 10px; /* 添加间距 */
+  }
+
+  .showBody-box {
+    height: 800px;
+    width: 1390px;
+    border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+    .head-box {
+      height: 100px;
+      width: 1380px;
+      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+    }
+    .trueShow-box {
+      height: 700px;
+      width: 1380px;
+      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+      overflow-y: auto; /* 启用垂直滚动条 */
+      display: flex;
+      flex-direction: column; /* 使内部组件垂直排列 */
+      padding: 10px; /* 添加内边距 */
+    }
+  }
+  .down-box {
+    height: 130px;
+    width: 100%; /* 使用100%宽度 */
+    border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+    margin-top: 10px; /* 添加顶部间距 */
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    gap: 20px; /* 按钮之间的间距 */
+  }
+
+  .vertical-radio-group {
+    display: flex;
+    flex-direction: column;
+  }
+  .vertical-checkbox-group {
+    display: flex;
+    flex-direction: column;
+  }
+}
+</style>
