@@ -30,6 +30,7 @@
 import { defineComponent } from 'vue';
 import { MoreChoice, OPtion } from '@/BasicDataStruct/QuestionType';
 import { useQidModQt } from '@/hook/useQid';
+import {usePrompt,useSuccess} from '@/hook/useAlert';
 export default defineComponent({
   props: {
     question: {
@@ -47,13 +48,14 @@ export default defineComponent({
   },
   methods: {
     async addOption() {
-      const newOptionTitle = prompt('请输入新选项的标题:');
+      const newOptionTitle = await usePrompt('请输入新选项的标题:');
       if (newOptionTitle) {
         await useQidModQt(this.question.qid,"moreQns",{$push:{
           options:newOptionTitle,
           selecteds:0
         }
         });
+        useSuccess("删除成功");
         this.question.addOption(new OPtion((this.question.Question.length + 1).toString(), newOptionTitle));
       }
     },
@@ -66,15 +68,17 @@ export default defineComponent({
             selecteds:1
           }
         });
+        useSuccess("删除选项成功");
         this.question.removeOption(index);
       }
     },
     async changeTitle() {
-      const newTitle = prompt('请输入新的多选题标题:');
+      const newTitle = await usePrompt('请输入新的多选题标题:');
       if (newTitle) {
         await useQidModQt(this.question.qid,'moreQns',{
            title : newTitle
         })
+        useSuccess("修改标题成功");
         this.question.changeTittle(newTitle);
       }
     },

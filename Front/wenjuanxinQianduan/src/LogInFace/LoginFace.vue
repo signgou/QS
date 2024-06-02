@@ -75,16 +75,12 @@ function Register()
     height: 930px;
     width: 1400px;
     overflow: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+
     background-image: url('/back2.jpg'); /* 替换为你的背景图片路径 */
     background-size: cover; /* 使背景图片覆盖整个容器 */
     background-position: center; /* 使背景图片居中 */
     background-repeat: no-repeat; /* 防止背景图片重复 */
     border-radius: 15px;
-    padding: 10px; /* 添加内边距 */
   }
 
   .Tittle-box {

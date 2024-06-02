@@ -50,7 +50,7 @@ function BackUser() {
           <div>
             <!-- 展示单选题 -->
 
-            <div v-for="(question, index) in questionnaireEditor?.questionNaire" :key="index">
+            <div v-for="(question, index) in questionnaireEditor?.questionNaire" :key="index" style="margin: 5px;" >
               <h3>
                 {{ question instanceof oneChoiceP ? question.tittle : "" }}
               </h3>
@@ -93,10 +93,7 @@ function BackUser() {
   height: 930px;
   width: 1400px;
   overflow: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  border-radius: 15px;
 
   background-image: url('/back7.jpg');
   background-color: aliceblue;
@@ -110,6 +107,7 @@ function BackUser() {
   flex-direction: column; /* 使子元素垂直排列 */
   align-items: center; /* 水平居中 */
   .content-box {
+    border-radius: 15px;
     display: flex;
     flex-direction: row; /* 使 .showBody-box 和 .side-box 水平排列 */
     align-items: flex-start; /* 上对齐 */
@@ -117,10 +115,12 @@ function BackUser() {
   }
 
   .showBody-box {
+    border-radius: 15px;
     align-items: center;
     height: 800px;
     width: 1380px;
     .head-box {
+      border-radius: 15px;
       height: 50px;
       width: 1380px;
       border: 1px solid rgb(4, 2, 21); /* 添加边框 */
@@ -136,6 +136,7 @@ function BackUser() {
       }
     }
     .trueShow-box {
+      border-radius: 15px;
       height: 720px;
       width: 1380px;
       border: 1px solid rgb(4, 2, 21); /* 添加边框 */
@@ -146,6 +147,7 @@ function BackUser() {
     }
   }
   .down-box {
+    border-radius: 15px;
     height: 100px;
     width: 100%; /* 使用100%宽度 */
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */

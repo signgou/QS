@@ -94,7 +94,9 @@ function Quit() {
   QnName.value = '';
 }
 
-
+function cancel(){
+  dialogVisible.value = false;
+}
 
 </script>
 
@@ -137,12 +139,20 @@ function Quit() {
 
     <div v-if="dialogVisible" class="dialog-overlay">
       <div class="dialog-box">
-        <h3>输入添加的问卷的主题</h3>
-        <div class="input-group">
-          <label for="input1">问卷名</label>
-          <input type="text" id="input1" v-model="QnName" />
-          <button @click="Quit">确认</button>
-        </div>
+        <el-row style="margin-bottom: 20px;">
+          <el-text class="mx-1" tag="b" size="large" >输入添加的问卷的主题</el-text>
+        </el-row>
+        <el-row>
+          <el-form label-width="auto" style="max-width: 600px" size="small">
+          <el-form-item label="问卷名">
+              <el-input v-model="QnName" />
+          </el-form-item>
+          <el-form-item style="margin-bottom: 0;">
+            <el-button type="primary" @click="Quit">确认</el-button>
+            <el-button  @click="cancel"> 取消</el-button>
+          </el-form-item>
+        </el-form>
+        </el-row>
       </div>
     </div>
 
@@ -154,6 +164,7 @@ function Quit() {
 
 
 <style lang="scss" scoped>
+
 .Main-box {
   background-image: url('/back3.jpg');
   /* 替换为你的背景图片路径 */
@@ -167,11 +178,7 @@ function Quit() {
   height: 930px;
   width: 1400px;
   overflow: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
- 
+
   border-radius: 15px;
   padding: 10px;
   display: flex;
@@ -279,7 +286,7 @@ function Quit() {
 
 .dialog-box {
   background: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }

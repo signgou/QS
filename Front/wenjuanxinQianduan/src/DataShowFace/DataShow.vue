@@ -108,10 +108,7 @@ function Back() {
   height: 930px;
   width: 1400px;
   overflow: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
   background-image: url('/back1.jpg');
   background-color: aliceblue;
   background-size: cover; /* 使背景图片覆盖整个容器 */

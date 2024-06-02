@@ -26,6 +26,7 @@
 import { defineComponent } from 'vue';
 import { FillIn } from '@/BasicDataStruct/QuestionType';
 import { useQidModQt } from '@/hook/useQid';
+import {useSuccess,usePrompt} from '@/hook/useAlert';
 export default defineComponent({
   props: {
     question: {
@@ -43,11 +44,12 @@ export default defineComponent({
   },
   methods: {
     async changeTitle() {
-      const newTitle = prompt('请输入新的填空题标题:');
+      const newTitle = await usePrompt('请输入新的填空题标题:');
       if (newTitle) {
         await useQidModQt(this.question.qid,'fillQns',{
            title : newTitle
-        })
+        });
+        useSuccess('修改标题成功');
         this.question.changeTittle(newTitle);
       }
     },

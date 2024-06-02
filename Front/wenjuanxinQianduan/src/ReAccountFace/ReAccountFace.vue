@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { apiRegister } from '@/apis/register';
-import {useSuccess,useError} from '@/hook/useAlert';
+import {useSuccess,useError,useConfirmSuccess} from '@/hook/useAlert';
 const router=useRouter()
 
 // 创建响应式变量来绑定输入框的值
@@ -12,6 +12,7 @@ let inputPasswordAgain = ref<string>('');
 
 
 function register() {
+
     let param =({
       userName: inputName.value,
       passWord: inputPassword.value,
@@ -22,7 +23,9 @@ function register() {
         console.log(param)
         if(res.code=="0000")
         {
-          useSuccess('注册成功')
+          useConfirmSuccess('注册成功,需要回到登录界面吗','是的','不用，继续注册',()=>{
+              router.push('/');
+          })
         }
         else if(res.code=="1016"){
           useError('用户名已存在，注册失败')
@@ -86,10 +89,7 @@ function ReturnLogin()
     height: 930px;
     width: 1400px;
     overflow: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+
     background-color: aliceblue;
     border-radius: 15px;
     padding: 10px; /* 添加内边距 */

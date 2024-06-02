@@ -69,33 +69,32 @@ let shareURL = ref<string>(`http://192.168.99.254:5173/fill/${ route.params.qnid
   height: 930px;
   width: 1400px;
   overflow: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  border-radius: 15px;
 
   background-image: url('/back5.jpg');
   background-color: aliceblue;
+   /* 使背景图片覆盖整个容器 */
   background-size: cover;
-  /* 使背景图片覆盖整个容器 */
+   /* 使背景图片居中 */
   background-position: center;
-  /* 使背景图片居中 */
-  background-repeat: no-repeat;
   /* 防止背景图片重复 */
+  background-repeat: no-repeat;
 
   border-radius: 15px;
-  padding: 10px;
   /* 添加内边距 */
-  display: flex;
-  flex-direction: column;
+  padding: 10px;
+
+  display: flex;  
   /* 使子元素垂直排列 */
+  flex-direction: column;
+  /* 水平居中 */
   align-items: center;
 
-  /* 水平居中 */
+  
   .content-box {
+    border-radius: 15px;
     display: flex;
     flex-direction: row;
-    /* 使 .showBody-box 和 .side-box 水平排列 */
     align-items: flex-start;
     /* 上对齐 */
     gap: 10px;
@@ -103,11 +102,13 @@ let shareURL = ref<string>(`http://192.168.99.254:5173/fill/${ route.params.qnid
   }
 
   .showBody-box {
+    border-radius: 15px;
     align-items: center;
     height: 800px;
     width: 1380px;
 
     .head-box {
+      border-radius: 15px;
       height: 50px;
       width: 1380px;
       border: 1px solid rgb(4, 2, 21);
@@ -126,35 +127,31 @@ let shareURL = ref<string>(`http://192.168.99.254:5173/fill/${ route.params.qnid
     }
 
     .trueShow-box {
+      border-radius: 15px;
       height: 720px;
       width: 1380px;
       border: 1px solid rgb(4, 2, 21);
-      /* 添加边框 */
       overflow-y: auto;
-      /* 启用垂直滚动条 */
       display: flex;
       flex-direction: column;
-      /* 使内部组件垂直排列 */
       padding: 10px;
-      /* 添加内边距 */
     }
   }
 
   .down-box {
+    border-radius: 15px;
     height: 100px;
     width: 100%;
-    /* 使用100%宽度 */
     border: 1px solid rgb(4, 2, 21);
-    /* 添加边框 */
     margin-top: 10px;
-    /* 添加顶部间距 */
     display: flex;
+
     justify-content: center;
-    /* 水平居中 */
     align-items: center;
-    /* 垂直居中 */
-    gap: 20px;
+    
     /* 按钮之间的间距 */
+    gap: 20px;
+
   }
 
   .down-btn {

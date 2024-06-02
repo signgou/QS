@@ -46,7 +46,7 @@ import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
 import { useRouter,useRoute } from 'vue-router';
 import { useQnidGetAllProblem,useQnidCreateQt} from '@/hook/useQnid';
 import { useQidDelQt } from '@/hook/useQid';
-
+import {useConfirmDelete} from '@/hook/useAlert'
 
 
 
@@ -123,8 +123,11 @@ export default defineComponent({
 
 
     async function deleteIt(qid:string,type:string,pos:number){
-      await useQidDelQt(qid,type);
-      questionnaireEditor.value.removeQuestion(pos);
+      useConfirmDelete(async()=>{
+        await useQidDelQt(qid,type);
+        questionnaireEditor.value.removeQuestion(pos);
+      })
+
     }
     function finish(){
       // 完成问卷编辑的逻辑
@@ -166,22 +169,18 @@ export default defineComponent({
   /* 使背景图片居中 */
   background-repeat: no-repeat;
   /* 防止背景图片重复 */
-
+  border-radius: 15px;
   height: 930px;
   width: 1400px;
   overflow: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 
-  
   border-radius: 15px;
   padding: 10px; /* 添加内边距 */
   display: flex;
   flex-direction: column; /* 使子元素垂直排列 */
   align-items: center; /* 水平居中 */
   .content-box {
+    border-radius: 15px;
     display: flex;
     flex-direction: row; /* 使 .showBody-box 和 .side-box 水平排列 */
     align-items: flex-start; /* 上对齐 */
@@ -189,6 +188,7 @@ export default defineComponent({
   }
 
   .showBody-box {
+    border-radius: 15px;
     height: 800px;
     width: 1200px;
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
@@ -206,9 +206,10 @@ export default defineComponent({
       margin-right: 10px;
     }
     .trueShow-box {
+      border-radius: 15px;
       height: 800px;
       width: 1200px;
-      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+ 
       overflow-y: auto; /* 启用垂直滚动条 */
       display: flex;
       flex-direction: column; /* 使内部组件垂直排列 */
@@ -217,6 +218,7 @@ export default defineComponent({
   }
 
   .side-box {
+    border-radius: 15px;
     height: 800px;
     width: 170px;
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
@@ -241,6 +243,7 @@ export default defineComponent({
   }
 
   .down-box {
+    border-radius: 15px;
     height: 130px;
     width: 100%; /* 使用100%宽度 */
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */

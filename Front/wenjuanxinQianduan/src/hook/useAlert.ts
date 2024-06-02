@@ -34,3 +34,27 @@ export function useConfirmDelete(yes:Function){
       yes();
     })
 }
+
+export function useConfirmSuccess(msg:string,ok:string,cancel:string,yes:Function){
+  ElMessageBox.confirm(
+    msg,
+    '请选择后续操作',
+    {
+      distinguishCancelAndClose: true,
+      confirmButtonText: ok,
+      cancelButtonText: cancel,
+      type:'success'
+    }
+  )
+    .then(() => {
+      yes();
+    })
+}
+
+export async function usePrompt(msg:string){
+  let {value}=await ElMessageBox.prompt(msg, 'Tip', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+  });
+  return value;
+}

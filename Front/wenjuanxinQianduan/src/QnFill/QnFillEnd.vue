@@ -38,11 +38,7 @@ function Back() {
     height: 930px;
     width: 1400px;
     overflow: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
+    
     background-image: url('/back6.jpg');
     background-color: aliceblue;
     background-size: cover;
