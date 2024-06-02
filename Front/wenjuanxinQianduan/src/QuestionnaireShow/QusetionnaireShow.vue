@@ -8,7 +8,7 @@ import {
   OPtion,
 } from "@/BasicDataStruct/QuestionType";
 import { useRoute, useRouter } from "vue-router";
-import { useQnidGetAllProblem } from "@/hook/useQnidGetProblem";
+import { useQnidGetAllProblem } from "@/hook/useQnid";
 
 const router = useRouter();
 const route = useRoute();
@@ -50,24 +50,13 @@ function BackUser() {
           <div>
             <!-- 展示单选题 -->
 
-            <div
-              v-for="(question, index) in questionnaireEditor?.questionNaire"
-              :key="index"
-            >
+            <div v-for="(question, index) in questionnaireEditor?.questionNaire" :key="index">
               <h3>
                 {{ question instanceof oneChoiceP ? question.tittle : "" }}
               </h3>
-              <el-radio-group
-                v-model="question.whichBeChoose"
-                style="align-items: flex-start"
-                class="ml-4 vertical-radio-group"
-                v-if="question instanceof oneChoiceP"
-              >
-                <el-radio
-                  v-for="(option, i) in question.returnQuestion()"
-                  :key="i"
-                  :value="option.value"
-                >
+              <el-radio-group v-model="question.whichBeChoose" style="align-items: flex-start"
+                class="ml-4 vertical-radio-group" v-if="question instanceof oneChoiceP">
+                <el-radio v-for="(option, i) in question.returnQuestion()" :key="i" :value="option.value">
                   {{ option.label }}
                 </el-radio>
               </el-radio-group>
@@ -76,28 +65,17 @@ function BackUser() {
               <h3>
                 {{ question instanceof MoreChoice ? question.tittle : "" }}
               </h3>
-              <el-checkbox-group
-                v-model="question.whichBeChoose"
-                style="align-items: flex-start"
-                class="ml-4 vertical-checkbox-group"
-                v-if="question instanceof MoreChoice"
-              >
-                <el-checkbox
-                  v-for="(option, i) in question.returnQuestion()"
-                  :key="i"
-                  :value="option.value"
-                >
+              <el-checkbox-group v-model="question.whichBeChoose" style="align-items: flex-start"
+                class="ml-4 vertical-checkbox-group" v-if="question instanceof MoreChoice">
+                <el-checkbox v-for="(option, i) in question.returnQuestion()" :key="i" :value="option.value">
                   {{ option.label }}
                 </el-checkbox>
               </el-checkbox-group>
 
               <!-- 展示填空题 -->
               <h3>{{ question instanceof FillIn ? question.Tittle : "" }}</h3>
-              <el-input
-                v-model="question.Answer"
-                placeholder="Please input your answer"
-                v-if="question instanceof FillIn"
-              />
+              <el-input v-model="question.Answer" placeholder="Please input your answer"
+                v-if="question instanceof FillIn" />
               <el-divider />
             </div>
           </div>
@@ -119,16 +97,18 @@ function BackUser() {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  background-image: url('/back7.jpg');
   background-color: aliceblue;
   background-size: cover; /* 使背景图片覆盖整个容器 */
   background-position: center; /* 使背景图片居中 */
   background-repeat: no-repeat; /* 防止背景图片重复 */
+  
   border-radius: 15px;
   padding: 10px; /* 添加内边距 */
   display: flex;
   flex-direction: column; /* 使子元素垂直排列 */
   align-items: center; /* 水平居中 */
-
   .content-box {
     display: flex;
     flex-direction: row; /* 使 .showBody-box 和 .side-box 水平排列 */
@@ -137,16 +117,26 @@ function BackUser() {
   }
 
   .showBody-box {
+    align-items: center;
     height: 800px;
-    width: 1390px;
-    border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+    width: 1380px;
     .head-box {
-      height: 100px;
+      height: 50px;
       width: 1380px;
       border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; 
+      margin-bottom: 20px;
+      .head{
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
     }
     .trueShow-box {
-      height: 700px;
+      height: 720px;
       width: 1380px;
       border: 1px solid rgb(4, 2, 21); /* 添加边框 */
       overflow-y: auto; /* 启用垂直滚动条 */
@@ -156,7 +146,7 @@ function BackUser() {
     }
   }
   .down-box {
-    height: 130px;
+    height: 100px;
     width: 100%; /* 使用100%宽度 */
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
     margin-top: 10px; /* 添加顶部间距 */
@@ -165,14 +155,24 @@ function BackUser() {
     align-items: center; /* 垂直居中 */
     gap: 20px; /* 按钮之间的间距 */
   }
-
-  .vertical-radio-group {
-    display: flex;
-    flex-direction: column;
+  .down-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #aaaaaa;
+    color: white;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
   }
-  .vertical-checkbox-group {
-    display: flex;
-    flex-direction: column;
+  .down-btn:hover {
+    background-color: #0056b3;
   }
+}
+.vertical-radio-group {
+  flex-direction: column;
+}
+.vertical-checkbox-group {
+  display: flex;
+  flex-direction: column;
 }
 </style>

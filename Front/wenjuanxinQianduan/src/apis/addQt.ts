@@ -1,6 +1,6 @@
 // 增加单选、多选、填空题
 import httpRequest from '@/request/index'
-
+import {HOST,PORT} from '@/config/APIconfig';
 // 定义接口的传参
 interface ChooseInfoParam {
 	title:string,
@@ -16,7 +16,7 @@ interface FillInfoParam {
 // 获取用户信息
 export function apiAddOne(param: ChooseInfoParam,qnid:string,type:string) {
     return httpRequest({
-		url: `http://192.168.99.254:3000/api/questionNaires/${type}/${qnid}`,
+		url: `http://${HOST}:${PORT}/api/questionNaires/${type}/${qnid}`,
 		method: 'post',
 		data: param,
 	})

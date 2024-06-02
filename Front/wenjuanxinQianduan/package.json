@@ -16,7 +16,9 @@
     "axios": "^1.7.2",
     "element-plus": "^2.7.3",
     "pinia": "^2.1.7",
+    "qrcodejs2": "^0.0.2",
     "vue": "^3.4.21",
+    "vue-qr": "^4.0.9",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {

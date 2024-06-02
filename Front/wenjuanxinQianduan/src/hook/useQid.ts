@@ -1,5 +1,27 @@
+import { apiDelQt } from "@/apis/delQt";
+import { apiModQt } from '@/apis/modQt';
 import { ref } from "vue";
 import { apiGetQt } from "@/apis/getQt";
+import { useError, useSuccess } from "./useAlert";
+
+export async function useQidDelQt(qid:string,type:string) {
+    let res = await apiDelQt(type,qid);
+    if(res.code.slice(0,1)==="0"){
+        alert("删除成功");
+    }
+    else{
+        alert("删除失败");
+    }
+}
+
+
+export async function useQidModQt(qid:string,type:string,data:any) {
+    let res=await apiModQt(data,type,qid);
+    if(res.code.slice(0,1) !== "0"){
+        useError("错误，修改失败");
+    }
+}
+
 
 export async function useQidGetQt(qid:string,type:string) {
     const title = ref<string>('');

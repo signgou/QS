@@ -8,9 +8,8 @@ import {
   OPtion,
 } from "@/BasicDataStruct/QuestionType";
 import { useRoute, useRouter } from "vue-router";
-import { useQnidGetAllProblem } from "@/hook/useQnidGetProblem";
-import { useQidModQt } from "@/hook/useQidModQt";
-import { useQidGetQt } from "@/hook/useQidGetQt";
+import { useQnidGetAllProblem } from "@/hook/useQnid";
+import { useQidModQt,useQidGetQt } from "@/hook/useQid";
 
 const router = useRouter();
 const route = useRoute();
@@ -147,16 +146,18 @@ async function fillEnd() {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  background-image: url('/back7.jpg');
   background-color: aliceblue;
   background-size: cover; /* 使背景图片覆盖整个容器 */
   background-position: center; /* 使背景图片居中 */
   background-repeat: no-repeat; /* 防止背景图片重复 */
+  
   border-radius: 15px;
   padding: 10px; /* 添加内边距 */
   display: flex;
   flex-direction: column; /* 使子元素垂直排列 */
   align-items: center; /* 水平居中 */
-
   .content-box {
     display: flex;
     flex-direction: row; /* 使 .showBody-box 和 .side-box 水平排列 */
@@ -165,16 +166,26 @@ async function fillEnd() {
   }
 
   .showBody-box {
+    align-items: center;
     height: 800px;
-    width: 1390px;
-    border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+    width: 1380px;
     .head-box {
-      height: 100px;
+      height: 50px;
       width: 1380px;
       border: 1px solid rgb(4, 2, 21); /* 添加边框 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; 
+      margin-bottom: 20px;
+      .head{
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
     }
     .trueShow-box {
-      height: 700px;
+      height: 720px;
       width: 1380px;
       border: 1px solid rgb(4, 2, 21); /* 添加边框 */
       overflow-y: auto; /* 启用垂直滚动条 */
@@ -184,7 +195,7 @@ async function fillEnd() {
     }
   }
   .down-box {
-    height: 130px;
+    height: 100px;
     width: 100%; /* 使用100%宽度 */
     border: 1px solid rgb(4, 2, 21); /* 添加边框 */
     margin-top: 10px; /* 添加顶部间距 */
@@ -193,14 +204,24 @@ async function fillEnd() {
     align-items: center; /* 垂直居中 */
     gap: 20px; /* 按钮之间的间距 */
   }
-
-  .vertical-radio-group {
-    display: flex;
-    flex-direction: column;
+  .down-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #393738;
+    color: white;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
   }
-  .vertical-checkbox-group {
-    display: flex;
-    flex-direction: column;
+  .down-btn:hover {
+    background-color: #0056b3;
   }
+}
+.vertical-radio-group {
+  flex-direction: column;
+}
+.vertical-checkbox-group {
+  display: flex;
+  flex-direction: column;
 }
 </style>

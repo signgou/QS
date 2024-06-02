@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useRouter, useRoute } from "vue-router";
 import { onBeforeMount, ref } from "vue";
-import { useQnidGetShow } from "@/hook/useQnidGetShow";
+import { useQnidGetShow } from "@/hook/useQnid";
 import {
   QuestionnaireAll,
   oneChoiceP,
@@ -50,7 +50,7 @@ function Back() {
     <div class="content-box">
       <div class="showBody-box">
         <div class="head-box">
-          <div class="head">数据展示</div>
+          <div style="font-weight: bold;color: #b6b9c2;font-size: 20px;" class="head">数据展示</div>
         </div>
         <div class="trueShow-box">
           <div>
@@ -112,6 +112,7 @@ function Back() {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background-image: url('/back1.jpg');
   background-color: aliceblue;
   background-size: cover; /* 使背景图片覆盖整个容器 */
   background-position: center; /* 使背景图片居中 */
@@ -165,7 +166,7 @@ function Back() {
   .down-btn {
     padding: 10px 20px;
     border: none;
-    background-color: #007bff;
+    background-color: #798287;
     color: white;
     font-size: 1em;
     border-radius: 5px;

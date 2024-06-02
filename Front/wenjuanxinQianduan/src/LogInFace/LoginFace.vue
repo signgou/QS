@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { apiGetUserInfo } from '@/apis/login';
+import {useSuccess,useError} from '@/hook/useAlert';
 
 const router=useRouter()
 
@@ -24,11 +25,11 @@ function Loginin(intName: string, inPassword: string) {
   // userInfoStore.id=inputName.value
 	apiGetUserInfo(param).then((res) => {
 		if(res.msg=='登录成功') {
-      alert('登录成功');
+      useSuccess('登录成功');
       router.push(`/user/${res.data.uid}`);
     }
     else{
-      alert('登录失败');
+      useError('登录失败，请检查用户名或密码');
     }
     // console.log(res)
 	})
@@ -46,7 +47,7 @@ function Register()
 <template>
   <div class="loginBody-box">
     <div class="Tittle-box">
-      <el-text class="title">问卷调查系统</el-text>
+      <el-text style="font-weight: bold;" class="title">问卷调查系统</el-text>
     </div>
 
     <div class="enter-box">
@@ -78,7 +79,7 @@ function Register()
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-image: url('/back.png'); /* 替换为你的背景图片路径 */
+    background-image: url('/back2.jpg'); /* 替换为你的背景图片路径 */
     background-size: cover; /* 使背景图片覆盖整个容器 */
     background-position: center; /* 使背景图片居中 */
     background-repeat: no-repeat; /* 防止背景图片重复 */
@@ -99,7 +100,8 @@ function Register()
   }
 
   .enter-box {
-    height: 400px;
+    margin-top: 200px;
+    height: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -138,7 +140,7 @@ function Register()
   .button-box .btn {
     padding: 10px 20px;
     border: none;
-    background-color: #007bff;
+    background-color: rgb(120, 116, 129);
     color: white;
     font-size: 1em;
     border-radius: 5px;

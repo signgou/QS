@@ -11,21 +11,34 @@
       />
     </div>
     <div class="button-group">
-      <button class="change-title-btn" @click="changeTitle">修改标题</button>
+      <el-button color="#504547"  size="small" class="change-title-btn" @click="changeTitle">修改标题</el-button>
+      <el-button size="small" style="margin-left: 10px;" type="danger" :icon="Delete" circle @click="deleteFill('fillQns')" />
     </div>
     <hr />
   </div>
 </template>
 
+<script lang = "ts" setup>
+  import { Delete } from '@element-plus/icons-vue';
+  
+</script>
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { FillIn } from '@/BasicDataStruct/QuestionType';
-import { useQidModQt } from '@/hook/useQidModQt';
+import { useQidModQt } from '@/hook/useQid';
 export default defineComponent({
   props: {
     question: {
       type: FillIn,
       required: true
+    },
+    deleteSelf:{
+      type : Function,
+      required : true
+    },
+    pos:{
+      type : Number,
+      required : true
     }
   },
   methods: {
@@ -40,6 +53,9 @@ export default defineComponent({
     },
     updateAnswer(newAnswer: string) {
       this.question.changeAnswer(newAnswer);
+    },
+    deleteFill(type:string){
+        this.deleteSelf(this.question.qid,type,this.pos);
     }
   }
 });

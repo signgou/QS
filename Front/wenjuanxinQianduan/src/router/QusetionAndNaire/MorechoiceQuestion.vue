@@ -12,25 +12,37 @@
         </el-checkbox>
       </el-checkbox-group>
       <div class="button-group">
-        <button class="add-option-btn" @click="addOption">+</button>
-        <button class="remove-option-btn" @click="removeOption">-</button>
-        <button class="change-title-btn" @click="changeTitle">修改标题</button>
+        <el-button color="#504547"  size="small" :icon="Plus" circle @click="addOption"/>
+        <el-button color="#504547" size="small" :icon="Minus" circle @click="removeOption"/>
+        <el-button color="#504547"  size="small" class="change-title-btn" @click="changeTitle">修改标题</el-button>
+        <el-button size="small" style="margin-left: 10px;" type="danger" :icon="Delete" circle @click="deleteMore('moreQns')" />
       </div>
     </div>
     <hr />
   </div>
 </template>
 
+<script lang = "ts" setup>
+  import { Delete,Plus,Minus } from '@element-plus/icons-vue';
+  
+</script>
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { MoreChoice, OPtion } from '@/BasicDataStruct/QuestionType';
-import { useQidGetQt } from '@/hook/useQidGetQt';
-import { useQidModQt } from '@/hook/useQidModQt';
+import { useQidModQt } from '@/hook/useQid';
 export default defineComponent({
   props: {
     question: {
       type: MoreChoice,
       required: true
+    },
+    deleteSelf:{
+      type : Function,
+      required : true
+    },
+    pos:{
+      type : Number,
+      required : true
     }
   },
   methods: {
@@ -65,6 +77,9 @@ export default defineComponent({
         })
         this.question.changeTittle(newTitle);
       }
+    },
+    deleteMore(type:string){
+        this.deleteSelf(this.question.qid,type,this.pos);
     }
   }
 });
@@ -93,16 +108,10 @@ export default defineComponent({
 }
 
 .button-group {
-  margin-top: 10px;
+  margin-top: 5px;
   display: flex;
 }
 
-.add-option-btn,
-.remove-option-btn {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
 </style>
 
 

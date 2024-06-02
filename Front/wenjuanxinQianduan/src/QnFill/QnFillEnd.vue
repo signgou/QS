@@ -12,9 +12,20 @@ function Back() {
     <div class="Main-box">
         <el-row>
             <el-col>
-                <el-result icon="success" title="问卷填写成功" sub-title="感谢你的参与">
+                <el-result >
+                    <template #icon>
+                        <el-image
+                            src="/success.gif"
+                        />
+                    </template>
+                    <template #title>
+                        <el-text class="mx-1" style="color:#f8f8f8;font-size: 25px;">问卷填写成功</el-text>
+                    </template>
+                    <template #sub-title>
+                        <el-text class="mx-1" style="color:#f8f8f8;font-size: 15px;">感谢你的参与</el-text>
+                    </template>
                     <template #extra>
-                        <el-button type="primary" @click='Back'>我也想创建问卷</el-button>
+                        <el-button type="primary" @click='Back' color="#c6a57a">我也想创建问卷</el-button>
                     </template>
                 </el-result>
             </el-col>
@@ -31,6 +42,8 @@ function Back() {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    background-image: url('/back6.jpg');
     background-color: aliceblue;
     background-size: cover;
     /* 使背景图片覆盖整个容器 */

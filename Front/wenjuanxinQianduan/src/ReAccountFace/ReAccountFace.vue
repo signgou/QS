@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { apiRegister } from '@/apis/register';
+import {useSuccess,useError} from '@/hook/useAlert';
 const router=useRouter()
 
 // 创建响应式变量来绑定输入框的值
@@ -16,19 +17,24 @@ function register() {
       passWord: inputPassword.value,
     })
 
-    apiRegister(param).then((res)=>{
-      console.log(param)
-      if(res.code=="0000")
-      {
-        alert('注册成功')
-      }
-      else if(res.code=="1016"){
-        alert('用户名已存在，注册失败')
-      }
-      else{
-        alert('注册失败')
-      }
-    })  
+    if(inputPassword.value === inputPasswordAgain.value){
+        apiRegister(param).then((res)=>{
+        console.log(param)
+        if(res.code=="0000")
+        {
+          useSuccess('注册成功')
+        }
+        else if(res.code=="1016"){
+          useError('用户名已存在，注册失败')
+        }
+        else{
+          useError('注册失败')
+        }
+      })  
+    }
+    else{
+      useError("输入密码不一致");
+    }
 }
 
 function ReturnLogin()
@@ -42,7 +48,7 @@ function ReturnLogin()
 <template>
   <div class="loginBody-box">
     <div class="Tittle-box">
-      <h1 class="title">注册新账户</h1>
+      <el-text style="font-weight: bold;" class="title">注册新账户</el-text>
     </div>
 
     <div class="enter-box">
@@ -72,6 +78,11 @@ function ReturnLogin()
 
 <style lang='scss' scoped>
   .loginBody-box {
+    background-image: url('/back2.jpg'); /* 替换为你的背景图片路径 */
+    background-size: cover; /* 使背景图片覆盖整个容器 */
+    background-position: center; /* 使背景图片居中 */
+    background-repeat: no-repeat; /* 防止背景图片重复 */
+    
     height: 930px;
     width: 1400px;
     overflow: auto;
@@ -97,7 +108,8 @@ function ReturnLogin()
   }
 
   .enter-box {
-    height: 400px;
+    margin-top: 200px;
+    height: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -136,7 +148,7 @@ function ReturnLogin()
   .button-box .btn {
     padding: 10px 20px;
     border: none;
-    background-color: #007bff;
+    background-color: rgb(120, 116, 129);
     color: white;
     font-size: 1em;
     border-radius: 5px;

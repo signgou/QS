@@ -2,66 +2,64 @@
 <script lang="ts" setup>
 import { FillIn, MoreChoice, OPtion, QuestionnaireAll, oneChoiceP } from '@/BasicDataStruct/QuestionType';
 import { Users } from '@/BasicDataStruct/users';
-import {  ref, onBeforeMount} from 'vue';
-import { useRouter,useRoute } from 'vue-router';
+import { ref, onBeforeMount } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { apiQnCreate } from '@/apis/qnCreate';
-import {useUidGetQn} from '@/hook/useUidGetQn'
-import { useQnidDelQn } from '@/hook/useQnidDelQn';
-
+import { useUidGetQn } from '@/hook/useUidGetQn'
+import { useQnidDelQn } from '@/hook/useQnid';
+import {useSuccess,useError,useConfirmDelete} from '@/hook/useAlert';
 
 const route = useRoute();
 const router = useRouter()
-let QnName=ref('')
-let dialogVisible=ref(false)
+let QnName = ref('')
+let dialogVisible = ref(false)
 
-function Create(){
-  dialogVisible.value=true  
+function Create() {
+  dialogVisible.value = true
 }
 
-function ReturnLogin(){
+function ReturnLogin() {
   router.push('/')
 }
 
-function QusetShow()
-{
-  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
+function QusetShow() {
+  let qnid = exampleQuestionnaires.value[selctedQn.value].qnid;
   router.push(`/QuestShow/${qnid}`)
 }
 
-function DataShow()
-{
-  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
+function DataShow() {
+  let qnid = exampleQuestionnaires.value[selctedQn.value].qnid;
   router.push(`/Data/${qnid}`)
 }
 
-function Edit()
-{
-  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
+function Edit() {
+  let qnid = exampleQuestionnaires.value[selctedQn.value].qnid;
   router.push(`/create/${qnid}`)
 }
 
-function Send()
-{
-  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
+function Send() {
+  let qnid = exampleQuestionnaires.value[selctedQn.value].qnid;
   router.push(`/QuestShare/${qnid}`)
 }
 
-async function Delete(){
-  let qnid= exampleQuestionnaires.value[selctedQn.value].qnid;
-   await useQnidDelQn(qnid);
-   exampleQuestionnaires.value.splice(selctedQn.value,1);
+async function Delete() {
+  useConfirmDelete(async()=>{
+    let qnid = exampleQuestionnaires.value[selctedQn.value].qnid;
+    await useQnidDelQn(qnid);
+    exampleQuestionnaires.value.splice(selctedQn.value, 1);
+  });
 }
 //被选择问卷的qnid
-const selctedQn=ref(0);
+const selctedQn = ref(0);
 let exampleQuestionnaires = ref<QuestionnaireAll[]>([]);
 
-onBeforeMount(()=>{
+onBeforeMount(() => {
 
   async function main() {
-    const {userName,qnids,qnNames}= await useUidGetQn(route.params.uid as string);
-    user.value.userName=userName.value;
-    qnids.value.forEach((qnid,index)=>{
-      exampleQuestionnaires.value.push(new QuestionnaireAll(qnid,qnNames.value[index],[]));
+    const { userName, qnids, qnNames } = await useUidGetQn(route.params.uid as string);
+    user.value.userName = userName.value;
+    qnids.value.forEach((qnid, index) => {
+      exampleQuestionnaires.value.push(new QuestionnaireAll(qnid, qnNames.value[index], []));
     })
   }
   main().catch(err => {
@@ -76,24 +74,24 @@ const user = ref<Users>(
 
 
 
-function Quit()
-{
-  dialogVisible.value=false
-  let param={
-    qnName:QnName.value
+function Quit() {
+  dialogVisible.value = false
+  let param = {
+    qnName: QnName.value
   }
-  
-  apiQnCreate(param,route.params.uid as string).then((res) => {
-		if(res.code=='0016') {
-      alert('创建成功');
-      exampleQuestionnaires.value.push(new QuestionnaireAll(res.data.qnid,res.data.qnName,[]))
+
+  apiQnCreate(param, route.params.uid as string).then((res) => {
+    if (res.code == '0016') {
+      useSuccess('创建成功');
+      exampleQuestionnaires.value.push(new QuestionnaireAll(res.data.qnid, res.data.qnName, []))
       // router.push('/create')
     }
-    else{
-      alert('创建失败');
+    else {
+      useError('创建失败');
     }
     // console.log(res)
-	})
+  })
+  QnName.value = '';
 }
 
 
@@ -106,20 +104,20 @@ function Quit()
     <div class="content-box">
       <div class="showBody-box">
         <div class="head-box">
-          <div class="head">用户中心</div>
-          <div>{{ user.userName }}</div> <!-- 显示用户名 -->
+          <el-text class="head">用户中心</el-text>
+          <el-text style="font-weight: bold;">{{ user.userName }}</el-text> <!-- 显示用户名 -->
         </div>
         <div class="trueShow-box">
-            <!-- <button class="questionnaire-btn" @click="ChooseAndShow"></button> -->
-            <el-radio-group v-model="selctedQn" style="display: flex;flex-flow: column nowrap; align-items:center;" >
-            <div v-for="(questionnaire, index) in user.returnQuestionnaireAll()" :key="index" >
-                <el-radio-button style="
+          <!-- <button class="questionnaire-btn" @click="ChooseAndShow"></button> -->
+          <el-radio-group v-model="selctedQn" style="display: flex; flex-flow: column nowrap; align-items:center;" fill="#585858">
+            <div v-for="(questionnaire, index) in user.returnQuestionnaireAll()" :key="index">
+              <el-radio-button style="
                             margin: 10px 0;
-                            width: auto;" 
-                class="questionnaire-btn"  :label= '"问卷 ："+" "+questionnaire.returnTittle()'  :value='index' />
+                            width: auto;" color="#1f1f1f" :label='"问卷 ：" + " " + questionnaire.returnTittle()'
+                :value='index' />
             </div>
-            </el-radio-group>
-        
+          </el-radio-group>
+
         </div>
       </div>
 
@@ -135,8 +133,8 @@ function Quit()
     <div class="down-box">
       <button class="down-btn" @click="ReturnLogin">退出</button>
       <button class="down-btn" @click="Create">添加新问卷</button>
-    </div> 
-    
+    </div>
+
     <div v-if="dialogVisible" class="dialog-overlay">
       <div class="dialog-box">
         <h3>输入添加的问卷的主题</h3>
@@ -146,15 +144,26 @@ function Quit()
           <button @click="Quit">确认</button>
         </div>
       </div>
-  </div>
+    </div>
 
   </div>
 
-  
+
 </template>
+
+
 
 <style lang="scss" scoped>
 .Main-box {
+  background-image: url('/back3.jpg');
+  /* 替换为你的背景图片路径 */
+  background-size: cover;
+  /* 使背景图片覆盖整个容器 */
+  background-position: center;
+  /* 使背景图片居中 */
+  background-repeat: no-repeat;
+  /* 防止背景图片重复 */
+
   height: 930px;
   width: 1400px;
   overflow: auto;
@@ -162,10 +171,7 @@ function Quit()
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: aliceblue;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+ 
   border-radius: 15px;
   padding: 10px;
   display: flex;
@@ -184,6 +190,7 @@ function Quit()
     width: 1200px;
     border: 1px solid rgb(4, 2, 21);
     border-radius: 10px;
+
     .head-box {
       display: flex;
       flex-direction: column;
@@ -191,7 +198,7 @@ function Quit()
       margin-bottom: 20px;
 
       .head {
-        font-size: 2em;
+        font-size: 20px;
         font-weight: bold;
         margin-bottom: 10px;
       }
@@ -220,7 +227,7 @@ function Quit()
   .side-btn {
     padding: 10px;
     border: none;
-    background-color: #007bff;
+    background-color:#585858;
     color: white;
     font-size: 1em;
     border-radius: 5px;
@@ -246,7 +253,7 @@ function Quit()
   .down-btn {
     padding: 10px 20px;
     border: none;
-    background-color: #007bff;
+    background-color: #585858;
     color: white;
     font-size: 1em;
     border-radius: 5px;
@@ -276,6 +283,4 @@ function Quit()
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
 </style>
-

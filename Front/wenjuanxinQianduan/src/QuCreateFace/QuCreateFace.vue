@@ -8,16 +8,18 @@
             v-for="(question, index) in questionnaireEditor.questionNaire"
             :key="index"
             :question="question"
+            :pos = "index"
+            :deleteSelf="deleteIt"
             @updateQuestion="handleUpdateQuestion"
           />
         </div>
       </div>
       <div class="side-box">
         <button class="side-btn" @click="openDialog">添加问题</button>
-        <button class="side-btn" @click="removeQuestion">删除问题</button>
       </div>
     </div>
     <div class="down-box">
+      <button class="down-btn" @click="show">预览</button>
       <button class="down-btn" @click="finish">完成</button>
       <button class="down-btn" @click="share">分享</button>
     </div>
@@ -42,9 +44,8 @@ import OnechoiceQuestion from '@/router/QusetionAndNaire/OnechoiceQuestion.vue';
 import MorechoiceQuestion from '@/router/QusetionAndNaire/MorechoiceQuestion.vue';
 import FillinQuestion from '@/router/QusetionAndNaire/FillinQuestion.vue';
 import { useRouter,useRoute } from 'vue-router';
-import { useQnidGetAllProblem } from '@/hook/useQnidGetProblem';
-import { useQnidCreateQt } from '@/hook/useQnidCreatQt';
-import { useQnidDelQn } from '@/hook/useQnidDelQn';
+import { useQnidGetAllProblem,useQnidCreateQt} from '@/hook/useQnid';
+import { useQidDelQt } from '@/hook/useQid';
 
 
 
@@ -120,19 +121,18 @@ export default defineComponent({
       dialogVisible.value = false;
     };
 
-    const removeQuestion = async() => {
-      if (questionnaireEditor.value.questionNaire.length > 0) {
-        await useQnidDelQn(questionnaireEditor.value.qnid);
-        questionnaireEditor.value.questionNaire.pop();
-      }
 
-    };
-
+    async function deleteIt(qid:string,type:string,pos:number){
+      await useQidDelQt(qid,type);
+      questionnaireEditor.value.removeQuestion(pos);
+    }
     function finish(){
       // 完成问卷编辑的逻辑
-      router.back();
+      router.go(-1);
     };
-
+    function show(){
+      router.push(`/QuestShow/${route.params.qnid}`);
+    }
     function share(){
       // 分享问卷的逻辑
       router.push(`/QuestShare/${route.params.qnid}`)
@@ -146,9 +146,10 @@ export default defineComponent({
       openDialog,
       closeDialog,
       addSpecificQuestion,
-      removeQuestion,
+      deleteIt,
       finish,
-      share
+      share,
+      show
     };
   }
 });
@@ -156,6 +157,16 @@ export default defineComponent({
 
 <style lang='scss' scoped>
 .Main-box {
+
+  background-image: url('/back10.jpg');
+  /* 替换为你的背景图片路径 */
+  background-size: cover;
+  /* 使背景图片覆盖整个容器 */
+  background-position: center;
+  /* 使背景图片居中 */
+  background-repeat: no-repeat;
+  /* 防止背景图片重复 */
+
   height: 930px;
   width: 1400px;
   overflow: auto;
@@ -163,10 +174,8 @@ export default defineComponent({
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: aliceblue;
-  background-size: cover; /* 使背景图片覆盖整个容器 */
-  background-position: center; /* 使背景图片居中 */
-  background-repeat: no-repeat; /* 防止背景图片重复 */
+
+  
   border-radius: 15px;
   padding: 10px; /* 添加内边距 */
   display: flex;
@@ -220,7 +229,7 @@ export default defineComponent({
   .side-btn {
     padding: 10px;
     border: none;
-    background-color: #007bff;
+    background-color: #504547;
     color: white;
     font-size: 1em;
     border-radius: 5px;
@@ -245,7 +254,7 @@ export default defineComponent({
   .down-btn {
     padding: 10px 20px;
     border: none;
-    background-color: #007bff;
+    background-color: #504547;
     color: white;
     font-size: 1em;
     border-radius: 5px;
@@ -284,7 +293,7 @@ export default defineComponent({
   margin: 5px;
   padding: 10px 20px;
   border: none;
-  background-color: #007bff;
+  background-color: #504547;
   color: white;
   font-size: 1em;
   border-radius: 5px;
