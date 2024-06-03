@@ -12,6 +12,10 @@ export default defineConfig({
     vueJsx(),
     VueDevTools(),
   ],
+  server: {
+    host: '0.0.0.0', // 这个用于启动
+    port: 80, // 指定启动端口
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
