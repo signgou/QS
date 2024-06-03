@@ -2,7 +2,7 @@
 import { useRouter, useRoute } from 'vue-router';
 import { ref } from 'vue';
 import vueQr from 'vue-qr/src/packages/vue-qr.vue';
-
+import { HOST,PORT } from '@/config/shareConfig';
 const router = useRouter();
 const route = useRoute();
 function Quit() {
@@ -23,7 +23,7 @@ function downloadQrcode() {
       a.click();
 }
 let qrDownloadUrl = ref<string>('');
-let shareURL = ref<string>(`http://192.168.99.254:5173/fill/${ route.params.qnid }`); 
+let shareURL = ref<string>(`http://${HOST}:${PORT}/fill/${ route.params.qnid }`); 
 </script>
 
 
