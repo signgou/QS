@@ -107,7 +107,10 @@ function cancel(){
       <div class="showBody-box">
         <div class="head-box">
           <el-text class="head">用户中心</el-text>
-          <el-text style="font-weight: bold;">{{ user.userName }}</el-text> <!-- 显示用户名 -->
+          <div>
+            <el-icon size="18px"><Avatar /></el-icon>
+            <el-text style="font-weight: bold;"> &nbsp;:&nbsp; {{ user.userName }}</el-text> <!-- 显示用户名 -->
+          </div>
         </div>
         <div class="trueShow-box">
           <!-- <button class="questionnaire-btn" @click="ChooseAndShow"></button> -->
@@ -148,7 +151,7 @@ function cancel(){
               <el-input v-model="QnName" />
           </el-form-item>
           <el-form-item style="margin-bottom: 0;">
-            <el-button type="primary" @click="Quit">确认</el-button>
+            <el-button color="#585858" type="primary" @click="Quit">确认</el-button>
             <el-button  @click="cancel"> 取消</el-button>
           </el-form-item>
         </el-form>

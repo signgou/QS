@@ -53,25 +53,24 @@ function ReturnLogin()
     <div class="Tittle-box">
       <el-text style="font-weight: bold;" class="title">注册新账户</el-text>
     </div>
-
     <div class="enter-box">
-      <div class="input-group">
-        <label for="register-username">用户名:</label>
-        <input type="text" id="register-username" v-model="inputName" />
-      </div>
-      <div class="input-group">
-        <label for="register-password">密码:</label>
-        <input type="password" id="register-password" v-model="inputPassword" />
-      </div>
-      <div class="input-group">
-        <label for="confirm-password">再次输入密码:</label>
-        <input type="password" id="confirm-password" v-model="inputPasswordAgain" />
-      </div>
-    </div>
-
-    <div class="button-box">
-      <button class="btn" @click="register()">注册</button>
-      <button class="btn" @click="ReturnLogin">返回登录</button>
+      <el-form  label-width="auto" style="width: 400px;max-width: 600px" label-position="left">
+        <el-form-item label="用户名:">
+          <el-input v-model="inputName" />
+        </el-form-item>
+        <el-form-item label="密码:">
+          <el-input v-model="inputPassword" type="password" show-password />
+        </el-form-item>
+        <el-form-item label="再次输入密码:">
+          <el-input v-model="inputPasswordAgain" type="password" show-password />
+        </el-form-item>
+        <el-form-item >
+          <el-row justify="center" style=" width: 100%; margin-top: 50px;" >
+            <el-button  @click="register()">注册</el-button>
+            <el-button  @click="ReturnLogin">返回登录</el-button>
+          </el-row>
+        </el-form-item>
+    </el-form>
     </div>
   </div>
 </template>
@@ -117,45 +116,15 @@ function ReturnLogin()
     align-items: center; /* 水平居中 */
     padding: 20px;
   }
-
-  .input-group {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center; /* 垂直居中 */
-    justify-content: center; /* 水平居中 */
-  }
-
-  .input-group label {
-    margin-right: 10px;
-  }
-
-  .input-group input {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 300px; /* 设置输入框宽度 */
-  }
-
-  .button-box {
-    height: 130px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* 设置按钮之间的间距 */
-  }
-
-  .button-box .btn {
-    padding: 10px 20px;
-    border: none;
-    background-color: rgb(120, 116, 129);
+  .el-button{
+    background-color: #908d96;
     color: white;
-    font-size: 1em;
-    border-radius: 5px;
-    cursor: pointer;
   }
-
-  .button-box .btn:hover {
-    background-color: #0056b3;
+  .el-button:hover {
+    background-color: black;
+    color: white;
+  }
+  .el-button+.el-button {
+    margin-left: 70px;
   }
 </style>
