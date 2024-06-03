@@ -1,4 +1,4 @@
 
-let HOST = "192.168.99.254";
-let PORT = "5173";
+let HOST = "127.0.0.1";
+let PORT = "80";
 export  {HOST , PORT};
