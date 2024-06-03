@@ -24,7 +24,7 @@ export function apiAddOne(param: ChooseInfoParam,qnid:string,type:string) {
 
 export function apiAddMut(param: ChooseInfoParam,qnid:string,type:string) {
     return httpRequest({
-		url: `http://192.168.99.254:3000/api/questionNaires/${type}/${qnid}`,
+		url: `http://${HOST}:${PORT}/api/questionNaires/${type}/${qnid}`,
 		method: 'post',
 		data: param,
 	})
@@ -32,7 +32,7 @@ export function apiAddMut(param: ChooseInfoParam,qnid:string,type:string) {
 
 export function apiAddFill(param: FillInfoParam,qnid:string,type:string) {
     return httpRequest({
-		url: `http://192.168.99.254:3000/api/questionNaires/${type}/${qnid}`,
+		url: `http://${HOST}:${PORT}/api/questionNaires/${type}/${qnid}`,
 		method: 'post',
 		data: param,
 	})
