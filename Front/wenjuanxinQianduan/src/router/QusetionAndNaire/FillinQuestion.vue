@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="show-box">
     <h3>{{ question.Tittle }}</h3>
     <hr />
     <div class="my-2 flex items-start text-sm">
@@ -11,7 +11,7 @@
       />
     </div>
     <div class="button-group">
-      <el-button color="#504547"  size="small" class="change-title-btn" @click="changeTitle">修改标题</el-button>
+      <el-button color="#504547"  size="small" @click="changeTitle">修改标题</el-button>
       <el-button size="small" style="margin-left: 10px;" type="danger" :icon="Delete" circle @click="deleteFill('fillQns')" />
     </div>
     <hr />
@@ -65,26 +65,12 @@ export default defineComponent({
 
 
 <style lang='scss' scoped>
-.down-btn {
-  padding: 10px 20px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  font-size: 1em;
-  border-radius: 5px;
-  cursor: pointer;
+.show-box{
+  margin-bottom: 30px;
 }
-
-.down-btn:hover {
-  background-color: #0056b3;
-}
-
 .button-group {
   margin-top: 10px;
   display: flex;
 }
 
-.change-title-btn {
-  margin-right: 10px;
-}
 </style>

@@ -1,26 +1,26 @@
 <template>
-  <div>
-    
+  <div class="show-box">
     <h3>{{ question.tittle }}</h3>
-    <hr/>
-    <div class="mb-2 flex items-start text-sm">
-      <el-radio-group v-model="question.whichBeChoose" style="align-items: flex-start;" class="ml-4 vertical-radio-group">
-        <el-radio 
-          v-for="(option, index) in question.question" 
-          :key="index" 
-          :value="option.value">
-          {{ option.label }}
-        </el-radio>
-      </el-radio-group>
-      <div class="button-group">
-        <el-button color="#504547"  size="small" :icon="Plus" circle @click="addOption"/>
-        <el-button color="#504547"  size="small" :icon="Minus" circle @click="removeOption"/>
-        <el-button color="#504547"  size="small" class="change-title-btn" @click="changeTitle">修改标题</el-button>
-        <el-button size="small" style="margin-left: 10px;" type="danger" :icon="Delete" circle @click="deleteOne('oneQns')" />
-      </div>
-    </div>
-    <hr />
+        <hr/>
+        <div class="mb-2 flex items-start text-sm">
+          <el-radio-group v-model="question.whichBeChoose" style="align-items: flex-start;" class="ml-4 vertical-radio-group">
+            <el-radio 
+              v-for="(option, index) in question.question" 
+              :key="index" 
+              :value="option.value">
+              {{ option.label }}
+            </el-radio>
+          </el-radio-group>
+          <div class="button-group">
+            <el-button color="#504547"  size="small" :icon="Plus" circle @click="addOption"/>
+            <el-button color="#504547"  size="small" :icon="Minus" circle @click="removeOption"/>
+            <el-button color="#504547"  size="small" class="change-title-btn" @click="changeTitle">修改标题</el-button>
+            <el-button size="small" style="margin-left: 10px;" type="danger" :icon="Delete" circle @click="deleteOne('oneQns')" />
+          </div>
+        </div>
+      <hr />
   </div>
+
 </template>
 
 <script lang = "ts" setup>
@@ -94,28 +94,14 @@ export default defineComponent({
 
 
 <style  lang='scss' scoped>
-
-.down-btn {
-    padding: 10px 20px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    font-size: 1em;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .down-btn:hover {
-    background-color: #0056b3;
-  }
-
-  .vertical-radio-group {
-  
+.vertical-radio-group {
   flex-direction: column;
 }
-
+.show-box{
+  margin-bottom: 30px;
+}
 .button-group {
-  margin-top: 5px;
+  margin-top:5px;
   display: flex;
 }
 

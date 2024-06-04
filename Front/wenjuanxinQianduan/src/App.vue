@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import QnFillEnd from './QnFill/QnFillEnd.vue';
+import test from '@/components/__tests__/test.vue'
 </script>
 
 <template>
-  <!-- <QnFillEnd></QnFillEnd> -->
+  <!-- <test></test> -->
   <RouterView></RouterView>
 </template>
 
