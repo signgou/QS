@@ -98,7 +98,7 @@ function Register() {
           <template #label>
               <el-text style="color:#606266;font-size: 20px;">用户名:</el-text>
           </template>
-          <el-input v-model="LoginForm.inputName" />
+          <el-input  v-model="LoginForm.inputName" />
         </el-form-item>
         <el-form-item  prop="inputPassword">
           <template #label>

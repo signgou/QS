@@ -13,7 +13,7 @@ router.get('/users/:uid/questionNaires', function(req, res, next) {
     async function main(){
         const {userName,Qns} = await userModel.findById(req.params.uid).populate('Qns');
         let qn  = Qns.map(element => {
-            const { _id,__v, user ,...obj} = {...element}._doc;
+            const { _id,__v, user,qOrder,...obj} = {...element}._doc;
             let newObj = {...{qnid : _id},...obj};
             return newObj;
         } )
@@ -84,10 +84,11 @@ router.post('/users/:uid/questionNaires', function(req, res, next) {
     async function main(){
         const user = await userModel.findById(req.params.uid);
         user.qnNum ++;
+        user.qnOrder++;
         const qnData = (await QnsModel.create({
             user : user._id,
             qnName :  req.body.qnName,
-            qOrder : user.qnNum
+            qOrder : user.qnOrder
         }))
         await user.save();
         res.json({
@@ -96,8 +97,6 @@ router.post('/users/:uid/questionNaires', function(req, res, next) {
             data : {
                 qnid : qnData._id,
                 qnName: qnData.qnName,
-                qNum : qnData.qNum,
-                qOrder : qnData.qOrder
             }
         })
     }
@@ -118,7 +117,8 @@ router.delete('/questionNaires/:qnid', async function(req, res, next) {
         await oneQnModel.deleteMany({qns : req.params.qnid});
         await moreQnModel.deleteMany({qns : req.params.qnid});
         await fillQnModel.deleteMany({qns : req.params.qnid});
-        await QnsModel.findByIdAndDelete(req.params.qnid);
+        let Qns = await QnsModel.findByIdAndDelete(req.params.qnid);  
+        await userModel.findByIdAndUpdate(Qns.user,{$inc : { qnNum : -1}});
         res.json({
             code : '0027',
             msg : '删除问卷成功',

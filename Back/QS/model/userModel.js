@@ -14,8 +14,11 @@ const userSchema = new mongoose.Schema({
     qnNum : {
       type : Number,
       default  : 0
+    },
+    qnOrder: {
+      type : Number,
+      default : 0
     }
-
 },
 {
     //为了json，console.log()显示出vitual属性

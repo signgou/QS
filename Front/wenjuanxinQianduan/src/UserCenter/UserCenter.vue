@@ -5,7 +5,7 @@ import { Users } from '@/BasicDataStruct/users';
 import { ref, onBeforeMount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { apiQnCreate } from '@/apis/qnCreate';
-import { useUidGetQn } from '@/hook/useUidGetQn'
+import { useUidGetQn } from '@/hook/useUid'
 import { useQnidDelQn } from '@/hook/useQnid';
 import {useSuccess,useError,useConfirmDelete} from '@/hook/useAlert';
 

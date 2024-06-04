@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 var qnRouter = require('./routes/api/questionNaire');
 var usersRouter = require('./routes/api/users');
-
+var adminRouter = require('./routes/api/admin');
 //测试
 var testRouter = require('./routes/web/test');
 
@@ -35,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //测试
 app.use('/',testRouter)
 
+app.use('/api',adminRouter);
 app.use('/api', qnRouter);
 app.use('/api', usersRouter);
 
