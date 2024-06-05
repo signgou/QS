@@ -111,9 +111,8 @@ router.get('/users',(req,res) => {
 router.delete('/users/:uid',(req,res) => {
     async function main(){
         const {Qns} = await userModel.findById(req.params.uid).populate('Qns');
-        if(Qns){
+        if(Qns.length != 0){
             let qns =[]; let qnids=[];
-            let = Qns.length;
             Qns.forEach(element => {
                 qnids.push({_id : element._id})
                 qns.push({qns : element._id});
@@ -130,13 +129,14 @@ router.delete('/users/:uid',(req,res) => {
             data : null
         })
     }
-    main().catch(err => {
-        res.json({
-            code : '1035',
-            msg : '删除用户失败',
-            data : null
-        })
-    })
+    main()
+    // .catch(err => {
+    //     res.json({
+    //         code : '1035',
+    //         msg : '删除用户失败',
+    //         data : null
+    //     })
+    // })
 })
 
 module.exports = router;
