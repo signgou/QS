@@ -30,14 +30,18 @@ onBeforeMount(() => {
     })
 })
 
-function edit(uid :string){
-    router.push(`/user/${uid}`)
+
+function edit(uid: string) {
+    router.push(`/user/${uid}?admin=1`)
 }
-async function  deleteIt(uid:string){
-    console.log(uid);
-    useConfirmDelete(async() => {
+async function deleteIt(index: number, uid: string) {
+    useConfirmDelete(async () => {
         await useUidDelUser(uid);
+        data.splice(index, 1);
     })
+}
+function out() {
+    router.push('/');
 }
 </script>
 
@@ -45,36 +49,45 @@ async function  deleteIt(uid:string){
 <template>
     <div class="Main-box">
         <div class="Tittle-box">
-            <el-icon  color="#0087d1" size="40px"><Avatar /></el-icon>
-            <el-text style="font-weight: bold;color:#0087d1;font-size: 40px; margin-left: 10px;" class="title">管理员</el-text>
+            <el-icon color="#0087d1" size="40px">
+                <Avatar />
+            </el-icon>
+            <el-text style="font-weight: bold;color:#0087d1;font-size: 40px; margin-left: 10px;"
+                class="title">管理员</el-text>
         </div>
         <div class="show-box">
-            <el-table :data="data" style="width: 100%;">
-                <el-table-column label="用户" >
+            <el-table :data="data" style="width: 100%;" max-height="700px">
+                <el-table-column label="用户">
                     <template #default="scope">
                         <div style="display: flex; align-items: center">
-                        <el-icon><user /></el-icon>
-                        <span style="margin-left: 10px">{{ scope.row.username }}</span>
+                            <el-icon>
+                                <user />
+                            </el-icon>
+                            <span style="margin-left: 10px">{{ scope.row.username }}</span>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="问卷数量" >
+                <el-table-column label="问卷数量">
                     <template #default="scope">
                         <div style="display: flex; align-items: center">
-                        <el-icon><ChatLineSquare /></el-icon>
-                        <span style="margin-left: 10px">{{ scope.row.qnNum }}</span>
+                            <el-icon><Document /></el-icon>
+                            <span style="margin-left: 10px">{{ scope.row.qnNum }}</span>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" >
+                <el-table-column label="操作">
                     <template #default="scope">
                         <div style="display: flex; align-items: center">
                             <el-button type="primary" link @click="edit(scope.row.uid)">
-                                <el-icon><Edit /></el-icon>
+                                <el-icon>
+                                    <Edit />
+                                </el-icon>
                                 <span>编辑</span>
                             </el-button>
-                            <el-button type="danger" link @click="deleteIt(scope.row.uid)">
-                                <el-icon><Delete /></el-icon>
+                            <el-button type="danger" link @click="deleteIt(scope.$index, scope.row.uid)">
+                                <el-icon>
+                                    <Delete />
+                                </el-icon>
                                 <span>删除</span>
                             </el-button>
                         </div>
@@ -83,7 +96,7 @@ async function  deleteIt(uid:string){
             </el-table>
         </div>
         <div class="down-box">
-
+            <el-button @click="out" type="primary">退出</el-button>
         </div>
     </div>
 </template>
@@ -113,13 +126,28 @@ async function  deleteIt(uid:string){
         align-items: center;
         justify-content: center;
     }
+
     .show-box {
-        height:800px;
+        height: 800px;
         width: 100%;
         display: flex;
-        align-items:start;
+        align-items: start;
         justify-content: center;
     }
 
+    .down-box {
+        height: 100px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
 }
+.el-table{
+    --el-table-header-bg-color:rgba($color: #000000, $alpha: 0);
+    --el-table-tr-bg-color:rgba($color: #000000, $alpha: 0);
+    background-color:rgba($color: #fff, $alpha: 0.5);
+}
+
 </style>

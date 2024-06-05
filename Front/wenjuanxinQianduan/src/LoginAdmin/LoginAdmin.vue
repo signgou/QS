@@ -146,7 +146,9 @@ function back(){
   align-items: center;
   justify-content: center;
 }
-
+.Tittle-box .title {
+  font-size: 2em;
+}
 
 .enter-box {
   margin-top: 200px;

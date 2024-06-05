@@ -97,6 +97,9 @@ function cancel(){
   dialogVisible.value = false;
 }
 
+function backAdmin(){
+  router.push('/Admin');
+}
 </script>
 
 <!--有待完善，只有基本框架-->
@@ -137,6 +140,7 @@ function cancel(){
     <div class="down-box">
       <button class="down-btn" @click="ReturnLogin">退出</button>
       <button class="down-btn" @click="Create">添加新问卷</button>
+      <button class="down-btn" @click="backAdmin" v-if ="route.query.admin">回到管理员界面</button>
     </div>
 
     <div v-if="dialogVisible" class="dialog-overlay">

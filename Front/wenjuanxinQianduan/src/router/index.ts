@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: '/QuestShow/:qnid',
       name: 'QuestShow',
-      component: () => import('../QuestionnaireShow/QusetionnaireShow.vue')//这里写具体哪个组件
+      component: () => import('../QuestionnaireShow/QusetionnaireShow.vue'),
     },
     {
       path: '/',
@@ -17,8 +17,6 @@ const router = createRouter({
       path: '/user/:uid',
       name: 'user',
       component: () => import('../UserCenter/UserCenter.vue'),
-      children:[
-      ]
     },
     {
       path: '/register',

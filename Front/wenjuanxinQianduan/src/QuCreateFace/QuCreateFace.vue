@@ -59,7 +59,6 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
-    
     onBeforeMount(() => {
     async function main() {
       const qnid = route.params.qnid as string;

@@ -29,7 +29,6 @@ const checkName = (rule: any, value: any, callback: any) => {
     return callback(new Error('请输入用户名'))
   }
   else {
-    console.log(value);
     callback();
   }
 }
@@ -39,7 +38,6 @@ const checkPass = (rule: any, value: any, callback: any) => {
     return callback(new Error('请输入密码'))
   }
   else {
-    console.log(value);
     callback();
   }
 }
