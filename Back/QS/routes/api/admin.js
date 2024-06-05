@@ -111,16 +111,18 @@ router.get('/users',(req,res) => {
 router.delete('/users/:uid',(req,res) => {
     async function main(){
         const {Qns} = await userModel.findById(req.params.uid).populate('Qns');
-        let qns =[]; let qnids=[];
-        let = Qns.length;
-        Qns.forEach(element => {
-            qnids.push({_id : element._id})
-            qns.push({qns : element._id});
-        });
-        await QnsModel.deleteMany({$or:qnids});
-        await oneQnModel.deleteMany({$or : qns});
-        await moreQnModel.deleteMany({$or : qns});
-        await fillQnModel.deleteMany({$or : qns});
+        if(Qns){
+            let qns =[]; let qnids=[];
+            let = Qns.length;
+            Qns.forEach(element => {
+                qnids.push({_id : element._id})
+                qns.push({qns : element._id});
+            });
+            await QnsModel.deleteMany({$or:qnids});
+            await oneQnModel.deleteMany({$or : qns});
+            await moreQnModel.deleteMany({$or : qns});
+            await fillQnModel.deleteMany({$or : qns});
+        }
         await userModel.findByIdAndDelete(req.params.uid); 
         res.json({
             code : "0035",

@@ -49,7 +49,22 @@ const router = createRouter({
       path:'/fillEnd',
       name:'fillEnd',
       component : () => import('../QnFill/QnFillEnd.vue')
-    }
+    },
+    {
+      path:'/AdminLogin',
+      name:'AdminLogin',
+      component : () => import('../LoginAdmin/LoginAdmin.vue')
+    },
+    {
+      path:'/AdminRegister',
+      name:'AdminRegister',
+      component : () => import('../ReAdmin/ReAdmin.vue')
+    },
+    {
+      path:'/Admin',
+      name:'Admin',
+      component : () => import('../admin/admin.vue')
+    },
   ]
 })
 

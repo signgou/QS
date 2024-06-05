@@ -1,6 +1,6 @@
 <!--用户中心-->
 <script lang="ts" setup>
-import { FillIn, MoreChoice, OPtion, QuestionnaireAll, oneChoiceP } from '@/BasicDataStruct/QuestionType';
+import {  QuestionnaireAll} from '@/BasicDataStruct/QuestionType';
 import { Users } from '@/BasicDataStruct/users';
 import { ref, onBeforeMount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -8,7 +8,6 @@ import { apiQnCreate } from '@/apis/qnCreate';
 import { useUidGetQn } from '@/hook/useUid'
 import { useQnidDelQn } from '@/hook/useQnid';
 import {useSuccess,useError,useConfirmDelete} from '@/hook/useAlert';
-
 const route = useRoute();
 const router = useRouter()
 let QnName = ref('')
@@ -108,7 +107,7 @@ function cancel(){
         <div class="head-box">
           <el-text class="head">用户中心</el-text>
           <div>
-            <el-icon size="18px"><Avatar /></el-icon>
+            <el-icon size="15px"><User/></el-icon>
             <el-text style="font-weight: bold;"> &nbsp;:&nbsp; {{ user.userName }}</el-text> <!-- 显示用户名 -->
           </div>
         </div>

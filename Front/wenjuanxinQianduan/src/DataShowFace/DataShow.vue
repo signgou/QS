@@ -23,9 +23,9 @@ onBeforeMount(() => {
     console.log("获取信息成功");
   }
   main()
-  // .catch((err) => {
-  //   alert(err);
-  // });
+  .catch((err) => {
+    alert(err);
+  });
 });
 
 function getData(FillIn:FillIn):any[]{
@@ -64,7 +64,7 @@ function Back() {
                 style="width: 100% "
                 v-if= 'question instanceof oneChoiceP'
               >
-                <el-table-column :label='"单选问卷:"+question.tittle' >
+                <el-table-column :label='"单选问题:"+question.tittle' >
                   <el-table-column prop="label" label="选项名称" />
                   <el-table-column prop="selectedNum" label="已选人数" />
                 </el-table-column>
@@ -76,7 +76,7 @@ function Back() {
                 style="width: 100%"
                 v-if="question instanceof MoreChoice"
               >
-                <el-table-column :label='"多选问卷:"+question.tittle'>
+                <el-table-column :label='"多选问题:"+question.tittle'>
                   <el-table-column prop="label" label="选项名称" />
                   <el-table-column prop="selectedNum" label="已选人数" />
                 </el-table-column>
@@ -88,7 +88,7 @@ function Back() {
                 style="width: 100%"
                 v-if="question instanceof FillIn"
               >
-                <el-table-column :label='"填空问卷:"+question.Tittle' >
+                <el-table-column :label='"填空问题:"+question.Tittle' >
                   <el-table-column prop="answer" label="填空内容" />
                 </el-table-column>
               </el-table>

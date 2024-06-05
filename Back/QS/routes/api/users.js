@@ -71,5 +71,4 @@ router.post('/users/login', function(req, res, next) {
     })
 });
 
-
 module.exports = router;

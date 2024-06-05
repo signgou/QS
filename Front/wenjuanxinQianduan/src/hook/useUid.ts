@@ -1,6 +1,6 @@
 import {ref} from 'vue';
 import {apiUserAll} from '@/apis/userAll';
-import { apiDelUser } from '@/apis/deluser';
+import { apiDelUser } from '@/apis/delUser';
 import { useError, useSuccess } from "./useAlert";
 
 export async function useUidGetQn(uid:string){
@@ -15,7 +15,9 @@ export async function useUidGetQn(uid:string){
             qnNames.value.push(qn.qnName);
         })
     }
-
+    else{
+        useError("用户获取失败");
+    }
     return {userName,qnids,qnNames};
 }
 

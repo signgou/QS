@@ -50,9 +50,10 @@ function Back() {
     border-radius: 15px;
     padding: 10px;
     /* 添加内边距 */
-    display: flex;
+    display: flex; 
+     /* 使子元素垂直排列 */
     flex-direction: column;
-    /* 使子元素垂直排列 */
+  
     align-items: center; /* 水平居中 */
     justify-content: center; /* 垂直居中 */
 }
