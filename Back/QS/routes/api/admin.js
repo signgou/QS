@@ -110,6 +110,13 @@ router.get('/users',(req,res) => {
 //删除一个用户
 router.delete('/users/:uid',(req,res) => {
     async function main(){
+        if(!(await userModel.findById(req.params.uid))){
+            return res.json({
+                code : '1036',
+                msg : '删除用户失败,未找到该用户',
+                data : null
+            })
+        }
         const {Qns} = await userModel.findById(req.params.uid).populate('Qns');
         if(Qns.length != 0){
             let qns =[]; let qnids=[];
@@ -129,14 +136,13 @@ router.delete('/users/:uid',(req,res) => {
             data : null
         })
     }
-    main()
-    // .catch(err => {
-    //     res.json({
-    //         code : '1035',
-    //         msg : '删除用户失败',
-    //         data : null
-    //     })
-    // })
+    main().catch(err => {
+        res.json({
+            code : '1035',
+            msg : '删除用户失败',
+            data : null
+        })
+    })
 })
 
 module.exports = router;
