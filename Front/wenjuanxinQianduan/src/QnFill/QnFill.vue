@@ -41,19 +41,19 @@ async function fillEnd() {
         let qns=questionnaireEditor.value.questionNaire[i];
         if(qns instanceof oneChoiceP){
             if(qns.whichBeChoose == ''){
-              useError(`第${i+1}单选题没有填写`);
+              useError(`第${i+1}个单选题没有填写`);
               return;
             }
         }   
         else if(qns instanceof MoreChoice){
             if(qns.whichBeChoose.length == 0){
-              useError(`第${i+1}多选题没有填写`);
+              useError(`第${i+1}个多选题没有填写`);
               return;
             }
         }
         else if(qns instanceof FillIn){
             if(qns.Answer == ''){
-              useError(`第${i+1}填空题没有填写`);
+              useError(`第${i+1}个填空题没有填写`);
               return;
             }
         }
