@@ -57,6 +57,7 @@ function Back() {
             <div
               v-for="(question, index) in questionnaireEditor?.questionNaire"
               :key="index"
+              style="margin-bottom: 30px;"
             >
               <!-- 展示单选题 -->
               <el-table
@@ -64,7 +65,7 @@ function Back() {
                 style="width: 100% "
                 v-if= 'question instanceof oneChoiceP'
               >
-                <el-table-column :label='"单选问题:"+question.tittle' >
+                <el-table-column :label='"单选问题:  "+question.tittle' >
                   <el-table-column prop="label" label="选项名称" />
                   <el-table-column prop="selectedNum" label="已选人数" />
                 </el-table-column>
@@ -76,7 +77,7 @@ function Back() {
                 style="width: 100%"
                 v-if="question instanceof MoreChoice"
               >
-                <el-table-column :label='"多选问题:"+question.tittle'>
+                <el-table-column :label='"多选问题:  "+question.tittle'>
                   <el-table-column prop="label" label="选项名称" />
                   <el-table-column prop="selectedNum" label="已选人数" />
                 </el-table-column>
@@ -88,11 +89,10 @@ function Back() {
                 style="width: 100%"
                 v-if="question instanceof FillIn"
               >
-                <el-table-column :label='"填空问题:"+question.Tittle' >
+                <el-table-column :label='"填空问题:  "+question.Tittle' >
                   <el-table-column prop="answer" label="填空内容" />
                 </el-table-column>
               </el-table>
-              <el-divider />
             </div>
           </div>
         </div>
@@ -133,7 +133,6 @@ function Back() {
     .head-box {
       height: 50px;
       width: 1380px;
-      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -143,17 +142,18 @@ function Back() {
     .trueShow-box {
       height: 720px;
       width: 1380px;
-      border: 1px solid rgb(4, 2, 21); /* 添加边框 */
       overflow-y: auto; /* 启用垂直滚动条 */
       display: flex;
       flex-direction: column; /* 使内部组件垂直排列 */
       padding: 10px; /* 添加内边距 */
+
+ 
+  
     }
   }
   .down-box {
     height: 100px;
     width: 100%; /* 使用100%宽度 */
-    border: 1px solid rgb(4, 2, 21); /* 添加边框 */
     margin-top: 10px; /* 添加顶部间距 */
     display: flex;
     justify-content: center; /* 水平居中 */
@@ -172,5 +172,14 @@ function Back() {
   .down-btn:hover {
     background-color: #0056b3;
   }
+}
+
+.el-table{
+      color:#b6b9c2;
+      --el-table-border-color:#798189;
+      --el-table-header-text-color:#b6b9c2;
+      --el-fill-color-light: #445370;
+      --el-table-tr-bg-color:rgba(57, 86, 104,0.5);
+      background-color:#f7f4f400;
 }
 </style>

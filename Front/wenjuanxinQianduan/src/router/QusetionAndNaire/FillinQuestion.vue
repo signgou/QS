@@ -2,7 +2,7 @@
   <div class="show-box">
     <h3>{{ question.Tittle }}</h3>
     <hr />
-    <div class="my-2 flex items-start text-sm">
+    <div class="my-2 flex items-start text-sm" style="margin-top: 10px;">
       <el-input
         v-model="question.Answer"
         style="width: 240px"

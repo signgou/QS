@@ -93,7 +93,6 @@ function BackUser() {
   height: 930px;
   width: 1400px;
   overflow: auto;
-  border-radius: 15px;
 
   background-image: url('/back7.jpg');
   background-color: aliceblue;
