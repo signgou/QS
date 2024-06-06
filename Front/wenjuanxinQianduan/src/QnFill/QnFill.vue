@@ -10,6 +10,7 @@ import {
 import { useRoute, useRouter } from "vue-router";
 import { useQnidGetAllProblem } from "@/hook/useQnid";
 import { useQidModQt,useQidGetQt } from "@/hook/useQid";
+import { useError } from "@/hook/useAlert";
 
 const router = useRouter();
 const route = useRoute();
@@ -35,6 +36,30 @@ const questionnaireEditor = ref<QuestionnaireAll>(
 );
 async function fillEnd() {
     let len = questionnaireEditor.value.questionNaire.length;
+    //填写检验
+    for(let i=0;i<len;i++){
+        let qns=questionnaireEditor.value.questionNaire[i];
+        if(qns instanceof oneChoiceP){
+            if(qns.whichBeChoose == ''){
+              useError(`第${i+1}单选题没有填写`);
+              return;
+            }
+        }   
+        else if(qns instanceof MoreChoice){
+            if(qns.whichBeChoose.length == 0){
+              useError(`第${i+1}多选题没有填写`);
+              return;
+            }
+        }
+        else if(qns instanceof FillIn){
+            if(qns.Answer == ''){
+              useError(`第${i+1}填空题没有填写`);
+              return;
+            }
+        }
+
+    }
+    
     for(let i=0;i<len;i++){
         let qns=questionnaireEditor.value.questionNaire[i];
         if(qns instanceof oneChoiceP){
@@ -73,7 +98,6 @@ async function fillEnd() {
           <div class="head">{{ questionnaireEditor.Title }}</div>
         </div>
         <div class="trueShow-box">
-          <!--真正的问卷展示部分-->
           <div>
             <!-- 展示单选题 -->
 
