@@ -133,6 +133,7 @@ function BackUser() {
       justify-content: center; 
       margin-bottom: 20px;
       .head{
+        color: #3b393a;
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 10px;
