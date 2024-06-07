@@ -1,6 +1,6 @@
 <template>
   <div class="show-box">
-    <h3>{{ question.tittle }}</h3>
+    <el-text>{{ question.tittle }}</el-text>
     <hr />
     <div class="mb-2 flex items-start text-sm">
       <el-checkbox-group v-model="question.whichBeChoose" style="align-items: flex-start;"  class="ml-4 vertical-checkbox-group">

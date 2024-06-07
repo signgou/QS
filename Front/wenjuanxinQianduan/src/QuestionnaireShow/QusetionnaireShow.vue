@@ -51,9 +51,9 @@ function BackUser() {
             <!-- 展示单选题 -->
 
             <div v-for="(question, index) in questionnaireEditor?.questionNaire" :key="index" style="margin: 5px;" >
-              <h3>
-                {{ question instanceof oneChoiceP ? question.tittle : "" }}
-              </h3>
+              <div>
+                <el-text>{{ question instanceof oneChoiceP ? question.tittle : "" }}</el-text>
+              </div>
               <el-radio-group v-model="question.whichBeChoose" style="align-items: flex-start"
                 class="ml-4 vertical-radio-group" v-if="question instanceof oneChoiceP">
                 <el-radio v-for="(option, i) in question.returnQuestion()" :key="i" :value="option.value">
@@ -62,9 +62,11 @@ function BackUser() {
               </el-radio-group>
 
               <!-- 展示多选题 -->
-              <h3>
-                {{ question instanceof MoreChoice ? question.tittle : "" }}
-              </h3>
+               <div>
+                  <el-text>
+                    {{ question instanceof MoreChoice ? question.tittle : "" }}
+                  </el-text>
+               </div>
               <el-checkbox-group v-model="question.whichBeChoose" style="align-items: flex-start"
                 class="ml-4 vertical-checkbox-group" v-if="question instanceof MoreChoice">
                 <el-checkbox v-for="(option, i) in question.returnQuestion()" :key="i" :value="option.value">
@@ -73,7 +75,9 @@ function BackUser() {
               </el-checkbox-group>
 
               <!-- 展示填空题 -->
-              <h3>{{ question instanceof FillIn ? question.Tittle : "" }}</h3>
+               <div>
+                <el-text>{{ question instanceof FillIn ? question.Tittle : "" }}</el-text>
+               </div>
               <el-input v-model="question.Answer" placeholder="Please input your answer"
                 v-if="question instanceof FillIn" />
               <el-divider />

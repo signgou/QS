@@ -1,6 +1,6 @@
 <template>
   <div class="show-box">
-    <h3>{{ question.Tittle }}</h3>
+    <el-text>{{ question.Tittle }}</el-text>
     <hr />
     <div class="my-2 flex items-start text-sm" style="margin-top: 10px;">
       <el-input

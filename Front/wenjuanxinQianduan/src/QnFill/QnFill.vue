@@ -106,9 +106,9 @@ async function fillEnd() {
               :key="index"
               style="margin: 5px;"
             >
-              <h3>
-                {{ question instanceof oneChoiceP ? question.tittle : "" }}
-              </h3>
+               <div>
+                <el-text>{{ question instanceof oneChoiceP ? question.tittle : "" }}</el-text>
+               </div>
               <el-radio-group
                 v-model="question.whichBeChoose"
                 style="align-items: flex-start"
@@ -125,9 +125,9 @@ async function fillEnd() {
               </el-radio-group>
 
               <!-- 展示多选题 -->
-              <h3>
-                {{ question instanceof MoreChoice ? question.tittle : "" }}
-              </h3>
+              <div>
+                <el-text>{{ question instanceof MoreChoice ? question.tittle : "" }}</el-text>
+               </div>
               <el-checkbox-group
                 v-model="question.whichBeChoose"
                 style="align-items: flex-start"
@@ -144,7 +144,9 @@ async function fillEnd() {
               </el-checkbox-group>
 
               <!-- 展示填空题 -->
-              <h3>{{ question instanceof FillIn ? question.Tittle : "" }}</h3>
+              <div>
+                <el-text>{{ question instanceof FillIn ? question.Tittle : "" }}</el-text>
+               </div>
               <el-input
                 v-model="question.Answer"
                 placeholder="Please input your answer"

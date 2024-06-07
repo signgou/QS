@@ -28,7 +28,7 @@
   <!-- 添加问题选择弹窗 -->
   <div v-if="dialogVisible" class="dialog-overlay">
     <div class="dialog-box">
-      <h3>选择添加的问题类型</h3>
+      <el-text>选择添加的问题类型</el-text>
       <button @click="addSpecificQuestion('oneChoice')">单选题</button>
       <button @click="addSpecificQuestion('moreChoice')">多选题</button>
       <button @click="addSpecificQuestion('fillIn')">填空题</button>

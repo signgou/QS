@@ -110,7 +110,7 @@ function backAdmin(){
         <div class="head-box">
           <el-text class="head">用户中心</el-text>
           <div>
-            <el-icon size="15px"><User/></el-icon>
+            <el-icon color='#606266' size="15px"><User/></el-icon>
             <el-text style="font-weight: bold;"> &nbsp;:&nbsp; {{ user.userName }}</el-text> <!-- 显示用户名 -->
           </div>
         </div>
@@ -180,7 +180,6 @@ function backAdmin(){
   /* 使背景图片居中 */
   background-repeat: no-repeat;
   /* 防止背景图片重复 */
-
   height: 930px;
   width: 1400px;
   overflow: auto;
