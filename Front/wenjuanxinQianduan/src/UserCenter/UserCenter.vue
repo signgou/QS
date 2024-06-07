@@ -217,6 +217,8 @@ function backAdmin(){
     }
 
     .trueShow-box {
+      overflow: auto;
+      max-height: 700px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -227,7 +229,7 @@ function backAdmin(){
 
   .side-box {
     height: 800px;
-    width: 170px;
+    width: 150px;
     border: 1px solid rgb(4, 2, 21);
     border-radius: 10px;
     display: flex;
