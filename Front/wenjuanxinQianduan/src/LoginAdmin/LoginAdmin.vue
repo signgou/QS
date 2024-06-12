@@ -69,7 +69,7 @@ const Loginin = async (formEl: FormInstance | undefined) => {
             router.push(`/Admin`);
           }
           else {
-            useError('登录失败，请检查用户名或密码');
+            useError('登录失败，请检查管理员账号或密码');
           }
         })
       }
